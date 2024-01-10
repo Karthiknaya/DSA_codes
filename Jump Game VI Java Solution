@@ -1,0 +1,26 @@
+class Solution {
+    public int maxResult(int[] nums, int k) {
+        int[] dp=new int[nums.length];
+        dp[0]=nums[0];
+        int curr_max=nums[0];
+        int left=0;
+        for(int i=1;i<nums.length;i++){
+            int curr=nums[i];
+            if(left<Math.max(0, i - k)){
+                curr_max=Integer.MIN_VALUE;
+                for(int j=Math.max(0, i - k);j<i;j++){
+                    if(curr_max<=dp[j]){
+                        curr_max=dp[j];
+                        left=j;
+                    }
+                }
+            }
+            dp[i]=curr_max+curr;
+            if(dp[i]>=curr_max){
+                curr_max=dp[i];
+                left = i;
+            }
+        }
+        return dp[dp.length -1];
+    }
+}
