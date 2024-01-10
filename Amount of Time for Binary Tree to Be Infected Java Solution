@@ -1,0 +1,68 @@
+class Solution {
+    Map<Integer,ArrayList<Integer>> map;
+    Set<Integer> set;
+    public int amountOfTime(TreeNode root, int start) {
+       map=new HashMap<>();
+       set=new HashSet<>();
+        Store_parent(root,null);
+        Queue<Integer> q=new LinkedList<Integer>();
+        q.add(start);
+        set.add(start);
+       return gettotaltime(q);
+    }
+    private void Store_parent(TreeNode root,TreeNode parent){
+         if(root==null){
+             return;
+         }
+         if(parent!=null){
+             if(map.containsKey(root.val)){
+                  map.get(root.val).add(parent.val);
+             }else{
+                 map.put(root.val,new ArrayList<>());
+                 map.get(root.val).add(parent.val);
+             }
+         }
+         if(root.left!=null){
+             if(map.containsKey(root.val)){
+                 map.get(root.val).add(root.left.val);
+             }else{
+                 map.put(root.val,new ArrayList<>());
+                 map.get(root.val).add(root.left.val);
+             }
+             Store_parent(root.left,root);
+         } 
+         if(root.right!=null){
+             if(map.containsKey(root.val)){
+                 map.get(root.val).add(root.right.val);
+                
+             }else{
+                 map.put(root.val,new ArrayList<>());
+                 map.get(root.val).add(root.right.val);
+             }
+             Store_parent(root.right,root);
+         }   
+    }
+    private int gettotaltime(Queue<Integer> q){
+        int total_time=0;
+        while(!q.isEmpty()){
+            int size=q.size();
+            while(size>0){
+                ArrayList<Integer> temp=map.get(q.poll());
+                if(temp!=null){
+                    for(int j=0;j<temp.size();j++){
+                        if(!set.contains(temp.get(j))){
+                            q.add(temp.get(j));
+                            set.add(temp.get(j));
+                        }
+                    }
+                }
+                size--;
+            }
+            if(q.isEmpty()){
+                break;
+            }
+            total_time++;
+        }
+        return total_time;
+    } 
+}
