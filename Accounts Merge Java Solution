@@ -1,0 +1,96 @@
+class Solution {
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        int n=accounts.size();
+        DSU dsu=new DSU(n);
+        Map<String,Integer> map=new HashMap<String,Integer>();
+        for(int i=0;i<n;i++)
+        {
+            for(int j=1;j<accounts.get(i).size();j++)
+            {
+                String mail=accounts.get(i).get(j);
+                if(map.containsKey(mail)==false)
+                {
+                    map.put(mail,i);
+                }
+                else
+                {
+                    dsu.rank_update(i,map.get(mail));
+                }
+            }
+        }
+        List<String> list[]=new ArrayList[n];
+        for(int i=0;i<n;i++)
+        {
+            list[i]=new ArrayList<String>();
+        }
+        for(Map.Entry<String,Integer> entry:map.entrySet())
+        {
+            String mail=entry.getKey();
+            int par=dsu.find(entry.getValue());
+            list[par].add(mail);
+        }
+        List<List<String>>ans=new ArrayList<>();
+        for(int i=0;i<n;i++)
+        {
+            if(list[i].size()==0)
+            {
+                continue;
+            }
+            Collections.sort(list[i]);
+            List<String>temp=new ArrayList<>();
+            temp.add(accounts.get(i).get(0));
+            for(String entry:list[i])
+            {
+                temp.add(entry);
+            }
+            ans.add(temp);
+        }
+        return ans;
+    }
+    class DSU{
+    List<Integer> rank=new ArrayList<>();
+    List<Integer> parent=new ArrayList<>();
+    public DSU(int n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            rank.add(0);
+            parent.add(i);
+        }
+    }
+    public int find(int par)
+    {
+        if(par==parent.get(par))
+        {
+            return par;
+        }
+        int ulp=find(parent.get(par));
+        parent.set(par,ulp);
+        return parent.get(par);
+    }
+    public void rank_update(int x,int y)
+    {
+        int par_A=find(x);
+        int par_B=find(y);
+        if(par_A==par_B)
+        {
+            //cycle condition detected.
+            return;
+        }
+        if(rank.get(par_A)<rank.get(par_B))
+        {
+            parent.set(par_A,par_B);
+        }
+        else if(rank.get(par_A)>rank.get(par_B))
+        {
+            parent.set(par_B,par_A);
+        }
+        else
+        {
+            parent.set(par_B,par_A);
+            int ranku=rank.get(par_A);
+            rank.set(par_A,ranku+1);
+        }
+    }
+}
+}
