@@ -1,0 +1,17 @@
+class Solution {
+    Map<TreeNode,Integer> map=new HashMap<>();
+    public int rob(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        if(map.containsKey(root)){
+            return map.get(root);
+        }
+        int do_rob=root.val+(root.left!=null?(rob(root.left.left)+rob(root.left.right)):0)+
+        (root.right!=null?(rob(root.right.left)+rob(root.right.right)):0);
+        int no_rob=rob(root.left)+rob(root.right);
+        int result=Math.max(do_rob,no_rob);
+        map.put(root,result);
+        return result;
+    }
+}
