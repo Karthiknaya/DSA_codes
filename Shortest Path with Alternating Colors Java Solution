@@ -1,0 +1,75 @@
+class Solution {
+    ArrayList<ArrayList<Integer>> red_graph;
+    ArrayList<ArrayList<Integer>> blue_graph;
+    public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+        int result[]=new int[n];
+        for(int i=0;i<n;i++){
+            if(i!=0)
+            result[i]=-1;
+        }
+        red_graph=new ArrayList<>();
+        blue_graph=new ArrayList<>();
+        boolean visited[][]=new boolean[n][2];
+        for(int i=0;i<n;i++){
+            red_graph.add(new ArrayList<>());
+            blue_graph.add(new ArrayList<>());
+        }
+        for(int i=0;i<redEdges.length;i++){
+            red_graph.get(redEdges[i][0]).add(redEdges[i][1]);
+        }
+        for(int i=0;i<blueEdges.length;i++){
+            blue_graph.get(blueEdges[i][0]).add(blueEdges[i][1]);
+        }
+        Queue<Edge> q=new LinkedList<>();
+        if(red_graph.get(0)==null){}
+        q.add(new Edge(0,0));
+        q.add(new Edge(0,1));
+        visited[0][0]=true;
+        visited[0][1]=true;
+        int curr_level=1;
+        while(!q.isEmpty()){
+            int size=q.size();
+            while(size>0){
+                Edge curr=q.poll();
+                int node=curr.node;
+                int curr_colour=curr.colour;
+                //using khan's algorithm approach
+                if(curr_colour==0){
+                    for(int neighbour:red_graph.get(node)){
+                        if(!visited[neighbour][0]){
+                            q.add(new Edge(neighbour,1));
+                            visited[neighbour][0]=true;
+                            if(result[neighbour]==-1){
+                            result[neighbour]=curr_level;
+                            }
+                        }
+                    }
+                } else{
+                    for(int neighbour:blue_graph.get(node)){
+                        if(!visited[neighbour][1]){
+                            q.add(new Edge(neighbour,0));
+                            visited[neighbour][1]=true;
+                            if(result[neighbour]==-1){
+                                result[neighbour]=curr_level;
+                            }
+                        }
+                    }
+                }
+                size--;
+            }
+            if(q.isEmpty()){
+                break;
+            }
+            curr_level++;
+        }
+        return result;
+    }
+    private class Edge{
+    int node;
+    int colour;
+      Edge(int node,int colour){
+        this.node=node;
+        this.colour=colour;
+    }
+}
+}
