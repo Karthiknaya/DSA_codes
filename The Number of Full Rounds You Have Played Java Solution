@@ -1,0 +1,18 @@
+class Solution {
+    public int numberOfRounds(String loginTime, String logoutTime) {
+        int start_hour = Integer.parseInt(loginTime.substring(0,2));
+        int start_min = Integer.parseInt(loginTime.substring(3));
+        int end_hour = Integer.parseInt(logoutTime.substring(0,2));
+        int end_min = Integer.parseInt(logoutTime.substring(3));
+        int total_start_min=start_hour*60+start_min;
+        int total_end_minute =end_hour*60+end_min;
+        if (start_hour>end_hour || (start_hour==end_hour && start_min>end_min)) {
+            total_end_minute+=24 * 60;
+        }
+        int result=(total_start_min % 15!=0?(total_end_minute/15 - total_start_min/15 - 1):(total_end_minute/15 - total_start_min/15));
+        if(result<0){
+            return 0;
+        }
+        return result;
+    }
+}
