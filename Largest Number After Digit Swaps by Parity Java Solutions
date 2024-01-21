@@ -1,0 +1,31 @@
+class Solution {
+    public int largestInteger(int num) {
+        PriorityQueue<Integer> even = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> odd = new PriorityQueue<>(Collections.reverseOrder());
+        String str=String.valueOf(num);
+        for(int i=0;i<str.length();i++) {
+            int digit=Character.getNumericValue(str.charAt(i));
+            if(digit%2 == 0) {
+                odd.add(digit);
+            } else {
+                even.add(digit);
+            }
+        }
+        List<Integer> list = new  ArrayList<>();
+        for(int i=0;i<str.length();i++) {
+           int digit=Character.getNumericValue(str.charAt(i));
+            if(digit%2==0) {
+                int curr_digit=odd.poll();
+                list.add(curr_digit);
+            } else {
+                int curr_digit = even.poll();
+                list.add(curr_digit);
+            }
+        }
+        int result=list.get(0);
+        for(int i=1;i<list.size();i++) {
+            result=(result*10) + list.get(i);
+        }
+        return result;
+    }
+}
