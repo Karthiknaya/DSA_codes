@@ -1,0 +1,33 @@
+class Solution {
+    public int minimumJumps(int[] forbidden, int a, int b, int x) {
+        Set<Integer> forward_step =new HashSet<>();
+        Set<Integer> backward_step =new HashSet<>();
+        forward_step.add(0);
+        backward_step.add(0);
+        Queue<int[]> q = new LinkedList<>();
+        // firstone for jjump value second for indicator curr_forward or curr_backward third one indicating total steps so far
+        q.add(new int[]{0, 1, 0});
+        Set<Integer> invalid_step = new HashSet<>();
+        for(int num:forbidden)
+            invalid_step.add(num);
+           // assume a breackpoint value for a wall
+        int breackpoint =a+b+Math.max(x,Collections.max(invalid_step));  
+        while(!q.isEmpty()){
+            int[] curr=q.poll();
+            if(curr[0]==x){
+                return curr[2];
+            }
+            int curr_forward = curr[0]+a;
+            if(!forward_step.contains(curr_forward) && !invalid_step.contains(curr_forward) && curr_forward<=breackpoint){
+                forward_step.add(curr_forward);
+                q.add(new int[]{curr_forward, 1, curr[2]+1});
+            }
+            int curr_backward=curr[0]-b;
+            if(!backward_step.contains(curr_backward) && curr[1] == 1 && curr_backward > 0 && !invalid_step.contains(curr_backward)){
+                backward_step.add(curr_backward);
+                q.add(new int[]{curr_backward, 0, curr[2]+1});
+            }
+        }
+        return -1;
+    }
+}
