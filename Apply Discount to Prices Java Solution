@@ -1,0 +1,37 @@
+class Solution {
+    DecimalFormat deciform;
+    public String discountPrices(String sentence, int discount) {
+        deciform = new DecimalFormat("0.00"); 
+        Map<String,String> map= new HashMap<>();
+        String string[]=sentence.split(" ");
+        for(int i=0;i<string.length;i++){
+           String str=string[i];
+            if(str.charAt(0)=='$' && str.length()>1){
+                String sub_str=str.substring(1);
+             if(sub_str.length()<=10){
+                 try{
+                   long value=Long.parseLong(sub_str);
+                   double original_value=(double)value;
+                    double discount_value=(discount*value*1.0)/100.0;
+                    discount_value=original_value-discount_value;
+                    map.put(str,deciform.format(discount_value));
+                 }
+                catch(Exception e){
+                }
+               }
+            }
+        }
+       String ans="";
+        for(int i=0;i<string.length;i++){
+            if(map.containsKey(string[i])){
+                ans+='$';
+                ans+=map.get(string[i]);  
+            }else{
+                ans+=string[i];
+            }if(i!=string.length-1){
+                ans+=" ";
+            }
+        }
+        return ans;
+    }
+}
