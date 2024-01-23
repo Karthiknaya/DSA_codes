@@ -1,0 +1,29 @@
+class Solution {
+    public int getmax(List<String> arr, int ind, String temp) {
+        if(ind>=arr.size()){
+            return temp.length();
+        }
+        int take=0;
+        if(check_valid(temp,arr.get(ind))) {
+            take=getmax(arr,ind+1,temp+arr.get(ind));
+        }
+        int not_take = getmax(arr,ind+1,temp);
+        return Math.max(take,not_take);
+    }
+    public Boolean check_valid(String s1,String s2) {
+        int[] count=new int[26];
+        for(char ch: s1.toCharArray()){
+            count[ch-'a']++;
+        }
+        for(char ch: s2.toCharArray()) {
+            if(count[ch-'a'] > 0){
+                return false;
+            }
+            count[ch-'a'] += 1;
+        }
+        return true;
+    }
+    public int maxLength(List<String> arr) {
+        return getmax(arr, 0, "");
+    }
+}
