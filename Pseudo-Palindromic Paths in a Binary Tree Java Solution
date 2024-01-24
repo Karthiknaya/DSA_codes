@@ -1,0 +1,27 @@
+class Solution {
+     public int pseudoPalindromicPaths (TreeNode root) {
+        return dfs(root, new int[10]);
+    }
+    public int dfs(TreeNode root, int[] count) {
+        if (root == null){
+            return 0;
+        }
+        count[root.val]++;
+        int no_of_palins = 0;
+        if (root.left == null && root.right == null) {
+            no_of_palins = isPalin(count) ? 1 : 0;
+        } else {
+            no_of_palins = dfs(root.left, count) + dfs(root.right, count);
+        }
+        count[root.val]--;
+        return no_of_palins;
+    }
+
+    private boolean isPalin(int[] count) {
+        int odd_counts = 0;
+        for (int j = 1; j < 10; j++) {
+            if ((count[j] & 1) == 1) odd_counts++;
+        }
+        return odd_counts <= 1;
+    }
+}
