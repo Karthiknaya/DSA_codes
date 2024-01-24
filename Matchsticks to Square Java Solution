@@ -1,0 +1,31 @@
+class Solution {
+    int required_length;
+    public boolean makesquare(int[] matchsticks) {
+        int sum=0;
+        for (int item:matchsticks){
+            sum+=item;
+        }
+        if(sum%4!=0){
+            return false;
+        }
+        required_length=sum/4;
+        int[] partion_arr=new int[4];
+        Arrays.sort(matchsticks);
+        return backtracking(matchsticks, matchsticks.length-1, partion_arr);
+    }
+    boolean backtracking(int[] matchsticks, int i, int[] partion_arr){
+        if(i==-1){
+            return true;
+        }
+        for(int j=0;j<4;j++){
+            if(matchsticks[i]+partion_arr[j]<=required_length){
+                partion_arr[j] += matchsticks[i];
+                if(backtracking(matchsticks,i-1,partion_arr)){
+                    return true;
+                }
+                partion_arr[j] -= matchsticks[i];
+            }
+        }
+        return false;
+    }
+}
