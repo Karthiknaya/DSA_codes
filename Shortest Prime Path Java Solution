@@ -1,0 +1,55 @@
+class Solution
+{
+    class Pair
+{
+    int value;
+    int steps;
+    Pair(int value, int steps)
+    {
+        this.value=value;
+        this.steps=steps;
+    }
+}
+    int solve(int Num1, int Num2)
+    {
+        if(Num1==Num2)
+            return 0;
+        boolean[] prime_track=new boolean[10000];
+        Arrays.fill(prime_track,true);
+        prime_track[1]=false;
+        for(int i=2;i<=9999;i++)
+            if(prime_track[i])
+                for(int j=i*i;j<=9999;j+=i)
+                    prime_track[j]=false;
+        Queue<Pair> q=new LinkedList<>();
+        q.add(new Pair(Num1,0));
+        boolean[] vis=new boolean[10000];
+        while(!q.isEmpty())
+        {
+            int num=q.peek().value;
+            int steps=q.peek().steps;
+            q.poll();
+            if(num==Num2)
+                return steps;
+            if(vis[num])
+                continue;
+            vis[num]=true;
+            String str=Integer.toString(num);
+            for(int i=0;i<4;i++)
+                for(char j='0';j<='9';j++)
+                {
+                    if((i==0 && j=='0') || j==str.charAt(i))
+                        continue;
+                    else
+                    {
+                        String newStr=str.substring(0,i)+j+str.substring(i+1);
+                        int val=Integer.valueOf(newStr);
+                        if(prime_track[val])
+                            q.add(new Pair(val,steps+1));
+                    }
+                }
+        }
+        
+        return -1;
+    }
+}
