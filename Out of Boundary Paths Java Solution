@@ -1,0 +1,31 @@
+class Solution {
+    private int mod=1000000007;
+    private int[][][] dp;
+    private int[][] dirs=new int[][]{{0,1},{1,0},{-1,0},{0,-1}};
+    public int findPaths(int m, int n, int maxMove, int row, int col) {
+        dp=new int[m][n][maxMove+1];
+        for(int[][] grid:dp){ 
+            for(int[] rows : grid){
+            Arrays.fill(rows, -1);
+            }
+        }
+        return getcount(row, col, m, n, 0, maxMove);
+    }
+    public int getcount(int i,int j,int m,int n,int curr_move,int maxMoves) {
+        if(curr_move>maxMoves){
+            return 0;
+        }
+        if(i<0 || j<0 || i>=m || j>=n){
+            return 1;
+        }
+        if(dp[i][j][curr_move] != -1){
+            return dp[i][j][curr_move];
+        }
+        int count=0;
+        for(int[] dir:dirs){
+            count+=getcount(i+dir[0],j+dir[1],m,n,curr_move+1,maxMoves);
+            count %=mod;
+        }
+        return dp[i][j][curr_move]=count;
+    }
+}
