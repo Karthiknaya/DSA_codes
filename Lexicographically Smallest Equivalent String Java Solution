@@ -1,0 +1,32 @@
+class Solution {
+    int[] parent;
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        StringBuilder sb=new StringBuilder();
+        parent=new int[26];
+        for(int i=0;i<26;i++){
+            parent[i] = i;
+        }
+        for(int i=0;i<s1.length();i++){
+            union(s1.charAt(i)-'a',s2.charAt(i)-'a');
+        }
+        for(int i=0;i<baseStr.length();i++){
+            char ch=(char)(find(baseStr.charAt(i)-'a')+'a');
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+    private int find(int x){
+       if(x==parent[x]){
+           return x;
+       }
+       return parent[x]=find(parent[x]);
+    }
+
+    private void union(int x, int y){
+        int parx = find(x);
+        int pary = find(y);
+        int large=Math.max(parx,pary);
+        int small=Math.min(parx,pary);
+        parent[large]=small;
+    }
+}
