@@ -1,0 +1,20 @@
+class Solution {
+    public int[][] allCellsDistOrder(int rows, int cols, int rCenter, int cCenter)
+    {
+        int result[][] =new int[rows*cols][2];
+        List<int[]> list=new ArrayList<>();
+        for(int i=0;i < rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                list.add(new int[]{i,j});
+            }
+        }
+       list.sort(Comparator.comparingInt(coordinates->Math.abs(coordinates[0]-rCenter)+Math.abs(coordinates[1]-cCenter)));
+        for(int i=0;i<rows*cols;i++)
+        {
+            result[i]=list.get(i);
+        }
+        return result;
+    }
+}
