@@ -1,0 +1,28 @@
+class Solution {
+      public int performop(int a, int b, char op){
+        if(op == '+'){
+            return a + b;
+        } else if(op == '-'){
+            return b - a;
+        } else if(op == '*'){
+            return a * b;
+        } else {
+            return b/ a;
+        }
+      }
+    public int evalRPN(String[] tokens) {
+      Stack<Integer> s = new Stack<>();
+        for(String item : tokens){
+            if(!s.isEmpty() &&(item.equals("+") || item.equals("*") || item.equals("/") || item.equals("-"))){
+                int a= s.pop();
+                int b= s.pop();
+                int ans = performop(a, b, item.charAt(0));
+                s.push(ans);
+                
+            } else {
+                s.push(Integer.parseInt(item));
+            }
+        }
+        return s.pop();
+    }
+}
