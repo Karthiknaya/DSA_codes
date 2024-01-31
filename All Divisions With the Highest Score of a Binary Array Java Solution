@@ -1,0 +1,44 @@
+class Solution {
+    public List<Integer> maxScoreIndices(int[] nums) {
+        List<Integer> list=new LinkedList();
+        int sum[]= new int[nums.length+1];
+        int one_count=0;
+        int zero_count=0;
+        for(int item:nums){
+            if(item==1){
+                one_count++;
+             }else{
+                    zero_count++;
+                }
+        }        
+        int rightone=one_count;
+        int leftzero=0;
+        int ind=0;
+        int max=Integer.MIN_VALUE;
+        for(int item:nums){
+            sum[ind]=rightone+leftzero;
+            if(max<sum[ind]){
+                max=sum[ind];
+                list.clear();
+                list.add(ind);
+            }else if(max==sum[ind]){
+                list.add(ind);
+            }
+            ind++;
+            if(item==1){
+                rightone--;
+            }if(item==0){
+                leftzero++;
+            }
+        }
+       sum[nums.length]=zero_count;
+       if(max<sum[nums.length]){
+                max=sum[nums.length];
+                list.clear();
+                list.add(nums.length);
+            }else if(max==sum[nums.length]){
+                list.add(nums.length);
+            }
+        return list;
+    }
+}
