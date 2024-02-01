@@ -1,0 +1,47 @@
+class Solution {
+    public int minFlips(String s) {
+        int orig_length=s.length();
+        s=s+s;
+        char arr[]=s.toCharArray();
+        int n=s.length();
+        char arr1[]=new char[n];
+        char arr2[]=new char[n];
+        for(int i=0;i<n;i++)
+        {
+            if(i%2==0)
+            {
+                arr1[i]='0';
+                arr2[i]='1';
+            }
+            else
+            {
+                arr1[i]='1';
+                arr2[i]='0';
+            }
+        }
+        int count1=0;
+        int count2=0;
+        int ans=1000_000;
+        int left=0;
+        int right=0;
+        while(right<n)
+        {
+            if(arr[right]!=arr1[right])
+                count1++;
+            if(arr[right]!=arr2[right])
+                count2++;
+            if(right-left+1>orig_length)
+            {
+                if(arr[left]!=arr1[left])
+                count1--;
+                if(arr[left]!=arr2[left])
+                count2--;
+                left++;
+            }
+            if(right-left+1==orig_length)
+            ans=Math.min(ans,Math.min(count1,count2));
+            right++;
+        }
+        return ans;
+    }
+}
