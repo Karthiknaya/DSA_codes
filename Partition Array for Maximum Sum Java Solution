@@ -1,0 +1,44 @@
+class Solution {
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int  n=arr.length;
+        int[] dp=new int[n+1];
+        dp[n]=0;
+        for(int i=n-1;i>=0;i--){
+            int count=0;
+            int sum=0;
+            int max_element=Integer.MIN_VALUE;
+            int result=Integer.MIN_VALUE;
+            for(int j=i;j<Math.min(i+k,n);j++){
+                count++;
+                max_element=Math.max(max_element,arr[j]);
+                sum=(max_element*count)+dp[j+1];
+                result=Math.max(sum,result);
+            }
+                dp[i]=result;
+        }
+        return dp[0];
+    }
+}
+// memo
+//  public int maxSumAfterPartitioning(int[] arr, int k) {
+//         int dp[] = new int [arr.length];
+//             Arrays.fill(dp,-1);
+//             return getmax(arr,0,k,dp);
+//     }
+
+//     int getmax(int[] arr, int ind,int k,int[] dp){
+//         if(ind==arr.length) return 0;
+//         if(dp[ind]!=-1) return dp[ind];
+
+//         int count=0;
+//         int max_value = Integer.MIN_VALUE;
+//         int result = Integer.MIN_VALUE;
+//         for(int i=ind; i<Math.min(arr.length,ind+k);i++){ 
+//             count++;
+//             max_value = Math.max(max_value,arr[i]); 
+//             int sum = (count * max_value) + getmax(arr,i+1,k,dp); 
+//             result = Math.max(result,sum);
+//         }
+//         return dp[ind]=result;
+//     }
+// }
