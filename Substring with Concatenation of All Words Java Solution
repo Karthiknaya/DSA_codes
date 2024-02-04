@@ -1,0 +1,27 @@
+class Solution {
+     List<Integer> index_pos = new ArrayList<>(); 
+    public List<Integer> findSubstring(String s, String[] words) {
+        if (s == null || s.length() == 0 || words == null || words.length == 0) {
+            return index_pos;
+        }
+        int length = s.length();
+        int word_length = words[0].length();
+        int total_permuted_length = word_length * words.length;
+        Map<String, Integer> totalwords = new HashMap<>();
+        for (String word : words) {
+            totalwords.put(word, totalwords.getOrDefault(word, 0) + 1);
+        } 
+        for (int i = 0; i <= length - total_permuted_length; i++) {
+            String interval_String = s.substring(i, i + total_permuted_length);
+            Map<String, Integer> curr_words = new HashMap<>();  
+            for (int j = 0; j < total_permuted_length; j += word_length) {
+                String word = interval_String.substring(j, j + word_length);
+                curr_words.put(word, curr_words.getOrDefault(word, 0) + 1);
+            } 
+            if (curr_words.equals(totalwords)) {
+                index_pos.add(i);
+            }
+        }
+        return index_pos;
+    }
+}
