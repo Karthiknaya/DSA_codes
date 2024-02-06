@@ -1,0 +1,15 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+     Map<String,List<String>> map=new HashMap<>();
+     for(String word:strs){
+         char[] arr=word.toCharArray();
+         Arrays.sort(arr);
+         String newword=String.valueOf(arr);
+         if(!map.containsKey(newword)){
+             map.put(newword,new ArrayList<>());
+         }
+         map.get(newword).add(word);
+     }
+     return new ArrayList<>(map.values());
+    }
+}
