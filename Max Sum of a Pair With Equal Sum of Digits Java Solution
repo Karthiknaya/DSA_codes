@@ -1,0 +1,22 @@
+class Solution {
+    private int getDigitSum(int num){
+        int dig_sum=0;
+        while(num>0){
+            dig_sum+=num%10;
+            num/=10;
+        }
+        return dig_sum;
+    }
+    public int maximumSum(int[] nums){
+        Map<Integer, Integer> map=new HashMap<>();
+        int max_sum=-1;
+        for(int num:nums){
+            int dig_sum=getDigitSum(num);
+            if (map.containsKey(dig_sum)){
+                max_sum=Math.max(max_sum,num+map.get(dig_sum));
+            }
+            map.put(dig_sum,Math.max(map.getOrDefault(dig_sum,0),num));
+        }
+        return max_sum;
+    }
+}
