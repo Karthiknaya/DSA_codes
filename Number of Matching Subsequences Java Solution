@@ -1,0 +1,35 @@
+class Solution {
+    public int numMatchingSubseq(String s, String[] words) {
+        int n=words.length;
+        int count=0;
+        HashMap<String,Boolean> map= new HashMap<>();
+        for(int i=0;i<n;i++){
+            if(!map.containsKey(words[i])){
+                if(isvalid_substr(s,words[i])){
+                    map.put(words[i],true);
+                    count++;
+                }
+            }else{
+                count++;
+            }
+        }
+        return count;  
+    }
+    private boolean isvalid_substr(String s, String t){
+        char[] orig_str=s.toCharArray();
+        char[] sub_to_find=t.toCharArray();
+        int i=0,j=0;
+        while(i<sub_to_find.length){
+            int to_find= sub_to_find[i];
+            while(j<orig_str.length && orig_str[j]!=to_find){
+                j++;
+            }
+            if(j>=orig_str.length){
+                return false;
+            }
+            j++;
+            i++;
+        }
+        return true;
+    }
+}
