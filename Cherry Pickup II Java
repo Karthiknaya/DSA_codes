@@ -1,0 +1,44 @@
+class Solution {
+    int[][][] dp;
+    public int cherryPickup(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        dp = new int[n][m][m];
+        for(int i=0;i<dp.length;i++){
+            for(int j=0;j<m;j++){
+                Arrays.fill(dp[i][j],-1);
+            }
+        }
+        return getmax_cherry(grid,0,0,m-1,n,m);  
+    }
+    public int getmax_cherry(int[][] grid,int row,int col1,int col2,int n,int m){
+        if(row>=n || col1<0 || col2>=m || col2<0 || col1>=m){
+            return 0; 
+        }
+        if(dp[row][col1][col2]!=-1){
+            return dp[row][col1][col2]; 
+        }
+        int ans = grid[row][col1]+grid[row][col2];
+        if(col1==col2){ 
+            ans-=grid[row][col1];
+        }
+        return dp[row][col1][col2]= ans + Math.max(
+            getmax_cherry(grid,row+1,col1+1,col2+1,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1,col2+1,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1-1,col2+1,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1,col2,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1,col2-1,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1-1,col2,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1-1,col2-1,n,m),
+            Math.max(
+            getmax_cherry(grid,row+1,col1+1,col2,n,m),
+            getmax_cherry(grid,row+1,col1+1,col2-1,n,m)
+            ))))))));
+    }
+}
