@@ -1,0 +1,27 @@
+class CombinationIterator {
+    Queue<String> q=new LinkedList<>();
+    char[] curr_arr;
+    public CombinationIterator(String characters, int combinationLength) {
+        curr_arr = new char[combinationLength];
+        getcombinations(0, 0, curr_arr, characters);
+    }
+    public String next() {
+        return q.poll();
+    }
+    public boolean hasNext() {
+        return !q.isEmpty();
+    }
+     private void getcombinations(int idx, int cidx, char[] curr_arr, String cs){
+        if(idx == curr_arr.length){
+            q.offer(new String(curr_arr));
+            return;
+        }
+        if(cidx == cs.length()){
+            return;
+        }
+        for(int i = cidx; i < cs.length(); i++){
+            curr_arr[idx] = cs.charAt(i);
+            getcombinations(idx + 1, i + 1, curr_arr, cs);
+        }
+    } 
+}
