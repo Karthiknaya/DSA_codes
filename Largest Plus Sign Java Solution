@@ -1,0 +1,48 @@
+class Solution {
+    private int check(int[][] arr, int row, int col){
+        int upward=0;
+        for(int top=row;top>=0;top--){
+            if(arr[top][col]==1){
+                upward++;
+            }
+            else break;
+        }
+        int downward=0;
+        for(int bottom = row; bottom<arr.length; bottom++){
+            if(arr[bottom][col]==1){
+                downward++;
+            }
+            else break;
+        }
+        int backward=0;
+        for(int left = col; left>=0; left--){
+            if(arr[row][left]==1){
+                backward++;
+            }
+            else break;
+        }
+        int frontward=0;
+        for(int right = col; right<arr.length; right++){
+            if(arr[row][right]==1){
+                frontward++;
+            }
+            else break;
+        }
+        return Math.min(upward,Math.min(downward,Math.min(frontward,backward)));
+    }
+    public int orderOfLargestPlusSign(int n, int[][] mines) {
+        int result=0;
+        int[][] arr=new int[n][n];
+        for(int[] item :arr) Arrays.fill(item,1);
+        for(int[] item :mines){
+            arr[item[0]][item[1]] = 0;
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                int curr=arr[i][j]==0?0:check(arr,i,j);
+                result=Math.max(result,curr);
+            }
+        }
+        return result;
+    }
+}
