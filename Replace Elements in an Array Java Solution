@@ -1,0 +1,18 @@
+class Solution {
+    public int[] arrayChange(int[] nums, int[][] opt) {
+        Map<Integer,Integer> map=new HashMap<>(); 
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i],i);
+        }
+        for(int i=0;i<opt.length;i++){
+            int old=opt[i][0];
+            int new_num=opt[i][1];  
+            if(map.containsKey(old)){
+                int ind=map.get(old);
+                nums[ind]=new_num;   
+                map.put(new_num,ind);
+            }
+        }
+        return nums;
+    }
+}
