@@ -1,0 +1,27 @@
+class Solution {
+    public int findRadius(int[] houses,int[] heaters){
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int left=0,right=(int)1e9;
+        while (right-left > 1){
+            int mid =left+(right-left)/2;
+            if (isvalid(houses, heaters,mid)){
+                right=mid;
+            } else {
+                left=mid;
+            }
+        }
+        return isvalid(houses,heaters,left)?left:right;
+    }
+    private boolean isvalid(int[] houses, int[] heaters, int radius) {
+        int i=0,j = 0,m=houses.length,n=heaters.length;
+        while (i<m && j<n) {
+            if (houses[i]>=heaters[j]-radius && houses[i]<=heaters[j]+radius){
+                i++;
+            }else{
+                j++;
+            }
+        }
+        return i==m;
+    }
+}
