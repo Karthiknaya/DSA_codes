@@ -1,0 +1,38 @@
+class Solution{
+ public int numEnclaves(int[][] grid){
+        int m=grid.length;
+        int n=grid[0].length;
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(grid[0][i]==1)
+                getcount(grid,0,i);
+            if(grid[m-1][i]==1)
+                getcount(grid,m-1,i);
+        }
+        for(int i=1;i<m-1;i++){
+            if(grid[i][0]==1)
+                getcount(grid,i,0);
+            if(grid[i][n-1]==1)
+                getcount(grid,i,n-1);
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1)
+                  count++;
+            }
+        }
+        return count;
+    }
+ void  getcount(int[][] grid,int row,int col){
+        if(row<0 ||col<0 || row>=grid.length || col>=grid[0].length || grid[row][col]!=1){
+            return;
+        }
+        if(grid[row][col]==1){
+            grid[row][col]=0;
+        }
+        getcount(grid,row+1,col);
+        getcount(grid,row-1,col);
+        getcount(grid,row,col+1);
+        getcount(grid,row,col-1);
+    }
+}
