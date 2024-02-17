@@ -1,0 +1,22 @@
+class Solution {
+    public int furthestBuilding(int[] heights, int bricks, int ladders) {
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        int i=0;
+        int n=heights.length;
+        for(;i<n-1;i++){
+            int height_diff=heights[i + 1]-heights[i];
+            if(height_diff<0)
+                continue;
+            bricks-=height_diff;
+            pq.add(height_diff);
+            if(bricks<0){
+                bricks+=pq.peek();
+                pq.poll();
+                ladders--;
+            }
+            if(ladders < 0)
+                break;
+        }
+        return i;
+    }
+}
