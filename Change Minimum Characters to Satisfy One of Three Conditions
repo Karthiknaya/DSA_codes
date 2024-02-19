@@ -1,0 +1,33 @@
+class Solution {
+    private int make(String a,String b){  
+        int count=Integer.MAX_VALUE;
+        for(char ch='b';ch<='z';ch++){   
+            int curr_count=0;
+            for(char c:a.toCharArray()){
+                if(c>=ch)
+                    curr_count++;
+            } 
+            for(char c:b.toCharArray()){
+                if(c<ch)
+                    curr_count++;
+            }
+            count = Math.min(count,curr_count); 
+        }
+        return count;
+    }
+    public int minCharacters(String a,String b){
+        int result=Integer.MAX_VALUE;
+        result=Math.min(make(a,b),make(b,a));
+        for(char ch='a';ch<='z';ch++){  
+            int total = a.length()+b.length();
+            for(char c:a.toCharArray())
+                if(c==ch)
+                    total--;
+            for(char c:b.toCharArray())
+                if(c==ch)
+                    total--;
+            result = Math.min(total,result);         
+        } 
+        return result;
+    }  
+}
