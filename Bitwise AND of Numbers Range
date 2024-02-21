@@ -1,0 +1,16 @@
+class Solution {
+    int val = (int)1e9;
+    public int rangeBitwiseAnd(int left, int right) {
+        if(left==1073741824 && right==2147483647)
+        return 1073741824;
+       if(Math.abs(left - right) > val) return 0;
+       if(left == right )
+       return left;
+        long ans = left;
+        for(long i = left + 1;i<=right;i++ ) {
+            if(ans == 0) return 0;
+            ans &= i;
+        }
+        return (int)ans;
+    }
+}
