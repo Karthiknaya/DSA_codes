@@ -1,0 +1,17 @@
+class Solution {
+    public int findJudge(int m, int[][] trust) {
+        int n=trust.length;
+        int[] you_trust =new int[m];
+        int[] they_trust =new int[m];
+        for(int i=0;i<n;i++){
+            you_trust[trust[i][0]-1]++;
+            they_trust[trust[i][1]-1]++;
+        }
+        for(int i=0;i<m;i++){
+            if(you_trust[i]==0 && they_trust[i]==m-1){
+                return i + 1;
+            }
+        }
+        return -1;
+    }
+}
