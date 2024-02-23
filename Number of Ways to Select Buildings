@@ -1,0 +1,32 @@
+class Solution{
+    public long numberOfWays(String s) {
+        int n=s.length();
+        long[][][] dp = new long[n][4][3]; 
+        for(int i=0;i<n;i++){
+            for (int j=0;j<4;j++) {
+                Arrays.fill(dp[i][j],-1);
+            }
+        }
+        return getways(s,0,0,2,dp);
+    }
+    private long getways(String s,int i,int count,int last_dig,long[][][] dp){
+        if(count==3){
+            return 1;
+        }
+        if (i==s.length()){
+            return 0;
+        }
+        if(dp[i][count][last_dig] != -1){
+            return dp[i][count][last_dig];
+        }
+        long total_ways=0;
+        //not to take
+        total_ways += getways(s,i+1,count,last_dig,dp);
+        //take
+        if(last_dig==2 || s.charAt(i)-'0' !=last_dig){
+            total_ways +=getways(s,i+1,count+1,s.charAt(i)-'0',dp);
+        }
+        dp[i][count][last_dig] =total_ways;
+        return total_ways;
+    }
+}
