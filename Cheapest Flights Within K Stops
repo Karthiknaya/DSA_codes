@@ -1,0 +1,51 @@
+class Solution {
+    class Edge{
+        int dest, wt;
+       public Edge(int dest,int wt){
+            this.dest=dest;
+            this.wt=wt;
+        }
+    }
+    class Pair{
+        int src, wt,stop;
+        public Pair(int s,int wt,int st){
+            this.src=s;
+            this.wt=wt;
+            this.stop=st;
+        }
+    }
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Edge>> graph=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i=0;i<flights.length;i++){
+            graph.get(flights[i][0]).add(new Edge(flights[i][1],flights[i][2]));
+        }
+        Queue<Pair>q=new LinkedList<>();
+        int dist[]=new int[n];
+        Arrays.fill(dist,(int)1e9);
+        dist[src]=0;
+        q.add(new Pair(src,0,0));
+        while(!q.isEmpty()){
+            Pair curr=q.poll();
+            int weight=curr.wt;
+            int s=curr.src;
+            int stops=curr.stop;
+            if(stops>k)continue;
+            for(Edge e:graph.get(s)){
+                int node=e.dest;
+                int wt=e.wt;
+                if(weight+wt<dist[node]){
+                    dist[node]=weight+wt;
+                    q.add(new Pair(node,dist[node],stops+1));
+                }
+            }
+        }
+        if(dist[dst]==1e9)
+        {
+            return -1;
+        }
+        return dist[dst];
+    }
+}
