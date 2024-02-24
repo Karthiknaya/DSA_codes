@@ -1,0 +1,60 @@
+class Solution {
+    private String getprev_num(String s,int i){
+        StringBuilder sb=new StringBuilder(s);
+        int curr_num=Character.getNumericValue(sb.charAt(i));
+        if(curr_num==0){
+            curr_num=9;
+        }
+        else{
+            curr_num = curr_num-1;
+        } 
+        sb.setCharAt(i,(char)(curr_num + '0'));
+        return sb.toString();
+    }
+    private String getnext_num(String s,int i) {
+        StringBuilder sb = new StringBuilder(s);
+        int curr_num = Character.getNumericValue(sb.charAt(i));
+        if(curr_num == 9){
+            curr_num = 0;
+        }
+        else{
+            curr_num = curr_num + 1;
+        }
+        sb.setCharAt(i,(char)(curr_num + '0'));
+        return sb.toString();
+    }
+    public int openLock(String[] deadends,String target) {
+        Set<String> visited = new HashSet<>();
+        Set<String> invalid = new HashSet<>();
+        Queue<Object[]> q = new LinkedList<>();
+        for(String items:deadends) {
+            if(items.equals("0000")){
+                return -1;
+            }
+            invalid.add(items);
+        }
+        visited.add("0000");
+        q.add(new Object[]{"0000", 0});
+        while(!q.isEmpty()){
+            Object[] curr=q.poll();
+            String cur_num=(String)curr[0];
+            int curr_count=(int)curr[1];
+            if(cur_num.toString().equals(target)){
+                return curr_count;
+            }
+            for(int i=0;i < 4;i++){
+                String prev=getprev_num(cur_num, i);
+                String next=getnext_num(cur_num, i);
+                if(!visited.contains(prev) && !invalid.contains(prev)){
+                    visited.add(prev);
+                    q.add(new Object[]{prev, curr_count+1});
+                }
+                if(!visited.contains(next) && !invalid.contains(next)){
+                    visited.add(next);
+                    q.add(new Object[]{next, curr_count+1});
+                }
+            }
+        }
+        return -1;
+    }
+}
