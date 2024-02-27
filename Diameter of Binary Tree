@@ -1,0 +1,23 @@
+class Solution {
+     public class Info{
+        int diam;
+        int ht;
+        public Info(int diam,int ht){
+            this.diam=diam;
+            this.ht=ht;
+        }
+    }
+    public Info diameter(TreeNode root){
+        if(root==null){
+            return new Info(0,0);
+        }
+        Info leftdiam=diameter(root.left);
+        Info rightdiam=diameter(root.right);
+        int diam=Math.max(Math.max(leftdiam.diam,rightdiam.diam),leftdiam.ht+rightdiam.ht);
+        int ht=Math.max(leftdiam.ht,rightdiam.ht)+1;
+        return new Info(diam,ht);
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+       return diameter(root).diam; 
+    }
+}
