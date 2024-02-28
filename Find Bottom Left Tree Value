@@ -1,0 +1,28 @@
+class Solution {
+   public int getleftval(TreeNode root){
+    if(root==null){
+     return 0;
+    }
+     Queue<TreeNode> q=new LinkedList<>();
+     int leftmost=root.val;
+     q.add(root);
+      while (!q.isEmpty()){
+      TreeNode temp=q.poll();
+       if(temp.right!=null){
+        q.offer(temp.right);
+      leftmost=temp.right.val;
+   }
+     if(temp.left!=null){
+      q.offer(temp.left);
+       leftmost=temp.left.val;
+    }
+    }
+     return leftmost;
+}
+public int findBottomLeftValue(TreeNode root) {
+    if(root==null){
+        return 0;
+    }
+    return getleftval(root);
+    }
+}
