@@ -1,0 +1,17 @@
+/
+class Solution {
+    int maxcount=0;
+    public int goodNodes(TreeNode root) {
+        return getcount(root,Integer.MIN_VALUE);
+    }
+
+    public int getcount(TreeNode root, int maxval){
+        if(root==null){
+            return 0;
+        }
+        maxval=Math.max(maxval,root.val);
+        int leftcount=getcount(root.left,maxval);
+        int rightcount=getcount(root.right,maxval);
+        return ((root.val>=maxval)?1:0)+leftcount+rightcount;
+    }
+}
