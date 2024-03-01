@@ -1,0 +1,17 @@
+class Solution {
+    public String maximumOddBinaryNumber(String s) {
+        int totalones = 0;
+        for(int i = 0;i < s.length();i++){
+            if(s.charAt(i) == '1'){
+                totalones++;
+            }
+        }
+        char[] arr = new char[s.length()];
+        Arrays.fill(arr, '0');
+        arr[arr.length-1] = '1';
+        for(int i = 0;i < totalones-1;i++){
+            arr[i] = '1';
+        }
+        return new String(arr);
+    }
+}
