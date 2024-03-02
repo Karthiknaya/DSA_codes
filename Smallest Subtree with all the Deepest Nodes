@@ -1,0 +1,25 @@
+class Solution {
+    private int get_height(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int left=get_height(root.left);
+        int right=get_height(root.right);
+        return Math.max(left,right)+1;
+    }
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        if(root==null){
+            return null;
+        }
+        int left=get_height(root.left);
+        int right=get_height(root.right);
+        if(left==right){
+            //same depth & deepest one
+            return root;
+        }else if(left>right){
+             return subtreeWithAllDeepest(root.left);
+        }else{
+            return subtreeWithAllDeepest(root.right);
+        }  
+    }
+}
