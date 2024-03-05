@@ -1,0 +1,30 @@
+class Solution {
+    public int minimumOperations(TreeNode root) {
+        int count=0;
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()){
+            int size =q.size();
+            Map<Integer,Integer> map=new HashMap<>();
+            int[] orig_arr=new int[size];
+            int[] sort_arr = new int[size];
+            for (int i=0;i<size;++i){
+                TreeNode curr=q.poll();
+                map.put(curr.val, i);
+                orig_arr[i] = curr.val;
+                sort_arr[i] = curr.val;
+                if (curr.left != null) q.add(curr.left);
+                if (curr.right != null) q.add(curr.right);
+            }
+            Arrays.sort(sort_arr);
+            for(int i=0;i<size;++i){
+                if(orig_arr[i] != sort_arr[i]){
+                    orig_arr[map.get(sort_arr[i])] = orig_arr[i];
+                    map.put(orig_arr[i], map.get(sort_arr[i]));
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
