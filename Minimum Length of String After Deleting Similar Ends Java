@@ -1,0 +1,30 @@
+class Solution {
+    public static int minimumLength(String s){
+        while(s.length()>1){
+            int n=s.length();
+            String left_str=s.charAt(0) +"";
+            String right_str=s.charAt(n - 1) +"";
+            if(!left_str.contentEquals(right_str)){
+                break;
+            }
+            int curr_left_ind=1;
+            for(int i=1;i<n;i++){
+                if(String.valueOf(s.charAt(i)).equals(String.valueOf(s.charAt(i-1)))){
+                    left_str+=s.charAt(i);
+                }else{
+                    curr_left_ind=i - 1;
+                    break;
+                }
+            }
+            for(int i=n-2;i>curr_left_ind;i--){
+                if(String.valueOf(s.charAt(i)).equals(String.valueOf(s.charAt(i + 1)))){
+                    right_str+=s.charAt(i);
+                } else break;
+            }
+            s = s.substring(left_str.length());
+            if(s.isEmpty()) break;
+            s = s.substring(0, s.length() - right_str.length());
+        }
+        return s.length();
+    }
+}
