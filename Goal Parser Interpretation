@@ -1,0 +1,19 @@
+public class Solution {
+    public String interpret(String command){
+        StringBuilder sb=new StringBuilder();
+        int ind=0;
+        while(ind<command.length()){
+            if(command.charAt(ind)=='G'){
+                sb.append('G');
+                ind++;
+            }else if(command.charAt(ind) == '(' && command.charAt(ind + 1) == ')'){
+                sb.append('o');
+                ind +=2;
+            }else{
+                sb.append("al");
+                ind +=4;
+            }
+        }
+        return sb.toString();
+    }
+}
