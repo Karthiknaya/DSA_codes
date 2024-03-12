@@ -1,0 +1,20 @@
+class Solution {
+    public long minimumPerimeter(long neededApples) {
+        long res=-1;
+        long left =1;
+        long right =100000;
+        while(left <= right){
+            long mid = left + (right - left)/2;
+            if(is_valid(mid,neededApples)){
+                res = mid;
+                right = mid-1;
+            }else{
+                left = mid+1;
+            }
+        }
+        return res*8;
+    }
+    private boolean is_valid(long n,long neededApples){
+        return neededApples <= 2*n*(n+1)*(1+2*n);
+    }
+}
