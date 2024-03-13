@@ -1,0 +1,39 @@
+class Solution {
+    Boolean[] dp;
+    private boolean isValid(String s,int minJump,int maxJump,int ind){
+        if(ind==s.length()-1){
+            return s.charAt(ind)=='0';
+        }
+        for(int i=Math.min(maxJump,s.length()-ind-1);i>=minJump;i--){
+            if(dp[ind+i]!=null){
+                continue;
+            }
+            if(s.charAt(ind+i)=='0'){
+                if(isValid(s,minJump,maxJump,ind+i)){
+                    return true;
+                }
+                dp[ind+i]=false;
+            }
+        }
+        return false;
+    }
+    public boolean canReach(String s,int minJump,int maxJump){ 
+        this.dp=new Boolean[s.length()];
+        if(s.charAt(s.length()-1)=='1'){
+            return false;
+        }
+        int count=0; 
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch=='0'){
+                count=0; 
+            }else{
+                count++;
+                if(count==maxJump){
+                    return false;
+                }
+            }
+        }
+        return isValid(s,minJump, maxJump, 0); 
+    }
+}
