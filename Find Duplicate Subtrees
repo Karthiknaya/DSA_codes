@@ -1,0 +1,20 @@
+class Solution{
+     private String get_duplicates(TreeNode root,HashMap<String,Integer> map ,List<TreeNode> ans){
+        if(root == null){ 
+        return "";
+        }
+        String str =root.val+ "," +get_duplicates(root.left,map,ans) + ","+get_duplicates(root.right,map,ans);
+        map.put(str,map.getOrDefault(str,0)+1);
+        if(map.get(str) == 2){
+            ans.add(root);
+        }
+        return str;
+    }
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        List<TreeNode> ans =new ArrayList<>();
+        if(root == null) return ans;
+        HashMap<String,Integer> map = new HashMap<>();
+        get_duplicates(root , map , ans);
+        return ans;
+    }
+}
