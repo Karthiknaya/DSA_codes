@@ -1,0 +1,15 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n){
+        int [] count=new int[26];
+        for(char ch:tasks){
+            count[ch- 'A']++;
+        }
+        Arrays.sort(count);
+        int batch_limit=count[25]-1;
+        int total_slots=batch_limit * n;
+        for(int indx = 0; indx < 25; indx++){
+            total_slots-=Math.min(count[indx],batch_limit); 
+        }
+        return total_slots>0?tasks.length + total_slots:tasks.length;
+    }
+}
