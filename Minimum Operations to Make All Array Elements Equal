@@ -1,0 +1,27 @@
+class Solution {
+    public List<Long> minOperations(int[] nums, int[] queries){
+        int n = nums.length;
+        long[] prefix_sum=new long[n + 1];
+        List<Long> result=new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i=1;i<=n;i++){
+            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1];
+        }
+        for(int query:queries){
+            int left=0;
+            int right=n;
+            while(left<right){
+                int mid=left+(right - left)/2;
+                if(nums[mid]<query){
+                    left=mid + 1;
+                }else{
+                    right=mid;
+                }
+            }
+            long less =1L*query*left-prefix_sum[left];
+            long more =prefix_sum[n]-prefix_sum[left]-1L*(n-left)*query;
+            result.add(less + more);
+        }
+        return result;
+    }
+}
