@@ -1,0 +1,34 @@
+class Solution {
+     public void swap(int[] arr,int i,int j){
+        arr[i]=arr[i]-arr[j];
+        arr[j]=arr[i]+arr[j];
+        arr[i]=arr[j]-arr[i];
+    }
+    public List<Integer> findDuplicates(int[] nums) {
+    //   List<Integer> list=new ArrayList<>();
+    //   Arrays.sort(nums);
+    //   for(int i=1;i<nums.length;i++){
+    //       if(nums[i-1]==nums[i]){
+    //           list.add(nums[i]);
+    //       }
+    //   }  
+    //   return list;
+        int i = 0;
+        while (i < nums.length){
+            int orig_ind = nums[i] - 1;
+            if(nums[i] != nums[orig_ind]){
+                swap(nums,i,orig_ind);
+            }else{
+                i++;
+            }
+        }
+        List<Integer> list = new ArrayList<>();
+        for(int index = 0 ; index < nums.length ; index++){
+            if(nums[index] != index+1){
+                list.add(nums[index]);
+            }
+        }
+        return list;
+
+    }
+}
