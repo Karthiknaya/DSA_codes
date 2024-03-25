@@ -1,0 +1,26 @@
+class Solution {
+    Integer [][][] dp;
+    int mod=1000000007;
+    public int numberOfSets(int n, int k){
+        dp=new Integer[n+1][k+1][2];
+        return getcount(n,k,1,0);
+    }
+    private int getcount(int n, int k, int start, int idx){
+        if(idx == n){
+            return 0;
+        }
+        if(k == 0){
+            return 1;
+        }
+        if(dp[idx][k][start] != null){
+            return dp[idx][k][start];
+        }
+        int ans=getcount(n,k,start,idx+1); 
+        if(start == 1){
+            ans+=getcount(n,k,0,idx+1);
+        }else{
+            ans += getcount(n,k-1,1,idx);
+        }
+        return dp[idx][k][start]=ans % mod;
+    }
+}
