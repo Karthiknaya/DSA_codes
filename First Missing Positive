@@ -1,0 +1,25 @@
+class Solution {
+    private static void swap_two(int[] arr, int first, int second){
+        int swap = arr[first];
+        arr[first] = arr[second];
+        arr[second] = swap;
+    }
+    public int firstMissingPositive(int[] arr) {
+        int ind = 0;
+        while(ind<arr.length){
+            int valid_pos = arr[ind]-1;
+            if(arr[ind] > 0 && arr[ind] <=arr.length && arr[ind] != arr[valid_pos]){
+                swap_two(arr, ind, valid_pos);
+            }
+            else{
+                ind++;
+            }
+        }
+        for(int i=0; i<arr.length;i++){
+            if(arr[i] != i+1){
+                return i+1;
+            }
+        }
+        return arr.length+1;
+    }
+}
