@@ -1,0 +1,19 @@
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int curr_prod=1;
+        int left=0;
+        int right=0;
+        int total_pairs=0;
+        while(right<nums.length){
+           curr_prod*=nums[right];
+           while(left<=right && curr_prod>=k){
+               curr_prod/=nums[left];
+               left++;
+           }
+           total_pairs+=(right-left+1);
+           right++;
+        }
+        return total_pairs;
+    }
+
+}
