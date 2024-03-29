@@ -1,0 +1,22 @@
+class Solution {
+    private static int get_max_profit(int[] prices,int pos,int ind,int[][] dp){
+        if(ind>=prices.length){
+            return 0;
+        }if(dp[ind][pos]!=-1) return dp[ind][pos];
+        if(pos==0){
+            dp[ind][pos]=Math.max((get_max_profit(prices,1,ind+1,dp)-prices[ind]),(get_max_profit(prices,0,ind+1,dp)));
+        }else if(pos==1){
+            dp[ind][pos]=Math.max((get_max_profit(prices,0,ind+2,dp)+prices[ind]),(get_max_profit(prices,1,ind+1,dp)));
+        }
+        return dp[ind][pos];
+    }
+    public int maxProfit(int[] prices) {
+        int dp[][]=new int[prices.length][2];
+        for(int i=0;i<prices.length;i++){
+            for(int j=0;j<2;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return get_max_profit(prices,0,0,dp);
+    }
+}
