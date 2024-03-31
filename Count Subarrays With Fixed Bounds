@@ -1,0 +1,22 @@
+class Solution {
+    public long countSubarrays(int[] nums, int minK, int maxK){
+        long count=0; 
+        int left=-1;
+        int curr_min=-1;
+        int curr_max=-1;
+        int n=nums.length;
+        for(int right=0;right<n;right++){
+            if(nums[right]<minK || nums[right]>maxK){
+                left = right;
+            }
+            if(nums[right] == minK){
+                curr_min = right;
+            }
+            if(nums[right] == maxK){
+                curr_max = right;
+            }
+            count+=Math.max(0L,Math.min(curr_min,curr_max)-left);
+        }
+        return count;
+    }
+}
