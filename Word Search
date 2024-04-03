@@ -1,0 +1,38 @@
+class Solution {
+       public boolean isvalid(int i,int j,int m,int n,char[][]board,String word,boolean[][]vis,int count){
+          if(i>=m || j>=n ||i<0 ||j<0 || vis[i][j]){
+          return false;
+          }
+           if(board[i][j] != word.charAt(count)) return false;
+           if(count==word.length()-1){
+               return true;
+           }
+          vis[i][j]=true;
+          count++;
+          if(isvalid(i+1, j,m,n, board, word,vis,count) ||
+           isvalid(i, j+1, m,n, board, word,vis,count) ||
+           isvalid(i-1, j,m,n, board, word,vis,count) ||
+           isvalid(i, j-1,m,n, board, word,vis,count)
+           ){
+               return true;
+           }
+           vis[i][j]=false;
+           return false;
+       }
+    public boolean exist(char[][] board, String word) {
+      int m =board.length;
+      int n=board[0].length;
+       int count=0;
+       boolean vis[][]=new boolean[m][n];
+      for(int i=0;i<m;i++){
+          for(int j=0;j<n;j++){
+              if(board[i][j]==word.charAt(0)){
+                  if(isvalid(i,j,m,n,board,word,vis,0)){
+                      return true;
+                  }
+              }
+          }
+      }
+      return false;
+    }
+}
