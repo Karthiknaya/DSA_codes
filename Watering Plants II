@@ -1,0 +1,27 @@
+class Solution{
+    public int minimumRefill(int[] plants, int capacityA, int capacityB){
+        int total_refills=0;
+        int left=0;
+        int right=plants.length-1;
+        int alice_cap=capacityA;
+        int bob_cap=capacityB;
+        while(left<right){
+            if(alice_cap<plants[left]){
+                total_refills++;
+                alice_cap=capacityA;
+            }
+            if(bob_cap<plants[right]){
+                total_refills++;
+                bob_cap=capacityB;
+            }
+            alice_cap-=plants[left];
+            bob_cap-=plants[right];
+            left++;
+            right--;
+        }
+        if(left==right && Math.max(alice_cap, bob_cap) < plants[left]){
+            total_refills++;
+        }
+        return total_refills;
+    }
+}
