@@ -1,0 +1,30 @@
+class Solution{
+    public boolean checkValidString(String s){
+        Stack<Integer> left = new Stack<>();
+        Stack<Integer> stars = new Stack<>();
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch =='('){
+                left.push(i);
+            }else if(ch =='*'){
+                stars.push(i);
+            }else{
+                if(!left.isEmpty()){
+                    left.pop();
+                }else if(!stars.isEmpty()){
+                    stars.pop();
+                }else{
+                    return false;
+                }
+            }
+        }
+        while(!left.isEmpty() && !stars.isEmpty()){
+            if (left.peek() > stars.peek()){
+                return false;
+            }
+            left.pop();
+            stars.pop();
+        }
+        return left.isEmpty();
+    }
+}
