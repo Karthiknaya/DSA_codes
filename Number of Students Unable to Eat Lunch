@@ -1,0 +1,33 @@
+class Solution {
+    public int countStudents(int[] students, int[] sandwiches) {
+        int one=0;
+        int zero=0;
+        int i=0;
+        int j=0;
+        while(i<students.length){
+            if(students[i]==sandwiches[j]){
+                i++;
+                j++;
+            }else{
+                if(students[i]==1){
+                    one++;
+                }else{
+                    zero++;
+                }
+                i++;
+            }
+        }
+        while(j<sandwiches.length){
+            if(sandwiches[j]==1 && one>0){
+                one--;
+                j++;
+            }else if(sandwiches[j]==0 && zero>0){
+                zero--;
+                j++;
+            }else{
+                return zero+one;
+            }
+        }
+        return zero+one;
+    }
+}
