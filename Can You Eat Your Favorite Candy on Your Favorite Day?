@@ -1,0 +1,32 @@
+class Solution {
+    public boolean[] canEat(int[] candiesCount, int[][] queries) {
+        long prefixSum[]=new long[candiesCount.length];
+        boolean ans[]=new boolean[queries.length];
+        prefixSum[0]=candiesCount[0];
+        for(int i=1;i<candiesCount.length;i++){
+            prefixSum[i]=prefixSum[i-1]+candiesCount[i];
+        }
+        for(int i=0;i<queries.length;i++){
+            int type=queries[i][0];
+            int day=queries[i][1];
+            int cap=queries[i][2];
+            if(type==0){
+                if(prefixSum[0]>day){
+                    ans[i]=true;
+                }else{
+                    ans[i]=false;
+                }
+            }else{
+                long x=prefixSum[type-1];
+                long t=0;
+                t=x/cap;
+                if(t>day){
+                    ans[i]=false;
+                }else if(prefixSum[type]>day){
+                    ans[i]=true;
+                }  
+            }
+        }
+        return ans;
+    }
+}
