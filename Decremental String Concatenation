@@ -1,0 +1,35 @@
+class Solution{
+    int count=Integer.MAX_VALUE;
+    public int minimizeConcatenatedLength(String[] words) {
+       int dp[][][]=new int[1001][26][26];
+        get_minLength(words,words[0].length(),words[0].charAt(0),words[0].charAt(words[0].length()-1),1,dp);
+        return count;
+    }
+    private void get_minLength(String words[], int len, char start,char end,int ind,int dp[][][]){
+        if(len>=count){
+            return;
+        }
+        if(ind==words.length){
+           if(len<count){
+               count=len;
+           }
+           return;
+        }
+        if(dp[ind][start-'a'][end-'a']!=0){
+            if(dp[ind][start-'a'][end-'a']<=len){
+                return;
+            }
+        }
+        dp[ind][start-'a'][end-'a']=len;
+       if(end==words[ind].charAt(0)){
+         get_minLength(words,len+words[ind].length()-1,start,words[ind].charAt(words[ind].length()-1),ind+1,dp);
+       }else{
+           get_minLength(words,len+words[ind].length(),start,words[ind].charAt(words[ind].length()-1),ind+1,dp);
+       }
+        if(start==words[ind].charAt(words[ind].length()-1)){
+         get_minLength(words,len+words[ind].length()-1,words[ind].charAt(0),end,ind+1,dp);
+       }else{
+           get_minLength(words,len+words[ind].length(),words[ind].charAt(0),end,ind+1,dp);
+       }
+    }
+}
