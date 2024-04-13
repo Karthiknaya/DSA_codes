@@ -1,0 +1,55 @@
+class Solution {
+    public int max_area(int []heights, int n) {
+        int maxarea=0;
+        int[] nsr=new int[heights.length];
+        int[] nsl=new int[heights.length];
+        Stack<Integer> stack=new Stack<>();
+        for(int i=0;i<heights.length;i++){
+            while(!stack.isEmpty() && heights[stack.peek()]>=heights[i]){
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                nsl[i]=-1;
+            }else{
+                nsl[i]=stack.peek();
+            }
+            stack.push(i);
+        }
+        stack=new Stack<>();
+         for(int i=heights.length-1;i>=0;i--){
+            while(!stack.isEmpty() && heights[stack.peek()]>=heights[i]){
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                nsr[i]=heights.length;
+            }else{
+                nsr[i]=stack.peek();
+            }
+            stack.push(i);
+        }
+        for(int i=0;i<heights.length;i++){
+            int height=heights[i];
+            int width=nsr[i]-nsl[i]-1;
+            int currarea=height*width;
+            maxarea=Math.max(maxarea,currarea);
+        }
+        return maxarea;
+    }
+    public int maximalRectangle(char[][] matrix) {
+        int n = matrix.length, m = matrix[0].length;
+        int currRow[] = new int[m];
+        for(int j = 0; j < m; j++)
+            currRow[j] = matrix[0][j] - '0';
+        int maxi = max_area(currRow, m);
+        for(int i = 1; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(matrix[i][j] == '1')
+                    currRow[j] += 1;
+                else
+                    currRow[j] = 0;
+            }
+            maxi = Math.max(maxi, max_area(currRow, m));
+        }
+        return maxi;
+    }
+}
