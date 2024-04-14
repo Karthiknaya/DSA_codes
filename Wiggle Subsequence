@@ -1,0 +1,27 @@
+class Solution{
+    public int wiggleMaxLength(int[] nums) {
+        int n=nums.length;
+        return 1+Math.max(getMax(false,0,nums,n),getMax(true,0,nums,n));
+    }
+    private int getMax(boolean is_Flag,int idx,int[] nums,int n){
+        if(idx>=n-1){
+            return 0;
+        }
+        int val1=0;
+        int val2=0;
+        if(is_Flag==false){
+            if(nums[idx+1]-nums[idx]>0){
+               val1=1+getMax(true,idx+1,nums,n);
+            }else{
+               val1=getMax(false,idx+1,nums,n);
+            }
+        }else{
+            if(nums[idx+1]-nums[idx]<0){
+                val2=1+getMax(false,idx+1,nums,n);
+            }else{
+                val2=getMax(true,idx+1,nums,n);
+            }
+        } 
+        return Math.max(val1,val2);
+    }
+}
