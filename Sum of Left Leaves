@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isleaf(TreeNode node)
+    {
+        if(node==null)
+        {
+            return false;
+        }
+        if(node.left==null && node.right==null)
+            return true;
+        return false;
+    }
+    public int sumOfLeftLeaves(TreeNode root) {
+        int sum=0;
+        if(root!=null)
+        {
+            if(isleaf(root.left))
+                sum+=root.left.val;
+            else
+                sum+=sumOfLeftLeaves(root.left);
+                sum+=sumOfLeftLeaves(root.right);
+        }
+        return sum;
+    }
+}
