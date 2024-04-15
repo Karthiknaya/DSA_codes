@@ -1,0 +1,15 @@
+class Solution {
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4){
+        Set<Integer> set=new HashSet<>();
+        set.add(find_dist(p1, p2));
+        set.add(find_dist(p1, p3));      
+        set.add(find_dist(p1, p4)); 
+        set.add(find_dist(p2, p3));
+        set.add(find_dist(p2, p4));
+        set.add(find_dist(p3, p4));
+        return !set.contains(0) && set.size() == 2;
+    }
+     private int find_dist(int[] x1, int[] x2) {
+         return (x2[0]-x1[0]) * (x2[0]-x1[0]) + (x2[1]-x1[1]) * (x2[1]-x1[1]);
+    }
+}
