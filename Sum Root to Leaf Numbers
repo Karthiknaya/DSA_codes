@@ -1,0 +1,21 @@
+class Solution {
+    int res=0;
+    StringBuilder sb;
+    public int sumNumbers(TreeNode root) {
+        sb=new StringBuilder();
+       getval(root,sb);
+       return res; 
+    }
+    public void getval(TreeNode root,StringBuilder sb){
+        if(root==null){
+            return;
+        }
+        sb.append(root.val);
+        getval(root.left,sb);
+        getval(root.right,sb);
+        if(root.left==null && root.right==null){
+            res+=Integer.parseInt(sb.toString());
+        }
+        sb.deleteCharAt(sb.length()-1);
+    }
+}
