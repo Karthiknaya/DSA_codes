@@ -1,0 +1,22 @@
+class Solution{
+  public char slowestKey(int[] releaseTimes, String keysPressed){
+    int curr_time=0;
+    int long_time=Integer.MIN_VALUE;
+    char ans=Character.MIN_VALUE;
+    for(int i=0;i<releaseTimes.length;i++){
+      if(i == 0){
+        curr_time=releaseTimes[0];
+      }else{
+        curr_time=releaseTimes[i]-releaseTimes[i - 1];
+      }
+      if(long_time < curr_time){
+        long_time = Math.max(long_time, curr_time);
+        ans = keysPressed.charAt(i);
+      }
+      if(long_time == curr_time && ans < keysPressed.charAt(i)){
+        ans = keysPressed.charAt(i);
+      }
+    }
+    return ans;
+  }
+}
