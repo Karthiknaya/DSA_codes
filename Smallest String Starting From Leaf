@@ -1,0 +1,21 @@
+class Solution {
+    String result="";
+    public String smallestFromLeaf(TreeNode root) {
+        get_min_string(root,new StringBuilder());
+        return result;
+    }
+    public  void get_min_string(TreeNode root , StringBuilder sb){
+        if(root==null){return ;}
+        sb.insert(0,(char)(root.val + 97 ));
+        if(root.left==null && root.right ==null){
+            if(result.equals("")){result=sb.toString();}
+            else{
+                result = result.compareTo(sb.toString())>0 ? sb.toString() : result ;
+            }
+        }
+        get_min_string(root.left ,sb);
+        get_min_string(root.right ,sb);
+        sb.deleteCharAt(0);
+
+     }
+}
