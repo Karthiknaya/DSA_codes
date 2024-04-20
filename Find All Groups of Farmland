@@ -1,0 +1,29 @@
+class Solution{
+    private int[] find_coord(int[][] grid, int i, int j){
+        int down=i, right=j;
+        while(down < grid.length && grid[down][j] == 1)
+            down++;
+        while(right < grid[0].length && grid[i][right] == 1)
+            right++;
+            
+        return new int[] {i, j, down-1, right-1};
+    }
+    public int[][] findFarmland(int[][] land){
+        List<int[]> ans=new ArrayList();
+        for(int i=0; i<land.length; i++){
+            for(int j=0; j<land[0].length; j++){
+                if(land[i][j] == 1){
+                    if(i==0 && j==0)
+                        ans.add(find_coord(land, i, j));
+                    if(i==0 && j!=0 && land[i][j-1] == 0)
+                        ans.add(find_coord(land, i, j));
+                    if(i!=0 && j==0 && land[i-1][j] == 0)
+                        ans.add(find_coord(land, i, j));
+                    if(i!=0 && j!=0 && land[i-1][j] == 0 && land[i][j-1] == 0 )
+                        ans.add(find_coord(land, i, j));                     
+                }
+            }
+        }
+        return ans.toArray(new int[ans.size()][]);
+    }
+}
