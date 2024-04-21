@@ -1,0 +1,18 @@
+class Solution {
+     private int find(int[] parent, int c) {
+        if (parent[c] == c) return c;
+        return find(parent, parent[c]);
+    }
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        int[] parent = new int[n];
+        for (int i=0;i<n;i++) {
+            parent[i]=i;
+        }
+        for (int[] item:edges) {
+            int parx=find(parent,item[0]);
+            int pary=find(parent,item[1]);
+            parent[pary]=parx;
+        }
+        return find(parent,source)==find(parent, destination);
+    }
+}
