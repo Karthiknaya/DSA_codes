@@ -1,0 +1,49 @@
+class Solution {
+    class Pair{
+    int id;
+    int level;
+
+    Pair(int id,int level)
+    {
+        this.id=id;
+        this.level=level;
+    }
+}
+    public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
+        int n=friends.length;
+        List<List<Integer>> graph=new ArrayList<>();
+         Map<String,Integer> map=new HashMap<>();
+        int[] visited=new int[n];
+        for(int i=0;i<n;i++)
+            graph.add(new ArrayList<>());
+        for(int i=0;i<n;i++){
+            for(int x:friends[i]){
+                graph.get(i).add(x);
+            }
+        }
+        Queue<Pair> q=new LinkedList<>();
+        q.add(new Pair(id,0));
+        visited[id]=1;
+        while(!q.isEmpty()){
+            Pair p=q.poll();
+            int pid=p.id;
+            int lvl=p.level; 
+            if(lvl==level){
+                for(String s:watchedVideos.get(pid)){
+                    map.put(s,map.getOrDefault(s,0)+1);
+                }
+            }
+            if(lvl>level)
+                continue;
+            for(int x:graph.get(pid)){
+                if(visited[x]==0){
+                    q.add(new Pair(x,lvl+1));
+                    visited[x]=1;
+                }
+            }
+        }
+        List<String> result=new ArrayList<>(map.keySet());
+        Collections.sort(result,(a,b)-> map.get(a)==map.get(b)?a.compareTo(b):map.get(a)-map.get(b));
+        return result;
+    }
+}
