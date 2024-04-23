@@ -1,0 +1,47 @@
+class Solution {
+    public int minimumOperationsToMakeEqual(int x, int y) {
+        if(y >= x){
+            return y - x;
+        }
+        Set<Integer> visited=new HashSet<>();
+        int curr_steps = 0;
+        Queue<Integer> q=new LinkedList<>();
+        q.add(x);
+        visited.add(x);
+        int upperBound = x+x-y;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                int curr = q.poll();
+                if(curr == y){
+                    return curr_steps;
+                }
+                if(curr % 11 == 0){
+                    int divide11 = curr / 11;
+                    if(!visited.contains(divide11)){
+                        visited.add(divide11);
+                        q.add(divide11);
+                    }
+                }
+                if(curr % 5 == 0){
+                    int divide5 = curr / 5;
+                    if(!visited.contains(divide5)){
+                        visited.add(divide5);
+                        q.add(divide5);
+                    }
+                }
+                if(!visited.contains(curr - 1) && (curr - 1 >= 1)){
+                    visited.add(curr - 1);
+                    q.add(curr - 1);
+                }
+                if(!visited.contains(curr + 1) && (curr + 1 <= upperBound)){
+                    visited.add(curr + 1);
+                    q.add(curr + 1);
+                }
+            }
+            curr_steps++;
+        }
+
+        return curr_steps;
+    }
+}
