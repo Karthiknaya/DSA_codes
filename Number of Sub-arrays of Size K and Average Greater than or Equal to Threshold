@@ -1,0 +1,23 @@
+class Solution {
+    public int numOfSubarrays(int[] nums, int k, int t) {
+        int count=0;
+        int n=nums.length; 
+        int left=0;
+        int right=0;
+        int avg=0;
+        int sum=0; 
+        while(right<k)
+        sum+= nums[right++]; 
+        avg = sum/k ; 
+        if(avg>=t)
+            count++; 
+        while(right<n){
+            sum-=nums[left++]; 
+            sum+=nums[right++]; 
+            avg=sum/k; 
+            if(avg>=t)
+            count++ ; 
+        }
+        return count ;
+    }
+}
