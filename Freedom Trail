@@ -1,0 +1,46 @@
+class Solution {
+    private int turnClockWise(int ind, int n) {
+        return (ind + 1) % n;
+    }
+
+    private int turnAntiClockWise(int ind, int n) {
+        return ind == 0 ? n - 1 : ind - 1;
+    }
+
+    private int findSteps(int ind, int keyInd, int n, String ring, String key, Integer[][] dp) {
+        if (keyInd == key.length()) return 0;
+        if (dp[ind][keyInd] != null) return dp[ind][keyInd];
+
+        int clockWiseSteps = 0, antiClockWiseSteps = 0;
+        int currSteps = 0;
+        int i = ind;
+        while (ring.charAt(i) != key.charAt(keyInd)) {
+            i = turnClockWise(i, n);
+            clockWiseSteps++;
+        }
+
+        clockWiseSteps++;
+
+        if (keyInd + 1 < key.length())
+            clockWiseSteps += findSteps(i, keyInd + 1, n, ring, key, dp);
+
+        i = ind;
+        while (ring.charAt(i) != key.charAt(keyInd)) {
+            i = turnAntiClockWise(i, n);
+            antiClockWiseSteps++;
+        }
+
+        antiClockWiseSteps++; 
+
+        if (keyInd + 1 < key.length())
+            antiClockWiseSteps += findSteps(i, keyInd + 1, n, ring, key, dp);
+
+        return dp[ind][keyInd] = Math.min(clockWiseSteps, antiClockWiseSteps);
+    }
+
+    public int findRotateSteps(String ring, String key) {
+        int n = ring.length();
+        Integer[][] dp = new Integer[n][key.length()];
+        return findSteps(0, 0, n, ring, key, dp);
+    }
+}
