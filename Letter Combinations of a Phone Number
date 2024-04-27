@@ -1,0 +1,28 @@
+class Solution {
+     List<String> ans = null;
+    String [] possiblestrings = {"0","1","abc", "def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    public List<String> letterCombinations(String digits) {
+        ans= new ArrayList<>();
+        if(digits.length() == 0){
+            return ans;
+        }
+        nextitem(0,digits,new StringBuilder());
+        return ans;
+    }
+
+    void nextitem(int start ,String digits,StringBuilder sb){
+
+        if(start == digits.length()){
+            ans.add(sb.toString());
+            return; 
+        }
+        String str = possiblestrings[Character.getNumericValue(digits.charAt(start))];
+
+        for(char ch:str.toCharArray()){
+            sb.append(ch);
+            nextitem(start+1,digits,sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+    }
+}
