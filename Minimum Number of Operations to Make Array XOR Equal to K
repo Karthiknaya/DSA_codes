@@ -1,0 +1,14 @@
+class Solution {
+    public int minOperations(int[] nums, int k) {
+        int xor_k=k;
+        for(int item: nums) {
+            xor_k ^=item;
+        }
+        int ops=0;
+        while(xor_k >0){
+            ops += xor_k&1;
+            xor_k >>= 1;
+        }
+        return ops;
+    }
+}
