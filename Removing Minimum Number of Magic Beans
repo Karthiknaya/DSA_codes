@@ -1,0 +1,16 @@
+class Solution{
+    public long minimumRemoval(int[] beans){
+        Arrays.sort(beans);
+        long sum=0;
+        int n=beans.length;
+        for(int item:beans){
+            sum+=item;
+        }
+        long min=sum;
+        for(int i=0;i<beans.length;i++){
+            long val = sum - ((n-i) * (long)beans[i]);
+            min = Math.min(min,val);
+        }
+        return min;
+    }
+}
