@@ -1,0 +1,37 @@
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int[][] ans=new int[m][n];
+        int top=0;
+        int bottom=m;
+        int start=0;
+        int end=n;
+        ListNode curr=head;
+        while(start<end && top<bottom){
+          for(int i=start;i<end;i++){
+            ans[top][i] = curr!=null?curr.val:-1;
+            curr = curr!=null? curr.next:null;
+          }
+          top++;
+          for(int i=top;i<bottom;i++){
+            ans[i][end-1] = curr!=null?curr.val:-1;
+           curr = curr!=null? curr.next:null;
+          }
+          end--;
+          boolean is_done = start<end && top<bottom;
+          if(!is_done)break;
+
+           for(int i=end-1;i>=start;i--){
+            ans[bottom-1][i] = curr!=null?curr.val:-1;
+           curr = curr!=null? curr.next:null;
+          }
+          bottom--;
+
+          for(int i=bottom-1;i>=top;i--){
+            ans[i][start] = curr!=null?curr.val:-1;
+          curr = curr!=null? curr.next:null;
+          }
+          start++;
+        }
+        return ans;
+    }
+}
