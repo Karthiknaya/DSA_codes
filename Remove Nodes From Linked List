@@ -1,0 +1,30 @@
+class Solution {
+    public ListNode removeNodes(ListNode head) {
+      ListNode newhead=new ListNode(-1);
+      ListNode  temp=newhead;
+      Stack<Integer> s=new Stack<>();
+       ListNode prev=null;
+       ListNode curr=head;
+       ListNode next=null;
+       while(curr!=null){
+           next=curr.next;
+           curr.next=prev;
+           prev=curr;
+           curr=next;
+       } 
+      s.push(prev.val);
+      prev=prev.next;
+       while(prev!=null){
+           if(s.peek()<=prev.val){
+               s.push(prev.val);
+           }
+           prev=prev.next;
+       }
+       while(!s.isEmpty()){
+           temp.next=new ListNode(s.peek());
+           temp=temp.next;
+           s.pop();
+       }
+       return newhead.next;
+    }
+}
