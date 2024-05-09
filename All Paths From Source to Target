@@ -1,0 +1,24 @@
+class Solution{
+    List<List<Integer>> ans;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph){
+        boolean[] visited=new boolean[graph.length];
+        ans=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+        dfs(graph,0, graph.length-1,visited,list);
+        return ans;
+    }
+    private void dfs(int[][] graph,int src, int target, boolean[] visited,List<Integer> list){
+        visited[src]=true;
+        list.add(src);
+        if(src==target){
+             ans.add(new ArrayList<>(list));
+        }
+        for(int neighbour:graph[src]){
+            if(visited[neighbour]!=true){
+                dfs(graph,neighbour,target,visited,list);
+            }
+        }
+        list.remove(list.size()-1);
+        visited[src]=false;
+    }
+}
