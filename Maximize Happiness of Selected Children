@@ -1,0 +1,18 @@
+class Solution {
+    public long maximumHappinessSum(int[] happiness, int k) {
+        long total_count=0;
+        int dec_factor=0;
+        Arrays.sort(happiness);
+        int n=happiness.length;
+        while(k>0){
+            int temp=happiness[n-1];
+            temp-=dec_factor;
+            if(temp>0)
+                total_count+=temp;
+            n--;
+            k--;
+            dec_factor++;
+        }
+        return total_count;
+    }
+}
