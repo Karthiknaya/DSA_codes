@@ -1,0 +1,13 @@
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        ArrayList<double[]> fractions=new ArrayList<>();
+        for(int i=0;i<arr.length;i++){
+            for(int j=0;j<arr.length;j++){
+                fractions.add(new double[]{arr[i],arr[j],arr[j]/(double)arr[i]});
+            }
+        }
+        Collections.sort(fractions,Comparator.comparingDouble(f -> f[2]));
+        double[] newarr=fractions.get(k-1);
+        return new int[]{(int)newarr[1],(int)newarr[0]};
+    }
+}
