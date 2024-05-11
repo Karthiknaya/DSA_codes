@@ -1,0 +1,35 @@
+class Solution{
+    class Pair {
+        int quality;
+        int wage;
+        double ratio;
+        
+        public Pair(int quality, int wage) {
+            this.quality = quality;
+            this.wage = wage;
+            this.ratio = (double) wage / quality;
+        }
+    }
+    public double mincostToHireWorkers(int[] quality, int[] wage,int k){
+        int n = quality.length;
+        Pair[] arr = new Pair[n];
+        for(int i = 0; i < n; i++){
+            arr[i] = new Pair(quality[i], wage[i]);
+        }
+        Arrays.sort(arr, Comparator.comparingDouble(w -> w.ratio));
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int totalQuality = 0;
+        double minCost = Double.MAX_VALUE;
+        for(Pair worker : arr){
+            totalQuality += worker.quality;
+            pq.offer(worker.quality);
+            if(pq.size() > k){
+                totalQuality -= pq.poll();
+            }
+            if(pq.size() == k){
+                minCost = Math.min(minCost, totalQuality * worker.ratio);
+            }
+        }
+        return minCost;
+    }
+}
