@@ -1,0 +1,31 @@
+class Solution {
+    int[] dx={-1,0,1,0};
+    int[] dy={0,1,0,-1};
+    int maxGold=0;
+    int getmax(int row,int col,int[][] grid) {
+        if(row<0 || row>=grid.length || col<0 || col>=grid[0].length || grid[row][col]==0) return 0;
+        int curr=grid[row][col];
+        grid[row][col]=0;
+        int localMax=curr;
+        for(int i=0;i<4;i++) {
+            int newRow=row+dx[i];
+            int newCol=col+dy[i];
+            localMax=Math.max(localMax, curr+getmax(newRow,newCol,grid));
+        }
+        grid[row][col]=curr;
+
+        return localMax;
+    }
+    public int getMaximumGold(int[][] grid) {
+        int rows=grid.length;
+        int columns=grid[0].length;
+        for(int r=0;r<rows;r++) {
+            for(int c=0;c<columns;c++) {
+                if(grid[r][c]!=0) {
+                    maxGold=Math.max(maxGold,getmax(r,c,grid));
+                }
+            }
+        }
+        return maxGold;
+    }   
+}
