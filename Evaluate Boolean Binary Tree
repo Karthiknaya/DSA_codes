@@ -1,0 +1,21 @@
+class Solution {
+    public boolean evaluateTree(TreeNode root) {
+        get_val(root);
+        return root.val==1;
+    }
+    private void get_val(TreeNode root) {
+        if(root==null)  return;
+        get_val(root.left);
+        get_val(root.right);
+        if(root.left!=null&&root.right!=null){
+            if(root.val==2){
+                if(root.left.val==1||root.right.val==1)    root.val=1;
+                else    root.val=0;
+            }
+            else{
+                if(root.left.val==0||root.right.val==0)    root.val=0;
+                else    root.val=1;
+            }
+        }
+    }
+}
