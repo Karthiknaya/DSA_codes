@@ -1,0 +1,27 @@
+class StockPrice{
+    TreeMap<Integer, Integer> timeMap;
+    TreeMap<Integer, Integer> priceMap;
+    public StockPrice(){
+        timeMap = new TreeMap();
+        priceMap = new TreeMap();
+    }
+    public void update(int timestamp, int price){
+        if(timeMap.containsKey(timestamp)){
+            priceMap.put(timeMap.get(timestamp), priceMap.getOrDefault(timeMap.get(timestamp), 0)-1);
+            if(priceMap.get(timeMap.get(timestamp)) <= 0) {
+                priceMap.remove(timeMap.get(timestamp));
+            }
+        }
+        priceMap.put(price, priceMap.getOrDefault(price, 0)+1);
+        timeMap.put(timestamp, price);
+    }
+    public int current(){
+        return timeMap.lastEntry().getValue();
+    }
+    public int maximum(){
+        return priceMap.lastKey();
+    }
+    public int minimum(){
+        return priceMap.firstKey();
+    }
+}
