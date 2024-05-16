@@ -1,0 +1,39 @@
+class Solution{
+    private long[] dp;
+    public long maxTaxiEarnings(int n, int[][] rides){
+        Arrays.sort(rides,(a1, a2) ->{
+            return a1[0]-a2[0];
+        });
+        this.dp = new long[rides.length];
+        Arrays.fill(dp, -1);
+        return dp(0,rides);
+    }
+    public long dp(int i, int[][] rides){
+        if(i >= rides.length){
+            return 0;
+        }
+        if(dp[i] != -1){
+            return dp[i];
+        }
+        long skip = dp(i+1, rides);
+        int nextIdx = get_next_index(rides, i);
+        long take = dp(nextIdx, rides) + rides[i][1] - rides[i][0] + rides[i][2];
+        return dp[i] = Math.max(skip, take); 
+    }
+     private int get_next_index(int[][] rides, int start){
+        int left = start;
+        int right = rides.length;
+        int current_end = rides[start][1];
+        while(left < right) {
+            int mid = (left + right) / 2;
+            int can_be_next = rides[mid][0];
+            if(can_be_next<current_end) {
+                left = mid + 1;
+            }else{
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+}
