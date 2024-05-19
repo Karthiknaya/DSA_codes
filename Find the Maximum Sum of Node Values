@@ -1,0 +1,17 @@
+class Solution {
+    public long maximumValueSum(int[] nums, int k, int[][] edges){
+        long ans = 0L;
+        int count_pairs = 0, diff=Integer.MAX_VALUE;
+        for(int val:nums){
+            int xor = val ^ k;
+            if (val>xor) ans+=val;
+            else{
+                ans += xor;
+                count_pairs++;
+            }
+            diff = Math.min(diff,Math.abs(val-xor));
+        }
+        if(count_pairs % 2 == 0) return ans;
+        return ans-diff;
+    }
+}
