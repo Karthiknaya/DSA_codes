@@ -1,0 +1,41 @@
+class Solution {
+    public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        List<int[]> result = new ArrayList<>();
+        result.add(new int[]{rStart, cStart});
+        int top = rStart - 1; 
+        int bottom = rStart + 1; 
+        int left = cStart - 1; 
+        int right = cStart + 1;
+        while(result.size() < rows * cols){
+            if(right < cols){
+                for (int i = top + 1; i < bottom; i++){
+                    if (i >= 0 && i < rows)
+                        result.add(new int[]{i, right});
+                }
+                right++; 
+            }
+            if (bottom < rows){
+                for (int i = right - 1; i > left; i--){
+                    if (i >= 0 && i < cols) 
+                        result.add(new int[]{bottom, i});
+                }
+                bottom++; 
+            }
+            if(left >= 0){
+                for (int i = bottom - 1; i > top; i--){
+                    if (i >= 0 && i < rows)
+                        result.add(new int[]{i, left});
+                }
+                left--;
+            }
+            if(top >= 0){
+                for (int i = left + 1; i < right; i++){
+                    if (i >= 0 && i < cols) 
+                        result.add(new int[]{top, i});
+                }
+                top--;
+            }
+        }
+        return result.toArray(new int[result.size()][]);
+    }
+}
