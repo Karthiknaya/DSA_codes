@@ -1,0 +1,15 @@
+class Solution {
+    public int subsetXORSum(int[] nums) {
+     return   inexclud(nums,0,0);
+    }
+    public int inexclud(int[] nums,int level,int prevsum)
+    {
+        if(level==nums.length)
+        {
+            return prevsum;
+        }
+        int include=inexclud(nums,level+1,prevsum^nums[level]);
+        int exclude=inexclud(nums,level+1,prevsum);
+        return include+exclude;
+    }
+}
