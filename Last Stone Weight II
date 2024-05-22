@@ -1,0 +1,30 @@
+class Solution {
+    public int lastStoneWeightII(int[] stones) {
+        int total_weight=0;
+        for(int wt:stones){
+            total_weight+=wt;
+        }
+        int dp[][] = new int[stones.length][total_weight + 1];
+        for(int row[] : dp){
+            Arrays.fill(row, -1);
+        }
+        int total_collected_weight = get_weight(0, total_weight / 2, stones, dp);
+
+        return total_weight -2*(total_collected_weight);
+    }
+
+    public int get_weight(int ind, int weight, int stones[], int dp[][]){
+        if(ind >= stones.length || weight < 0){
+            return 0;
+        }
+        if(dp[ind][weight] != -1){
+            return dp[ind][weight];
+        }
+        int dont_take = 0 + get_weight(ind + 1, weight, stones, dp);
+        int take=0;
+        if(weight-stones[ind] >=0){
+            take = stones[ind] + get_weight(ind + 1, weight - stones[ind], stones, dp);
+        }
+        return dp[ind][weight] = Math.max(dont_take, take);
+    }
+}
