@@ -1,0 +1,24 @@
+class Solution {
+    List<List<Integer>> result;
+    public int beautifulSubsets(int[] nums, int k) {
+        result=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+        Arrays.sort(nums);
+        findsets(0,nums,k,list);
+        return result.size();
+    }
+    public void findsets(int start,int[] nums,int k,List<Integer> list){
+        if(start==nums.length){
+            if(list.size()>0){
+                result.add(new ArrayList<>(list));
+            }
+            return;
+        }
+        if(!(list.contains(nums[start]-k))){
+            list.add(nums[start]);
+            findsets(start+1,nums,k,list);
+            list.remove(list.size()-1);
+        }
+        findsets(start+1,nums,k,list);
+    }
+}
