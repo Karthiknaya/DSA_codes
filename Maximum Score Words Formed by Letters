@@ -1,0 +1,42 @@
+class Solution {
+    int ans = 0;
+    public int maxScoreWords(String[] words, char[] letters, int[] score){
+
+        int[] total_score = new int[words.length];
+        for (int i = 0; i < total_score.length; i++) {
+            for (int j = 0; j < words[i].length(); j++) {
+                total_score[i] += score[words[i].charAt(j) - 'a'];
+            }
+        }
+        int[] letter_avail = new int[26];
+        for (int i = 0; i < letters.length; i++) {
+            letter_avail[letters[i] - 'a']++;
+        }
+        get_max(words, letter_avail, total_score, 0, 0);
+        return ans;
+    }
+    public void get_max(String[] words, int[] letter_avail, int[] total_score, int index, int cur) {
+        if (index == words.length) {
+            ans=Math.max(ans, cur);
+            return;
+        }
+        //skip current word
+        get_max(words, letter_avail, total_score, index + 1, cur);
+        boolean success = true;
+        String word = words[index];
+        int[] copy_arr = Arrays.copyOf(letter_avail, letter_avail.length);
+        for (int i = 0; i < words[index].length(); i++) {
+            char c = words[index].charAt(i);
+            if (copy_arr[c - 'a'] > 0) {
+                copy_arr[c - 'a']--;
+            } else {
+                success = false;
+                break;
+            }
+        }
+        if (success) {
+            //if construct of curr word is possible then add score
+            get_max(words, copy_arr, total_score, index + 1, cur + total_score[index]);
+        }
+    }
+}
