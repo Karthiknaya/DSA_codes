@@ -1,0 +1,22 @@
+class Solution {
+    public int getmax(int n, int A, int L, int dp[][][]){
+        if(n == 0) return 1;
+        int result = 0;
+        if(dp[n][A][L] != -1) return dp[n][A][L];
+        result = (result + getmax(n-1, A, 0, dp)) % 1000000007; 
+        if(A < 1) result = (result + getmax(n-1, A+1, 0, dp)) % 1000000007;
+        if(L < 2) result = (result + getmax(n-1, A, L+1, dp)) % 1000000007; 
+        return dp[n][A][L] = result;
+    }
+    public int checkRecord(int n) {
+        int dp[][][] = new int[n+1][2][3];
+        for(int i = 0; i <= n; i++){
+            for(int j = 0; j < 2; j++){
+                for(int k = 0; k < 3; k++){
+                    dp[i][j][k] = -1;
+                }
+            }
+        }
+        return getmax(n, 0, 0, dp);
+    }
+}
