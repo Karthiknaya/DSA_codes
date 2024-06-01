@@ -1,0 +1,16 @@
+class Solution {
+    int curr_sum=0;
+    public TreeNode bstToGst(TreeNode root) {
+        modify_bst(root);
+        return root;
+    }
+    private void modify_bst(TreeNode root){
+        if(root == null){
+            return;
+        }
+        modify_bst(root.right);
+        curr_sum += root.val;
+        root.val = curr_sum;
+        modify_bst(root.left);
+    }
+}
