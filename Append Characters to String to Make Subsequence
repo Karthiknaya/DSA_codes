@@ -1,0 +1,17 @@
+class Solution {
+    public int appendCharacters(String s, String t) {
+       char[] arr1 = s.toCharArray();
+       char[] arr2 = t.toCharArray();
+       int ind1 = 0;
+       int ind2 = 0;
+       while(ind1 < s.length() && ind2 < t.length()){
+        if(arr1[ind1] == arr2[ind2]){
+            ind1++;
+            ind2++;
+        }else{
+            ind1++;
+        }
+       }
+       return t.length()-ind2;
+    }
+}
