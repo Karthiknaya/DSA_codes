@@ -1,0 +1,25 @@
+class Solution {
+    public int[] prevPermOpt1(int[] arr) {
+        int n = arr.length;
+        int small_ind = n-2;
+        while( small_ind>=0){
+            if(arr[small_ind] > arr[small_ind+1]){
+                break;
+            }else{
+                small_ind--;
+            }
+        }
+        if(small_ind < 0 ) return arr;
+        int right = n-1;
+        while (right > small_ind && arr[small_ind] <= arr[right]){
+            right--;
+            while (right > small_ind && arr[right] == arr[right-1]){
+                right--;
+            }
+        }
+        int temp = arr[right];
+        arr[right] = arr[small_ind];
+        arr[small_ind] = temp;
+        return arr;
+    }
+}
