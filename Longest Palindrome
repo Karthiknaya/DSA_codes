@@ -1,0 +1,20 @@
+class Solution {
+    public int longestPalindrome(String s) {
+       HashMap<Character,Integer> map=new HashMap<>();
+       for(char ch:s.toCharArray()){
+           map.put(ch,map.getOrDefault(ch,0)+1);
+       }
+       int count=0;
+      boolean containsoddval=false;
+      for(int amount:map.values()){
+        if(amount%2!=0){
+          containsoddval=true;
+        }
+        count+=2*(amount/2);
+      }
+      if(containsoddval==true){
+        count+=1;
+      }
+      return count;
+    }
+}
