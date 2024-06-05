@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> commonChars(String[] words) {
+        int n = words.length; 
+        List<String> ans = new ArrayList<>(); 
+        int[] min_occ = new int[26]; 
+        for (char c : words[0].toCharArray()) {
+            min_occ[c - 'a']++;
+        }
+        for (int i = 1; i < n; ++i) {
+            int[] curr = new int[26]; 
+            for (char c : words[i].toCharArray()) {
+                curr[c - 'a']++;
+            }
+            for (int j = 0; j < 26; ++j) {
+                min_occ[j] = Math.min(min_occ[j], curr[j]);
+            }
+        }
+        for (int i = 0; i < 26; ++i) {
+            while (min_occ[i]-- > 0) {
+                ans.add(String.valueOf((char) (i + 'a')));
+            }
+        }
+        return ans;
+    }
+}
