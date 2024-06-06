@@ -1,0 +1,20 @@
+class Solution {
+    public int minimumDifference(int[] a, int k) {
+        if(a.length==1 || a.length<k){
+            return 0;
+        }
+        Arrays.sort(a);
+        int min=Integer.MAX_VALUE;
+        int left=0;
+        int right=left+k-1;
+        while(right<a.length){
+            int sum=a[right]-a[left];
+            if(sum<min){
+                min=sum;
+            }
+            left++;
+            right++;
+        }
+        return min;
+    }
+}
