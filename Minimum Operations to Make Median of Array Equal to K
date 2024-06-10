@@ -1,0 +1,16 @@
+class Solution {
+    public long minOperationsToMakeMedianK(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int curr_median = nums[n/2];
+        long count = Math.abs(k-curr_median);
+        for(int i = 0; i < n/2; i++) {
+            if(nums[i] > k) count += Math.abs(k-nums[i]);
+        }
+        for(int i = n/2+1; i < n; i++) {
+            if(nums[i] < k) count += Math.abs(k-nums[i]);
+        }
+
+        return count;
+    }
+}
