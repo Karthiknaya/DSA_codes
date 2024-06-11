@@ -1,0 +1,22 @@
+class Solution{
+    public int minimumDeletions(String word, int k){
+        int ans = Integer.MAX_VALUE;
+        int[] count = new int[26];
+        for(int i=0;i<word.length();i++){
+            count[word.charAt(i) -'a'] ++; 
+        }
+        for(int i=0;i<count.length;i++) {
+            if(count[i] == 0) continue;
+            int curr_remove = 0;
+            for(int j = 0; j < count.length; j++) {
+                if(count[j] == 0) continue;
+                if(count[i] > count[j]) curr_remove += count[j];
+                else if(Math.abs(count[i] - count[j]) > k) {
+                    curr_remove += count[j] - count[i] - k;
+                }
+            }
+            ans = Math.min(ans, curr_remove);
+        }
+        return ans;
+    }
+}
