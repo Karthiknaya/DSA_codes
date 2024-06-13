@@ -1,0 +1,27 @@
+class Solution {
+    public int minAnagramLength(String s) {
+        int n = s.length();
+        for(int curr_ind=1;curr_ind<=n;curr_ind++){
+            if(n%curr_ind==0 && isOk(s,curr_ind)){
+                return curr_ind;
+            }
+        }
+        return n;
+        
+    }
+    private boolean isOk(String s,int curr_ind){
+        int n = s.length();
+        int [] str= new int[26];
+        for(int i=0;i<curr_ind;i++) str[s.charAt(i)-'a']++;
+        for(int i=curr_ind;i<n;i+=curr_ind){
+            int [] anagram = new int[26];
+            for(int j=i;j<i+curr_ind;j++){
+                anagram[s.charAt(j)-'a']++;
+            }
+            for(int ind=0;ind<26;ind++){
+                if(str[ind]!=anagram[ind])return false;
+            }
+        }
+        return true;
+    }
+}
