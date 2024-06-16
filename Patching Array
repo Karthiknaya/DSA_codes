@@ -1,0 +1,19 @@
+class Solution {
+    public int minPatches(int[] nums, int n) {
+        long curr_miss_num = 1;
+        int count = 0;
+        int ind = 0;
+
+        while (curr_miss_num <= n) {
+            if (ind < nums.length && nums[ind] <= curr_miss_num) {
+                curr_miss_num += nums[ind];
+                ind++;
+            } else {
+                curr_miss_num += curr_miss_num;
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
