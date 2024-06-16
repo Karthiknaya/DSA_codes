@@ -1,0 +1,26 @@
+class Solution {
+    List<Integer> ans = new ArrayList<>();
+    int index = 0;
+    public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
+        get_matched(root,voyage);
+        return ans;
+    }
+    public void get_matched(TreeNode root,int[] voyage){
+        if(root == null || ans.size() == 1 && ans.get(0) == -1){
+            return;
+        }
+        if(root.val != voyage[index]){
+            ans = Arrays.asList(-1);
+            return;
+        }
+        index++;
+        if(root.left != null && root.left.val != voyage[index]){
+            ans.add(root.val);
+            get_matched(root.right,voyage);
+            get_matched(root.left,voyage);
+        }else{
+            get_matched(root.left,voyage);
+            get_matched(root.right,voyage);
+        }
+    }
+}
