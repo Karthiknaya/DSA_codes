@@ -1,0 +1,30 @@
+class Solution{
+    static boolean get_maximum(int arr[], int x, int m){
+        int n=arr.length;
+        int total_ball_placed=1;
+        int prev = arr[0];
+        for(int i=1; i<n; i++){
+            if(arr[i]-prev>=x){
+                total_ball_placed++;
+                prev=arr[i];
+            }
+        }
+        if(total_ball_placed>=m) return true;
+        return false;
+    }
+    public int maxDistance(int[] arr, int m) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        int left=1;
+        int right=arr[n-1]-arr[0];
+        int ans=-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(get_maximum(arr,mid,m)){
+                ans=mid;
+                left=mid+1;
+            }else right = mid-1;
+        }
+        return ans;
+    }
+}
