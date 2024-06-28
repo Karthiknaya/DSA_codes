@@ -1,0 +1,16 @@
+class Solution {
+    public long maximumImportance(int n, int[][] roads) {
+        long ans=0;
+        long count[] = new long[n];
+        for(int i=0; i<roads.length; i++){
+            count[roads[i][0]]++;
+            count[roads[i][1]]++;
+        }
+        Arrays.sort(count);
+        for(int i=count.length-1;i>=0;i--){
+            ans+=count[i] * n;
+            n--;
+        }
+        return ans;
+    }
+}
