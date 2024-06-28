@@ -1,0 +1,20 @@
+class Solution {
+    public int maxArea(int[] height) {
+       int i=0;
+       int j=height.length-1;
+       int currlevel=0;
+       int maxlevel=0;
+       while(i<j){
+           int min=Math.min(height[i],height[j]);
+           int diff=j-i;
+           currlevel=min*diff;
+           maxlevel=Math.max(maxlevel,currlevel);
+           if(height[i]<height[j]){
+               i++;
+           }else{
+               j--;
+           }
+       }
+       return maxlevel;
+    }
+}
