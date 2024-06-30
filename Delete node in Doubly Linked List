@@ -1,0 +1,22 @@
+class Solution {
+    public Node deleteNode(Node head, int x) {
+        Node temp = head;
+        Node pre = null , nex = null;
+        int count = 1;
+        
+        while(count != x ){
+            head = head.next;
+            count++;
+        }
+        
+        pre = head.prev;
+        nex = head.next;
+        
+        if(nex != null)
+        nex.prev = pre;
+        if(pre != null)
+        pre.next = nex;
+        
+        return pre == null ? nex : temp; //If x = 1 then 1st condition will be satistied
+    }
+}
