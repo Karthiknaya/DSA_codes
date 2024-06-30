@@ -1,0 +1,76 @@
+class Solution {
+    public int maxNumEdgesToRemove(int n, int[][] edges) {
+        DSU alice_DSU = new DSU(n);
+        DSU bob_DSU = new DSU(n);
+        int extra_alone_edges = 0;
+        Arrays.sort(edges, (a, b) -> b[0] - a[0]);
+        for (int[] edge : edges) {
+            int type = edge[0];
+            int u= edge[1] - 1;
+            int v =edge[2] - 1;
+
+            if (type == 3) {
+                boolean aliceHas = alice_DSU.union(u, v);
+                boolean dbobHas = bob_DSU.union(u, v);
+                if (aliceHas || dbobHas) {
+                    extra_alone_edges++;
+                }
+            } else if (type == 1) {
+                if (alice_DSU.union(u, v)) {
+                    extra_alone_edges++;
+                }
+            } else if (type == 2) {
+                if (bob_DSU.union(u, v)) {
+                    extra_alone_edges++;
+                }
+            }
+        }
+        if (alice_DSU.getCount() > 1 || bob_DSU.getCount() > 1) {
+            return -1;
+        }
+        return edges.length - extra_alone_edges;
+    }
+    class DSU {
+        int[] parent;
+        int[] rank;
+        int count;
+        public DSU(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            count = n;
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+                rank[i] = 0;
+            }
+        }
+
+        public int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);
+            }
+            return parent[x];
+        }
+
+        public boolean union(int x, int y) {
+            int par_X = find(x);
+            int Par_Y = find(y);
+
+            if (par_X != Par_Y) {
+                if (rank[par_X] > rank[Par_Y]) {
+                    parent[Par_Y] = par_X;
+                } else if (rank[par_X] < rank[Par_Y]) {
+                    parent[par_X] = Par_Y;
+                } else {
+                    parent[Par_Y] = par_X;
+                    rank[par_X]++;
+                }
+                count--;
+                return true;
+            }
+            return false;
+        }
+        public int getCount() {
+            return count;
+        }
+    }
+}
