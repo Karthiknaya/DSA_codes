@@ -1,0 +1,13 @@
+class Solution {
+    public int minDifference(int[] arr) {
+        int n = arr.length;
+        if(n<=4) return 0;
+        Arrays.sort(arr);
+        int ans=Integer.MAX_VALUE;
+         ans = Math.min(ans,arr[n-4]-arr[0]);  
+         ans = Math.min(ans,arr[n-3]-arr[1]);  
+         ans = Math.min(ans,arr[n-2]-arr[2]);  
+         ans = Math.min(ans,arr[n-1]-arr[3]); 
+        return ans;    
+    }
+}
