@@ -1,0 +1,29 @@
+class Solution {
+    public String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> map =new HashMap<String, String>();
+        boolean Is_open=false;
+        StringBuilder ans=new StringBuilder();
+        StringBuilder curr=new StringBuilder();
+        for(List<String> item : knowledge){
+            map.put(item.get(0), item.get(1));
+        }
+        int ind=0;
+        while(ind<s.length()){
+            if(s.charAt(ind)=='('){
+                Is_open=true;
+            }else if(s.charAt(ind) == ')'){
+                ans.append(map.getOrDefault(curr.toString(), "?"));
+                curr = new StringBuilder();
+                Is_open=false;
+            }else{
+                if(Is_open){
+                    curr.append(s.charAt(ind));
+                }else{
+                    ans.append(s.charAt(ind));
+                }
+            }
+            ind++;
+        }
+        return ans.toString();
+    }
+}
