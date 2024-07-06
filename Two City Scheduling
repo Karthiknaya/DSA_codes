@@ -1,0 +1,31 @@
+class Solution{
+    public int twoCitySchedCost(int[][] costs){
+        PriorityQueue<Integer> Extra_fill_a = new PriorityQueue<>();
+        PriorityQueue<Integer> Extra_fill_b = new PriorityQueue<>();
+        int total_cost=0;
+        int Count_A=0;
+        int Count_B=0;
+        for(int i=0;i<costs.length;i++){
+            total_cost = total_cost+Math.min(costs[i][0],costs[i][1]);
+            if(costs[i][0] > costs[i][1]){
+                Count_B++;
+                Extra_fill_a.add(Math.abs(costs[i][0] - costs[i][1]));
+            }else{
+                Count_A++;
+                Extra_fill_b.add(Math.abs(costs[i][0] - costs[i][1]));
+            }if(Count_A>(costs.length/2)){
+                if(!Extra_fill_b.isEmpty()){
+                    total_cost = total_cost + Extra_fill_b.poll();
+                    Count_A--;
+                }
+            }
+            if(Count_B>(costs.length/2)){
+                if(!Extra_fill_a.isEmpty()){
+                    total_cost = total_cost + Extra_fill_a.poll();
+                    Count_B--;
+                }
+            }
+        }
+        return total_cost;
+    }
+}
