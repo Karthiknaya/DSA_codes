@@ -1,0 +1,30 @@
+class Solution {
+    public int[][] substringXorQueries(String s, int[][] queries) {
+        int n=queries.length;
+        int ind=0;
+        int[][] ans=new int[n][2];
+        n=s.length();
+        Map<String, Integer> map=new HashMap<>();
+        for(ind=0;ind<n;++ind){
+            if(s.charAt(ind) == '0'){
+                map.putIfAbsent("0",ind);
+                continue;
+            }
+            StringBuilder sb=new StringBuilder();
+            for(int j=ind;j<n&& j-ind<32;++j){
+                sb.append(s.charAt(j));
+                map.putIfAbsent(sb.toString(),ind);
+            }
+        }
+        ind=0;
+        for(int[] query:queries){
+            int val=query[1]^query[0];
+            String str_to_find=Integer.toBinaryString(val);
+            if(map.get(str_to_find)==null)
+                ans[ind++]=new int[]{-1, -1};
+            else
+                ans[ind++]=new int[]{map.get(str_to_find), map.get(str_to_find)+str_to_find.length()-1};
+        }
+        return ans;
+    }
+}
