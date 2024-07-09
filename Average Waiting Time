@@ -1,0 +1,17 @@
+class Solution {
+    public double averageWaitingTime(int[][] customers) {
+        int n = customers.length;
+        long totalWaitTime = 0;
+        long currJobFinish = 0;
+        for(int[] customer : customers){
+            if(customer[0] >= currJobFinish){
+                totalWaitTime += customer[1];
+                currJobFinish = customer[0] + customer[1];
+            }else{
+                totalWaitTime += currJobFinish - customer[0] + customer[1];
+                currJobFinish = currJobFinish + customer[1];
+            }
+        }
+        return (double)totalWaitTime / n;
+    }
+}
