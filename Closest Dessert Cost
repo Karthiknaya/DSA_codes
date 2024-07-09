@@ -1,0 +1,23 @@
+class Solution {
+    int near_to_target=0;
+    public void get_close(int ind, int curCost,int[] toppingCosts, int target){
+        if(Math.abs(target-curCost)<Math.abs(target-near_to_target) ||Math.abs(target-curCost) == Math.abs(target-near_to_target) && curCost<near_to_target ){
+            near_to_target=curCost;
+        }
+        if(ind==toppingCosts.length || curCost>target)
+        return;
+        //dont_take
+        get_close(ind+1,curCost,toppingCosts,target);
+        //take
+        get_close(ind+1,curCost+toppingCosts[ind],toppingCosts,target);
+        //take twice as limit is 2 for each topping
+        get_close(ind+1,curCost+toppingCosts[ind]*2,toppingCosts,target);
+    }
+    public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+        near_to_target=baseCosts[0];
+        for(int cost:baseCosts){
+            get_close(0,cost,toppingCosts,target);
+        }
+        return near_to_target;
+    }
+}
