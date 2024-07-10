@@ -1,0 +1,23 @@
+class Solution {
+    public int minOperations(String[] logs) {
+        int ans=0;
+        int n=logs.length;
+        for (int i=0;i<n;i++){
+            if(logs[i].equals("../")){
+                //one back if inside any foolder and if not inside any folder dont do anything
+                if(ans==0){
+                    ans=0;
+                }else{
+                    ans--;
+                }
+            }else if(logs[i].equals("./")){
+                //same folder
+                ans=ans;
+            }else{
+                //move inside any file
+                ans++;
+            }
+        }
+        return ans;
+    }
+}
