@@ -1,0 +1,31 @@
+class Solution{
+    public int minimumIndex(List<Integer> nums){
+        int[] curr_max_occ = get_max_occ(nums);
+        int count=0;
+        for (int i=0;i<nums.size();i++){
+            if(curr_max_occ[0]==nums.get(i)){
+                count++;
+            }
+            if(count*2> i+1 && (curr_max_occ[1]-count) * 2 > nums.size()-i-1){
+                return i;
+            }
+        }
+        return -1; 
+    }
+    public int[] get_max_occ(List<Integer> list){
+        Map<Integer, Integer> map=new HashMap<>();
+        int m=list.size();
+        for(int i=0;i<list.size();i++){
+            map.put(list.get(i), map.getOrDefault(list.get(i),0)+1);
+        }
+        int[] arr=new int[2];
+        for (Integer key : map.keySet()) {
+            Integer value = map.get(key);
+            if (value*2>m) {
+                arr[0]=key;
+                arr[1]=value;
+            }
+        }
+        return arr;
+    }
+}
