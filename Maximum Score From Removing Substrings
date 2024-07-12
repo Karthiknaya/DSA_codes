@@ -1,0 +1,47 @@
+class Solution{
+    int points=0;
+    public int maximumGain(String s, int x, int y){
+        if (x>=y){
+            s =get_x_point(s, x);
+            s =get_y_point(s, y);
+        }else{
+            s =get_y_point(s, y);
+            s =get_x_point(s, x);
+        }
+        return points;
+    }
+    public String get_x_point(String s, int x){
+        StringBuilder sb =new StringBuilder();
+        int length = s.length();
+        int index = 0;
+        for(int i = 0; i < length; i++){
+            char c = s.charAt(i);
+            if(index > 0 && c == 'b' && sb.charAt(index - 1) == 'a') {
+                points += x;
+                sb.deleteCharAt(index - 1);
+                index--;
+            }else{
+                sb.append(c);
+                index++;
+            }
+        }
+        return sb.toString();
+    }
+    public String get_y_point(String s, int y){
+        StringBuilder sb = new StringBuilder();
+        int length = s.length();
+        int index = 0;
+        for(int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if(index > 0 && c == 'a' && sb.charAt(index - 1) == 'b'){
+                points += y;
+                sb.deleteCharAt(index - 1);
+                index--;
+            }else{
+                sb.append(c);
+                index++;
+            }
+        }
+        return sb.toString();
+    }
+}
