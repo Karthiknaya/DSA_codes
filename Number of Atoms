@@ -1,0 +1,48 @@
+class Solution{
+    Map<String, Integer> map=new TreeMap<>();
+    Stack<Integer> stk=new Stack<>();
+    int curr_mltiplier=1;
+    private void updateMap(String key){
+        if (map.get(key) ==null){
+            map.put(key,curr_mltiplier);
+        } else {
+            map.put(key,curr_mltiplier+map.get(key));
+        }
+        curr_mltiplier/=stk.pop();
+    }
+    public String countOfAtoms(String formula){
+        int right=formula.length()-1;
+        int curr = formula.length()-1;
+        while(curr>=0){
+            if(formula.charAt(curr) == '('){
+                curr_mltiplier/=stk.pop();
+                curr--;
+                continue;
+            }
+            right = curr;
+            int new_val = 1;
+            if(Character.isDigit(formula.charAt(curr))){
+                while (Character.isDigit(formula.charAt(curr)))
+                curr--;
+                new_val=Integer.parseInt(formula.substring(curr+1, right+1));
+            } 
+            stk.push(new_val);
+            curr_mltiplier *= new_val;
+            right=curr;
+            if(Character.isLetter(formula.charAt(curr))){
+                while(Character.isLowerCase(formula.charAt(curr)))
+                curr--;
+                updateMap(formula.substring(curr,right+1));
+            }
+            curr--;
+        }
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<String, Integer> e : map.entrySet()){
+            sb.append(e.getKey());
+            if (e.getValue()>1){
+            sb.append(e.getValue());
+            }
+        }
+        return sb.toString();
+    }
+}
