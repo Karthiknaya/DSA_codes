@@ -1,0 +1,15 @@
+class Solution {
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> list = new ArrayList();
+        get_Elements(list,root1);
+        get_Elements(list,root2);
+        Collections.sort(list);
+        return list;
+    }
+     private static void get_Elements(List<Integer> list,TreeNode root){
+        if(root == null)return;
+        get_Elements(list,root.left);
+        list.add(root.val);
+        get_Elements(list,root.right);
+    }
+}
