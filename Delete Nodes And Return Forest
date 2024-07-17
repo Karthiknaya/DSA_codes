@@ -1,0 +1,23 @@
+class Solution {
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+        Set<Integer> toDeleteSet = new HashSet<>();
+        for (int val : to_delete) {
+            toDeleteSet.add(val);
+        }
+        List<TreeNode> forest = new ArrayList<>();
+        get_new_roots(root, toDeleteSet, forest, true);
+        return forest;
+    }
+    private TreeNode get_new_roots(TreeNode node, Set<Integer> toDeleteSet, List<TreeNode> forest, boolean is_last_Node_deleted) {
+        if(node == null){
+            return null;
+        }
+        boolean to_be_deleted = toDeleteSet.contains(node.val);
+        if (is_last_Node_deleted && !to_be_deleted) {
+            forest.add(node);
+        }   
+        node.left = get_new_roots(node.left, toDeleteSet, forest, to_be_deleted);
+        node.right = get_new_roots(node.right, toDeleteSet, forest, to_be_deleted);
+        return to_be_deleted ? null : node;
+    }
+}
