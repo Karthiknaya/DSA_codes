@@ -1,0 +1,28 @@
+class Solution {
+    int count=0;
+    public int countPairs(TreeNode root, int d) {
+        get_pairs(root,d);
+        return count;
+    }
+    private ArrayList<Integer> get_pairs(TreeNode node, int d){
+       if(node==null) return new ArrayList<Integer>();
+       if(node.left==null && node.right==null){
+            ArrayList<Integer>list=new ArrayList<>();
+            list.add(1);
+            return list;
+       }
+       ArrayList<Integer>left=get_pairs(node.left,d);
+       ArrayList<Integer>right=get_pairs(node.right,d);
+         for(Integer item1:left){
+            for(Integer item2: right){
+                 if(item1+item2<=d){
+                   count++;
+                 }
+            }
+         }
+       ArrayList<Integer>ans=new ArrayList<Integer>();
+        for (int item1 : left) ans.add(item1 + 1);
+        for (int itemm2 : right) ans.add(itemm2 + 1);
+        return ans;
+    }
+}
