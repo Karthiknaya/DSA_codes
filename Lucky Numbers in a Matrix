@@ -1,0 +1,32 @@
+class Solution {
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        Map<Integer, Integer> map = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < matrix.length; i++) {
+            int minNum = matrix[i][0];
+            int minIndex = 0;
+            for (int j = 1; j < matrix[i].length; j++) {
+                if (matrix[i][j] < minNum) {
+                    minNum = matrix[i][j];
+                    minIndex = j;
+                }
+            }
+            map.put(minNum, minIndex);
+        }
+        for(Map.Entry<Integer, Integer> e : map.entrySet()) {
+            int key = e.getKey();
+            int columnIndex = e.getValue();
+            boolean is_valid = true;
+            for (int i = 0; i < matrix.length; i++) {
+                if (key < matrix[i][columnIndex]) {
+                    is_valid = false;
+                    break;
+                }
+            }
+            if (is_valid) {
+                list.add(key);
+            }
+        }
+        return list;
+    }
+}
