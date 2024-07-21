@@ -1,0 +1,22 @@
+class Solution {
+    public String getSmallestString(String s, int k){
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            int dist_1 = s.charAt(i)-'a';
+            int dist_2 ='z'-s.charAt(i)+1;
+            int mindist = Math.min(dist_1,dist_2);
+            if(k>=mindist){
+                k-=mindist;
+                sb.append('a');
+            }else{
+                if(k>0){
+                    sb.append((char)(s.charAt(i)-k));
+                    k=0;
+                }else{
+                    sb.append(s.charAt(i));
+                }  
+            }
+        }
+        return sb.toString();
+    }
+}
