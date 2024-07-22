@@ -1,0 +1,31 @@
+class Solution {
+    public int[] frequencySort(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int item : nums) {
+            map.put(item, map.getOrDefault(item, 0) + 1);
+        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            if (a[1] == b[1]) {
+                return b[0] - a[0];
+            }
+            return a[1] - b[1];
+        });
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            pq.offer(new int[]{e.getKey(), e.getValue()});
+        }
+        List<Integer> list = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            int[] e = pq.poll();
+            int number = e[0];
+            int frequency = e[1];
+            for (int i = 0; i < frequency; i++) {
+                list.add(number);
+            }
+        }
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+}
