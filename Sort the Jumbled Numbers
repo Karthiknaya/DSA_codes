@@ -1,0 +1,36 @@
+class Solution {
+    public int[] sortJumbled(int[] mapping, int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int item = 0; item < 10; item++) {
+            map.put(item, mapping[item]);
+        }
+        int[][] arr = new int[nums.length][2];
+        for(int item = 0; item < nums.length; item++) {
+            arr[item][0] = get_num(nums[item], map);
+            arr[item][1] = nums[item];
+        }
+        Arrays.sort(arr,(a,b)->Integer.compare(a[0],b[0]));
+        for(int item = 0; item < nums.length; item++) {
+            nums[item] = arr[item][1];
+        }
+        
+        return nums;
+    }
+    private int get_num(int num, Map<Integer, Integer> map) {
+        if(num == 0) return map.get(0);
+        List<Integer> list = new ArrayList<>();
+        while(num > 0) {
+            int k = num % 10;
+            int l = map.get(k);
+            list.add(l);
+            num = num / 10;
+        }   
+        StringBuilder sb = new StringBuilder();
+        for(int item : list) {
+            sb.append(Integer.toString(item));
+        }
+        String s1 = sb.reverse().toString();
+        int ans = Integer.parseInt(s1);
+        return ans;
+    }
+}
