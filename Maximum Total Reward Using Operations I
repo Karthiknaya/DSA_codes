@@ -1,0 +1,27 @@
+class Solution {
+    int[][] dp;
+    int max;
+    public int maxTotalReward(int[] rewardValues) {
+        int n = rewardValues.length;
+        max=-1;
+        dp=new int[n+1][4001];
+        for(int[] item: dp) Arrays.fill(item,-1);
+        Arrays.sort(rewardValues);
+        get_max(rewardValues,0,0);
+        return max;
+    }
+    private int get_max(int[] arr,int sum,int ind){
+        if(ind==arr.length) return 0;
+        if(dp[ind][sum]!=-1)
+        return dp[ind][sum];
+        //dont take
+        get_max(arr,sum,ind+1);
+        //take                  
+        if(arr[ind]>sum){
+            sum=sum+arr[ind];
+            max=Math.max(sum,max);
+            get_max(arr,sum,ind+1);       
+        }
+        return dp[ind][sum]=max;
+    }
+}
