@@ -1,0 +1,45 @@
+class Solution {
+    public int secondMinimum(int n, int[][] edges, int time, int change) {
+        List<List<Integer>> graph=new ArrayList<>();
+        for(int i=0;i<n;i++) graph.add(new ArrayList<>());
+        for(int edge[] : edges){
+            graph.get(edge[0]-1).add(edge[1]-1);
+            graph.get(edge[1]-1).add(edge[0]-1);
+        }
+        List<TreeSet<Integer>> distance_list=new ArrayList<>();
+        for(int i=0;i<n;i++){
+        distance_list.add(new TreeSet<>());
+        }
+        PriorityQueue<int[]> pq=new PriorityQueue<>(10, (a,b) -> (a[1]-b[1]));
+        pq.offer(new int[]{0,0});
+        PriorityQueue<Integer> ans=new PriorityQueue<>();
+        while(!pq.isEmpty()){
+            int[] cur=pq.poll();
+            int curr=cur[0];
+            int curr_dist=cur[1];
+            if(distance_list.get(curr).size()==2 && curr_dist>distance_list.get(curr).last()) continue;
+            for(int next : graph.get(curr)){
+                int nextDist = time + curr_dist;
+                if(next==n-1) ans.add(nextDist);
+                //if we are in red traffic
+                if((nextDist/change)%2==1){
+                    nextDist=((nextDist/change)+1)*change;
+                }if(distance_list.get(next).contains(nextDist))
+                continue;
+                if(distance_list.get(next).size()<2){
+                    distance_list.get(next).add(nextDist);
+                    pq.offer(new int[]{next,nextDist});
+                }else if(distance_list.get(next).last()>nextDist){
+                    distance_list.get(next).remove(distance_list.get(next).last());
+                    distance_list.get(next).add(nextDist);
+                    pq.offer(new int[]{next, nextDist});
+                }
+            }
+        }
+        int first=ans.peek();
+        while(ans.peek()==first){
+            ans.poll();
+        }
+        return ans.poll();
+    }
+}
