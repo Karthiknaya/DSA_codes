@@ -1,0 +1,21 @@
+class Solution {
+    public int numTeams(int[] rating) {
+        int[] Min_dp = new int[rating.length];
+        int[] Max_dp = new int[rating.length];
+        int count = 0;
+        for(int i=0;i<rating.length;i++){
+            for(int j=0;j<i;j++){
+                if(rating[i]>rating[j]){
+                    Min_dp[i]++;
+                    count += Min_dp[j];
+                }
+                if(rating[i]<rating[j]){
+                    Max_dp[i]++;
+                    count+=Max_dp[j];
+                }
+            }
+        }
+
+        return count;
+    }
+}
