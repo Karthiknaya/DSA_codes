@@ -1,0 +1,16 @@
+class Solution {
+    public int minimumDeletions(String s) {
+        int count=0;
+      Stack<Character> stack = new Stack();
+      for(char ch: s.toCharArray()){
+        if(!stack.isEmpty()&&ch=='a'){
+            stack.pop();
+            count++;
+        }
+        if(ch=='b'){
+            stack.push('b');
+        }
+      }
+      return count;
+    }
+}
