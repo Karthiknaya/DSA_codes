@@ -1,0 +1,32 @@
+class Solution {
+    public int minHeightShelves(int[][] books, int shelfWidth) {
+          int[] dp = new int[books.length];
+        return get_min_height(0,dp,books,shelfWidth);
+    }
+    private int get_min_height(int ind,int[] dp,int[][] books,int shelfWidth){
+        if(ind>=books.length){
+            return 0;
+        }
+        if(dp[ind] != 0){
+            return dp[ind];
+        }
+        int sum_width = 0;
+        int maxHeight = Integer.MIN_VALUE;
+        int ans = Integer.MAX_VALUE;
+        int i = ind;
+        //consider
+        while(i<books.length){
+            sum_width += books[i][0];
+            if(sum_width<=shelfWidth){
+                maxHeight = Math.max(books[i][1],maxHeight);
+                ans = Math.min(maxHeight + get_min_height(i+1,dp,books,shelfWidth),ans);
+                i++;
+            }else{
+                break;
+            }
+        }
+        //ignore
+        ans = Math.min(maxHeight + get_min_height(i,dp,books,shelfWidth),ans);
+        return dp[ind] = ans;
+    }
+}
