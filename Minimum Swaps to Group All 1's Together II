@@ -1,0 +1,17 @@
+class Solution {
+    public int minSwaps(int[] nums) {
+        int total_ones_of_window = Arrays.stream(nums).sum();
+        int n = nums.length;
+        int count = 0;
+        for (int i = 0; i < total_ones_of_window; ++i) {
+            count += nums[i];
+        }
+        int max = count;
+        for (int i = total_ones_of_window; i < n + total_ones_of_window; ++i) {
+            count += nums[i % n];
+            count-=nums[(i - total_ones_of_window + n) % n];
+            max = Math.max(max, count);
+        }
+        return total_ones_of_window - max;
+    }
+}
