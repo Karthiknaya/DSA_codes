@@ -1,0 +1,17 @@
+class Solution {
+    private boolean is_valid(String sub, String main_str) {
+        return main_str.startsWith(sub) && main_str.endsWith(sub);
+    }
+    public int countPrefixSuffixPairs(String[] words) {
+        int n =words.length;
+        int count = 0;
+        for (int i=0; i<n; i++) {
+            for (int j=i+1; j<n; j++) {
+                if (is_valid(words[i], words[j])) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
