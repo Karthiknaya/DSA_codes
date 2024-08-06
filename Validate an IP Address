@@ -1,0 +1,19 @@
+
+class Solution {
+
+    public boolean isValid(String str) {
+        // Write your code here
+        String[] s=str.split("\\.");
+        if(s.length!=4) return false;
+        for(String ch:s){
+            try{
+                int g=Integer.parseInt(ch);
+                if(g<0 || g>255) return false;
+            }
+            catch (NumberFormatException e){
+                return false;
+            }
+        }
+        return true;
+    }
+}
