@@ -1,0 +1,19 @@
+class Solution {
+    public List<Integer> goodDaysToRobBank(int[] security, int time){
+        ArrayList<Integer> ans = new ArrayList<>();
+        int[] left_decrease = new int[security.length];
+        for(int i = 1; i < security.length - time; i++){
+            if(security[i]>security[i-1])left_decrease[i] = 0;
+            else left_decrease[i] = left_decrease[i-1] + 1;
+        }
+        int[] right_increase = new int[security.length];
+        for(int i = security.length - 2; i >= time; i--){
+            if(security[i] > security[i + 1])right_increase[i] = 0;
+            else right_increase[i] = right_increase[i + 1] + 1;
+        }
+        for(int i = time; i < security.length - time; i++){
+            if(left_decrease[i] >= time && right_increase[i] >= time) ans.add(i);
+        }
+        return ans;
+    }
+}
