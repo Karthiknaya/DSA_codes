@@ -1,0 +1,23 @@
+class Solution {
+     private void dfs(int sr, int sc, int[][] image, boolean[][] visited, int targeted_val, int color) {
+        int n = image.length;
+        int m = image[0].length;
+        if (sr < 0 || sr >= n || sc < 0 || sc >= m || image[sr][sc] != targeted_val || visited[sr][sc]){
+            return;
+        }
+        visited[sr][sc] = true;
+        image[sr][sc] = color;
+        dfs(sr - 1, sc, image, visited, targeted_val, color); 
+        dfs(sr + 1, sc, image, visited, targeted_val, color);
+        dfs(sr, sc - 1, image, visited, targeted_val, color);
+        dfs(sr, sc + 1, image, visited, targeted_val, color);
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int n=image.length;
+        int m=image[0].length;
+        boolean[][] visited = new boolean[n][m];
+        int targeted_val = image[sr][sc];
+        dfs(sr, sc, image, visited, targeted_val, color);
+        return image;
+    }
+}
