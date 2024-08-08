@@ -1,0 +1,34 @@
+class Solution {
+    public String reorderSpaces(String text) {
+        String[] arr = text.trim().split("\\s+");
+        int count = 0;
+        for (char ch : text.toCharArray()) {
+            if (ch == ' ') {
+                count++;
+            }
+        }
+        if (arr.length == 1) {
+            String temp = arr[0];
+            while (count > 0) {
+                temp += " ";
+                count--;
+            }
+            return temp;
+        }
+        int valid_space = count / (arr.length - 1);
+        StringBuilder Space_sb = new StringBuilder();
+        for (int i = 0; i < valid_space; i++) {
+            Space_sb.append(" ");
+        }
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < arr.length - 1; i++){
+            ans.append(arr[i]).append(Space_sb);
+        }
+        ans.append(arr[arr.length - 1]);
+        int left_space_count = count % (arr.length - 1);
+        for (int i = 0; i < left_space_count; i++){
+            ans.append(" ");
+        }
+        return ans.toString();
+    }
+}
