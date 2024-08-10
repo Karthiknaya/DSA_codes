@@ -1,0 +1,51 @@
+class Solution{
+  class Pair{
+        char ch;
+        int freq;
+        Pair(char ch, int freq){
+            this.ch = ch;
+            this.freq = freq;
+        }
+    }
+    public String longestDiverseString(int a, int b, int c){
+        if (a == 0 && b == 0 && c == 0){
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        PriorityQueue<Pair> q = new PriorityQueue<>(new Comparator<Pair>(){
+            @Override
+            public int compare(Pair o1, Pair o2){
+                return o2.freq - o1.freq;
+            }
+        });
+        if(a>0)
+            q.add(new Pair('a', a));
+        if(b>0)
+            q.add(new Pair('b', b));
+        if(c>0)
+            q.add(new Pair('c', c));
+        while (!q.isEmpty()){
+            Pair curr = q.poll();
+            if (sb.length() >= 2 && sb.charAt(sb.length() - 1) == curr.ch && sb.charAt(sb.length() - 2) == curr.ch){
+                if (q.isEmpty()){
+                    break;
+                }
+                Pair next = q.poll();
+                sb.append(next.ch);
+                next.freq--;
+                if (next.freq > 0){
+                    q.add(next);
+                }
+            }else{
+                sb.append(curr.ch);
+                curr.freq--;
+            }
+                if (curr.freq > 0){
+                    q.add(curr);
+                }
+        }
+    
+        return sb.toString();
+    }
+
+}
