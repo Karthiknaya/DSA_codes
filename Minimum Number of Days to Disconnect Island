@@ -1,0 +1,57 @@
+class Solution {
+    public int minDays(int[][] grid) {
+        if (get_Island_count(grid) != 1) return 0;
+        int m = grid.length, n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    grid[i][j] = 0; 
+                    if (get_Island_count(grid) != 1) return 1; 
+                    grid[i][j] = 1; 
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    grid[i][j] = 0; 
+                    for (int x = 0; x < m; x++) {
+                        for (int y = 0; y < n; y++) {
+                            if (grid[x][y] == 1) {
+                                grid[x][y] = 0; 
+                                if (get_Island_count(grid) != 1) return 2; 
+                                grid[x][y] = 1; 
+                            }
+                        }
+                    }
+                    grid[i][j] = 1;
+                }
+            }
+        }
+        return 2;
+    }
+    private void get_mark_island_area(int[][] grid, boolean[][] visited, int i, int j) {
+        int m = grid.length, n = grid[0].length;
+        if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == 0 || visited[i][j])
+            return;
+        visited[i][j] = true;
+        get_mark_island_area(grid, visited, i + 1, j);
+        get_mark_island_area(grid, visited, i - 1, j);
+        get_mark_island_area(grid, visited, i, j + 1);
+        get_mark_island_area(grid, visited, i, j - 1);
+    }
+    private int get_Island_count(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    count++;
+                    get_mark_island_area(grid, visited, i, j);
+                }
+            }
+        }
+        return count;
+    }
+}
