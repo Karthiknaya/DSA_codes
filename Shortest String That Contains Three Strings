@@ -1,0 +1,60 @@
+class Solution {
+    private String get_minimum(String a, String b) {
+        if(a.length() > b.length())
+            return b;
+        if(a.length()<b.length())
+            return a;
+        if(a.compareTo(b)<=0)
+            return a;
+        return b;
+    }
+    private String Combine_Strings(String a, String b) {
+        int an = a.length(), bn = b.length();
+        int n = Math.min(a.length(), b.length());
+        for(int i=n;i>=0;i--) {
+            String s1 = a.substring(an-i, an);
+            String s2 = b.substring(0, i);
+            if(s1.equals(s2))
+                return a.substring(0, an-i) + b;
+        }
+        return a+b;
+    }
+    public String minimumString(String a, String b, String c) {
+        if(c.contains(a))
+            a = "";
+        if(c.contains(b))
+            b = "";
+        if(a.contains(b))
+            b = "";
+        if(a.contains(c))
+            c = "";
+        if(b.contains(c))
+            c = "";
+        if(b.contains(a))
+            a = "";
+        String result = Combine_Strings(Combine_Strings(a, b), c);
+        String ans = Combine_Strings(a, Combine_Strings(b, c));
+        result = get_minimum(ans, result);
+        String a2 = Combine_Strings(Combine_Strings(a, c), b);
+        ans = Combine_Strings(a, Combine_Strings(c, b));
+        result = get_minimum(ans, result);
+        String a3 = Combine_Strings(Combine_Strings(b, c), a);
+        ans = Combine_Strings(b, Combine_Strings(c, a));
+        result = get_minimum(ans, result);
+        String a4 = Combine_Strings(Combine_Strings(b, a), c);
+        ans = Combine_Strings(b, Combine_Strings(a, c));
+        result = get_minimum(ans, result);
+        String a5 = Combine_Strings(Combine_Strings(c, b), a);
+        ans = Combine_Strings(c, Combine_Strings(b, a));
+        result = get_minimum(ans, result);
+        String a6 = Combine_Strings(Combine_Strings(c, a), b);
+        ans = Combine_Strings(c, Combine_Strings(a, b));
+        result = get_minimum(ans, result);
+        result = get_minimum(a2, result);
+        result = get_minimum(a3, result);
+        result = get_minimum(a4, result);
+        result = get_minimum(a5, result);
+        result = get_minimum(a6, result);
+        return result;
+    }
+}
