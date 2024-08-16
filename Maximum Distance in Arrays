@@ -1,0 +1,17 @@
+class Solution {
+    public int maxDistance(List<List<Integer>> arrays) {
+        int ans = 0;
+        int min_val = arrays.get(0).get(0);
+        int max_val = arrays.get(0).get(arrays.get(0).size() - 1);
+        
+        for (int i = 1;i<arrays.size();i++){
+            int curr_min = arrays.get(i).get(0);
+            int curr_max = arrays.get(i).get(arrays.get(i).size() - 1);
+            ans = Math.max(ans, Math.abs(curr_max - min_val));
+            ans = Math.max(ans, Math.abs(max_val - curr_min));
+            min_val = Math.min(min_val, curr_min);
+            max_val = Math.max(max_val, curr_max);
+        }
+        return ans;
+    }
+}
