@@ -1,0 +1,47 @@
+class TweetCounts {
+    Map<String, TreeMap<Integer, Integer>> map;
+    public TweetCounts() {
+        map = new HashMap<>();    
+    }
+    
+    public void recordTweet(String tweetName, int time) {
+        if (!map.containsKey(tweetName)) {
+            map.put(tweetName, new TreeMap<>());
+        }
+        TreeMap<Integer, Integer> Freq_map = map.get(tweetName);
+        Freq_map.put(time, Freq_map.getOrDefault(time, 0) + 1);       
+    }
+    
+    public List<Integer> getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime) {
+        List<Integer> ans = new ArrayList<>();
+        if (!map.containsKey(tweetName)) {
+            return ans;
+        }
+        int interval = 0;
+        switch (freq) {
+            case "minute":
+                interval = 60;
+                break;
+            case "hour":
+                interval = 3600;
+                break;
+            case "day":
+                interval = 86400;
+                break;
+            default:
+                return ans;
+        }
+        TreeMap<Integer, Integer> Freq_map = map.get(tweetName);
+        int start = startTime;
+        while (start <= endTime) {
+            int end_time = Math.min(start + interval - 1, endTime);
+            int count = 0;
+            for (int time : Freq_map.subMap(start, true, end_time, true).values()) {
+                count += time;
+            }
+            ans.add(count);
+            start += interval;
+        }
+        return ans;        
+    }
+}
