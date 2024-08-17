@@ -1,0 +1,25 @@
+class Solution {
+    private int encrypt(int num){
+        int max_digit=0;
+        int count=0;
+        int new_num=0;
+        while(num>0){
+            int rem = num%10;
+            max_digit = Math.max(max_digit, rem); 
+            num = num/10;
+            count++;
+        }
+        while(count>0){
+            new_num = (new_num*10)+max_digit;
+            count--;
+        }
+        return new_num;
+    }
+    public int sumOfEncryptedInt(int[] nums) {
+        int sum=0;
+        for(int item:nums){
+            sum += encrypt(item);
+        }
+        return sum;
+    }
+}
