@@ -1,0 +1,18 @@
+class Solution {
+     private int get_Val(String time) {
+        String[] arr = time.split(":");
+        int hour = Integer.parseInt(arr[0]);
+        int minute = Integer.parseInt(arr[1]);
+        return hour*60+minute;
+    }
+    public boolean haveConflict(String[] event1, String[] event2) {
+        int E1_start = get_Val(event1[0]);
+        int E1_end = get_Val(event1[1]);
+        int E2_start = get_Val(event2[0]);
+        int E2_End = get_Val(event2[1]);
+        if (E1_start <= E2_End && E2_start <= E1_end) {
+            return true;
+        }
+        return false;
+    }
+}
