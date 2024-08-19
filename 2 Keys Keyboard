@@ -1,0 +1,20 @@
+class Solution{
+    public int minSteps(int n){
+        int ans =0;
+        int num=2;
+        while(num<=n) {
+            if(n%num ==0 && isPrime(num)){
+                ans += num;
+                n = n/num;
+            }
+            else num++;
+        }
+        return ans;
+    }
+    public boolean isPrime(int n){
+        for(int num=2;num<=Math.sqrt(n);num++){
+            if(n%num==0) return false;
+        }
+        return true;
+    }
+}
