@@ -1,0 +1,29 @@
+class Solution {
+    public int strangePrinter(String s) {
+        int n = s.length();
+        char[] strArray = s.toCharArray();
+        int[][] memo = new int[n][n];
+        for(int[] row : memo) Arrays.fill(row, -1);
+        return minTurnsToPrint(0, n - 1, strArray, memo);
+    }
+
+    private int minTurnsToPrint(int start, int end, char[] strArray, int[][] memo) {
+        if (start > end) {
+            return 0;
+        }
+
+        if(memo[start][end] != -1) return memo[start][end];
+
+        int result = 1 + minTurnsToPrint(start + 1, end, strArray, memo);
+
+        for (int mid = start + 1; mid <= end; mid++) {
+            if (strArray[mid] == strArray[start]) {               
+                int splitTurns = minTurnsToPrint(start, mid - 1, strArray, memo) + minTurnsToPrint(mid + 1, end, strArray, memo);
+                result = Math.min(result, splitTurns);
+            }
+        }
+
+        memo[start][end] = result;
+        return result;
+    }
+}
