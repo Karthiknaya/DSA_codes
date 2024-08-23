@@ -1,0 +1,21 @@
+class Solution{
+    private int find_GCD(int a, int b){
+            if(a==0) return b;
+            return find_GCD(b % a,a);
+    }
+    public String fractionAddition(String expression){
+        int num =0;
+        int demo = 1;
+        String[] arr = expression.split("/|(?=[-+])");
+        for(int i = 0; i<arr.length; i+=2){
+            int curr_num = Integer.valueOf(arr[i]);
+            int curr_demo  = Integer.valueOf(arr[i+1]);
+            num = num*curr_demo + curr_num * demo;
+            demo = curr_demo * demo;
+        }
+        int gcd = Math.abs(find_GCD(num, demo));
+        num/=gcd;
+        demo/=gcd;
+        return(num+ "/" + demo);
+    }
+}
