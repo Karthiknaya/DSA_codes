@@ -1,0 +1,23 @@
+class Solution {
+    ArrayList<Integer> list = new ArrayList<>();
+    public void inorder(TreeNode root, int sum){
+        if(root!=null){
+            if(root.right == null && root.left == null){
+                sum =sum*2+root.val;
+                list.add(sum);
+            }else{
+                sum =sum*2 + root.val;
+                inorder(root.left, sum);
+                inorder(root.right, sum);
+            }
+        }
+    }
+    public int sumRootToLeaf(TreeNode root) {
+        inorder(root, 0);
+        int total_Sum = 0;
+        for(int item: list){
+           total_Sum +=item;
+        }
+        return total_Sum;
+    }
+}
