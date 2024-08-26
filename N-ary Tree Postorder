@@ -1,0 +1,14 @@
+class Solution {
+    public List<Integer> postorder(Node root) {
+        if(root == null) return new ArrayList<>();
+        List<Integer> ans =new ArrayList<>();
+        get_nodes(root,ans);
+        return ans;
+    }
+    private void get_nodes(Node root, List<Integer> ans) {
+        for (Node child : root.children) {
+            get_nodes(child, ans);
+        }
+        ans.add(root.val);
+    }
+}
