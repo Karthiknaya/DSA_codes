@@ -1,0 +1,23 @@
+class Solution {
+    public int[] circularGameLosers(int n, int k) {
+        boolean vis[] = new boolean[n];
+        int next_ind=0;
+        int i=1;
+        int Vis_nodes =0;
+        while(!vis[next_ind]){
+            vis[next_ind]=true;
+            Vis_nodes++;
+            next_ind=(next_ind+i*k)%n;
+            i++;
+        }
+        int ans[] = new int[n-Vis_nodes];
+        int pos =0;
+        for(int a=0;a<vis.length;a++){
+            if(!vis[a]){
+                ans[pos]=a+1;
+                pos++;
+            }
+        }
+        return ans;   
+    }
+}
