@@ -1,0 +1,33 @@
+class Solution {
+    public int removeStones(int[][] stones) {
+        ArrayList<ArrayList<Integer>>graph=new ArrayList<>();
+        for(int i=0;i<stones.length;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i=0;i<stones.length-1;i++){
+            for(int j=i+1;j<stones.length;j++){
+                if(stones[i][0]==stones[j][0]||stones[i][1]==stones[j][1]){
+                    graph.get(i).add(j);
+                    graph.get(j).add(i);
+                }
+            }
+        }
+        int count=0;
+       boolean[]vis=new boolean[stones.length];
+       for(int i=0;i<stones.length;i++){
+           if(!vis[i]){
+               get_count(i,graph,vis);
+               count++;
+           }
+       } 
+       return stones.length-count;
+    }
+    public void get_count(int src, ArrayList<ArrayList<Integer>>graph,boolean[]vis){
+        vis[src]=true;
+        for(int neighbour:graph.get(src)){
+            if(!vis[neighbour]){
+                get_count(neighbour,graph,vis);
+            }
+        }
+    }
+}
