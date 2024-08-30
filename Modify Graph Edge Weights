@@ -1,0 +1,63 @@
+class Solution {
+    List<int[]>[] graph;
+    private static final int INF = (int) 2e9;
+    private int get_dist(int n, int src, int dest) {
+        int[] distance = new int[n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        Arrays.fill(distance, INF);
+        distance[src] = 0;
+        pq.add(new int[] { src, 0 });
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            int d = curr[1];
+            if (d > distance[u]) continue;
+            for (int[] neighbor : graph[u]) {
+                int v = neighbor[0];
+                int weight = neighbor[1];
+                if (d + weight < distance[v]) {
+                    distance[v] = d + weight;
+                    pq.add(new int[] { v, distance[v] });
+                }
+            }
+        }
+        return distance[dest];
+    }
+    public int[][] modifiedGraphEdges(
+        int n,
+        int[][] edges,
+        int src,
+        int dest,
+        int target
+    ){
+        graph = new ArrayList[n];
+        for(int i = 0;i < n;i++){
+            graph[i] = new ArrayList<>();
+        }
+        for (int[] edge : edges) {
+            if (edge[2] != -1) {
+                graph[edge[0]].add(new int[] { edge[1], edge[2] });
+                graph[edge[1]].add(new int[] { edge[0], edge[2] });
+            }
+        }
+        int curr_min_dist = get_dist(n, src, dest);
+        if (curr_min_dist < target) {
+            return new int[0][0];
+        }
+        boolean target_reached = (curr_min_dist == target);
+        for (int[] edge : edges) {
+            if (edge[2] != -1) continue; 
+            edge[2] = target_reached ? INF : 1;
+            graph[edge[0]].add(new int[] { edge[1], edge[2] });
+            graph[edge[1]].add(new int[] { edge[0], edge[2] });
+            if (!target_reached) {
+                int newDistance = get_dist(n, src, dest);
+                if (newDistance <= target) {
+                    target_reached = true;
+                    edge[2] += target - newDistance;
+                }
+            }
+        }
+        return target_reached ? edges : new int[0][0];
+    }
+}
