@@ -1,0 +1,18 @@
+class Solution {
+    public int findMinimumOperations(String s1, String s2, String s3) {
+        int count=0;
+        int n1 =s1.length();
+        int n2 =s2.length();
+        int n3 = s3.length();
+        for(int i =0;i < Math.min(Math.min(n1, n2),n3);i++){
+            if(s1.charAt(i) == s2.charAt(i) && s2.charAt(i) == s3.charAt(i)){
+                count++;
+            }else{
+                break;
+            }
+        }
+        if(count == 0)
+        return -1;
+        return n1 + n2 + n3 -(3*count); 
+    }
+}
