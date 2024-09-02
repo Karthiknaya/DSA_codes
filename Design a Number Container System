@@ -1,0 +1,27 @@
+class NumberContainers{
+    private  Map<Integer, Integer> ind_to_num;
+    private  Map<Integer, TreeSet<Integer>> num_to_inds;
+    public NumberContainers() {
+        this.ind_to_num = new HashMap<>();
+        this.num_to_inds = new HashMap<>();
+    }
+    public void change(int index, int number){
+        Modify_map(index, ind_to_num.getOrDefault(index, number), number);
+    }
+    public int find(int number){
+        return num_to_inds.containsKey(number)
+                ?num_to_inds.get(number).first()
+                : -1;
+    }
+    private void Modify_map(int index, int oldNum, int newNum){
+        ind_to_num.put(index, newNum);
+        TreeSet<Integer> indexes = num_to_inds.getOrDefault(oldNum, null);
+        if(oldNum != newNum && indexes != null){
+            indexes.remove(index);
+            if(indexes.isEmpty()){
+                num_to_inds.remove(oldNum);
+            }
+        }
+        num_to_inds.computeIfAbsent(newNum, s -> new TreeSet<>()).add(index);
+    }     
+}
