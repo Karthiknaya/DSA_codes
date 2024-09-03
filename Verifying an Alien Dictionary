@@ -1,0 +1,26 @@
+class Solution {
+    public boolean isAlienSorted(String[] words, String order) {
+       int[] count=new int[order.length()];
+       int prefer=0;
+       for(int i=0;i<order.length();i++){
+           count[order.charAt(i)-'a']=prefer++;
+       }
+       for(int i=0;i<words.length-1;i++){
+           String str1=words[i];
+           String str2=words[i+1];
+           int n=Math.min(str1.length(),str2.length());
+           if(n!=str1.length() && str2.length()==n && str1.startsWith(str2)){
+               return false;
+           }
+           for(int j=0;j<n;j++){
+               if(count[str1.charAt(j)-'a']>count[str2.charAt(j)-'a']){
+                   return false;
+               }
+               if(count[str1.charAt(j)-'a']<count[str2.charAt(j)-'a']){
+                   break;
+           }
+        }
+       }
+       return true;
+    }
+}
