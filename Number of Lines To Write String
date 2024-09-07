@@ -1,0 +1,16 @@
+class Solution{
+    public int[] numberOfLines(int[] widths, String s){
+        int[] ans = {1,0};
+        int sum =0;
+        for(char ch :s.toCharArray()){
+            if(sum + widths[ch-'a'] > 100){
+                ans[0] ++;
+                sum = widths[ch-'a'];
+            }else{
+                sum += widths[ch-'a'];
+            }
+            ans[1] = sum;
+        }    
+        return ans;    
+    }
+}
