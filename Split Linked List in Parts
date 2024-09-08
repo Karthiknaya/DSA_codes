@@ -1,0 +1,36 @@
+class Solution {
+    public ListNode[] splitListToParts(ListNode head, int k) {
+     int length=0;
+     ListNode curr=head;
+     List<ListNode> list=new ArrayList<>();
+     while(curr!=null){
+         length++;
+         curr=curr.next;
+     }
+     int act_size=length/k;
+     int extra=length%k;
+     curr=head;
+     for(int i=0;i<k;i++){
+         int new_size=act_size+(extra>0?1:0);
+         ListNode newhead = null, tail = null;
+         for(int j=0;j<new_size;j++){
+             if(newhead==null){
+                 newhead=tail=curr;
+             }else{
+                 tail.next=curr;
+                 tail=curr;
+             }
+             if(curr!=null){
+                 curr=curr.next;
+             }
+         }
+         if(tail!=null){
+             tail.next=null;
+         }
+         list.add(newhead);
+         extra=Math.max(extra-1,0);
+     } 
+     return list.toArray(new ListNode[0]);
+    }
+}
+ 
