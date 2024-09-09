@@ -1,0 +1,32 @@
+class Solution {
+    private static boolean isMatch(String word,int[] target){
+        int str[]=new int[26];
+        for(char ch:word.toCharArray()){
+            str[ch-'a']++;
+        }
+        for(int i=0;i<26;i++){
+            if(str[i]!=target[i] && str[i]<target[i]){
+            return false;
+            }
+        }
+        return true;
+    }
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+        licensePlate=licensePlate.toLowerCase();
+        int str[]=new int[26];
+        for(char ch:licensePlate.toCharArray()){
+            if(Character.isLetter(ch)){
+                str[ch-'a']++;
+            }
+        }
+        int min=Integer.MAX_VALUE;
+        String ans="";
+        for(String word:words){
+            if(isMatch(word,str) && min>word.length()){
+                min=word.length();
+                ans=word;
+            }
+        }
+        return ans;
+    }
+}
