@@ -1,0 +1,27 @@
+class Solution {
+    public String findLatestTime(String s){
+        char First_dig = s.charAt(0); 
+        char Second_dig = s.charAt(1); 
+        char Third_dig = s.charAt(3); 
+        char Fourth_dig = s.charAt(4);
+        if(Fourth_dig == '?'){ 
+            Fourth_dig = '9';
+            }
+        if(Third_dig == '?'){ 
+            Third_dig = '5';
+            }
+        if(First_dig == '?'){ 
+            First_dig = (Second_dig == '?' || Second_dig == '1' || Second_dig == '0') ? '1' : '0'; 
+            }
+        if(Second_dig == '?'){ 
+            Second_dig = First_dig == '1'? '1' : '9'; 
+            }
+        StringBuilder new_str = new StringBuilder();
+        new_str.append(First_dig);
+        new_str.append(Second_dig);
+        new_str.append(':');
+        new_str.append(Third_dig);
+        new_str.append(Fourth_dig);
+        return new_str.toString();
+    }
+}
