@@ -1,0 +1,22 @@
+class Solution {
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        int n =arr.length;
+        int m =queries.length;
+        int[] prefix_sum =new int[n];
+        int[] res =new int[m];
+        prefix_sum[0] =arr[0];
+        for(int i=1;i<n;i++){
+            prefix_sum[i] = prefix_sum[i-1] ^ arr[i];
+        }
+        for(int i=0;i<m;i++){
+            int start =queries[i][0];
+            int end = queries[i][1];
+            if(start == 0){
+                res[i] = prefix_sum[end];
+            }else{
+                res[i] = prefix_sum[end] ^ prefix_sum[start - 1];
+            }
+        }
+        return res;
+    }
+}
