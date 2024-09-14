@@ -1,0 +1,36 @@
+class Solution {
+    private void get_min_dist(int[] edges, int src, int[] dist){
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(src);
+        dist[src] = 0;
+        while (!q.isEmpty()) {
+            int cur=q.poll();
+            int neighbor=edges[cur];
+            if (neighbor !=-1 && dist[neighbor] ==Integer.MAX_VALUE){
+                dist[neighbor] = dist[cur] + 1;
+                q.add(neighbor);
+            }
+        }
+    }
+    public int closestMeetingNode(int[] edges, int node1, int node2){
+        int n = edges.length;
+        int[] dist_X = new int[n];
+        int[] dist_Y = new int[n];
+        Arrays.fill(dist_X, Integer.MAX_VALUE); 
+        Arrays.fill(dist_Y, Integer.MAX_VALUE); 
+        get_min_dist(edges, node1, dist_X);
+        get_min_dist(edges, node2, dist_Y);
+        int Close_Node =-1;
+        int min_Dist = Integer.MAX_VALUE;
+        for(int i = 0; i < n; i++) {
+            if(dist_X[i] != Integer.MAX_VALUE && dist_Y[i] != Integer.MAX_VALUE){
+                int maxDist = Math.max(dist_X[i], dist_Y[i]);
+                if(maxDist < min_Dist) {
+                    min_Dist = maxDist;
+                    Close_Node = i;
+                }
+            }
+        }
+        return Close_Node;
+    }
+}   
