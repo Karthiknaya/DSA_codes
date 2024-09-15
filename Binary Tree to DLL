@@ -1,0 +1,29 @@
+class Solution
+{
+    //Function to convert binary tree to doubly linked list and return it.
+    Node bToDLL(Node root)
+    {
+	    List<Integer> list = new ArrayList<>();
+	    inOrder(root, list);
+	   // System.out.println(list);
+	    return createDLL(list);
+    }
+    private Node createDLL(List<Integer> list){
+        Node head = new Node(list.get(0));
+        Node prev = head;
+        for(int i=1;i<list.size();i++){
+                Node current = new Node(list.get(i));
+                prev.right = current;
+                current.left = prev;
+                prev = current;
+        }
+        return head;
+    }
+    private void inOrder(Node node, List<Integer> list){
+        if(node==null)
+            return;
+        inOrder(node.left, list);
+        list.add(node.data);
+        inOrder(node.right, list);
+    }
+}
