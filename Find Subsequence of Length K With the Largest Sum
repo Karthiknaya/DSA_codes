@@ -1,0 +1,36 @@
+class Solution {
+    class Pair implements Comparable<Pair>{
+        int num;
+        int ind;
+        Pair(int num, int ind){
+            this.num = num;
+            this.ind = ind;
+        }
+        @Override
+        public int compareTo(Pair P2){
+            if(this.num==P2.num)
+            return this.ind-P2.ind;
+            return this.num-P2.num;
+        }
+    }
+    public int[] maxSubsequence(int[] nums, int k) {
+        int[] ans = new int[k];
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for(int i=0;i<nums.length;i++){
+            pq.add(new Pair(nums[i], i));
+
+            if(pq.size()>k){
+                pq.remove();
+            }
+        }
+        List<Pair>list=new ArrayList<>();
+        while(!pq.isEmpty()){
+            list.add(pq.remove());
+        }
+        Collections.sort(list, Comparator.comparingInt(p -> p.ind));
+        for(int i=0; i<list.size(); i++){
+            ans[i]=list.get(i).num;
+        }
+        return ans;
+    }
+}
