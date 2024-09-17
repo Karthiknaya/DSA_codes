@@ -1,0 +1,17 @@
+class Solution {
+    public int maxNumOfMarkedIndices(int[] nums) {
+        Arrays.sort(nums);
+        int n=nums.length;
+        int count=0;
+        int right =n/2;
+        int left =0;
+        while(right <n && left <n/2){
+            if(2*nums[left] <= nums[right]){
+                left++;
+                count+=2;
+            }
+            right++;
+        }
+        return count;
+    }
+}
