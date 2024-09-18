@@ -1,0 +1,23 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+      PriorityQueue<String> pq=new PriorityQueue<>((a,b)->(b+a).compareTo(a+b));
+      for(int item:nums){
+          pq.add(String.valueOf(item));
+      }
+       StringBuilder sb = new StringBuilder();
+      while(!pq.isEmpty()){
+          sb.append(pq.poll());
+      }
+      int zeros=0;
+      String s=sb.toString();
+      for(int i=0;i<s.length();i++){
+          if(s.charAt(i)=='0'){
+              zeros++;
+          }else{
+              break;
+          }
+      }
+      s=s.substring(zeros);
+      return s.length()>0 ? s:"0";
+    }
+}
