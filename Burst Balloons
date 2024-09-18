@@ -1,0 +1,32 @@
+class Solution {
+    private int[][] dp;
+     private int get_max(int[] arr, int start, int end){
+        if(start > end){
+            return 0;
+        }
+        if(dp[start][end] != -1){
+            return dp[start][end];
+        }
+        int max_Coins = Integer.MIN_VALUE;
+        for(int ind = start;ind <= end;ind++){
+            int curr_coins = arr[start-1] * arr[ind] * arr[end+1] + get_max(arr,start,ind - 1)+ get_max(arr, ind+1,end);       
+            max_Coins = Math.max(max_Coins, curr_coins);
+        }
+        dp[start][end] = max_Coins;
+        return max_Coins;
+    }
+    public int maxCoins(int[] nums){
+        int n =nums.length;
+        int[] arr = new int[n + 2];
+        for (int i = 1; i <= n; i++){
+            arr[i] = nums[i - 1];
+        }
+        arr[0] = 1;
+        arr[n + 1] = 1;
+        dp = new int[n + 2][n + 2];
+        for(int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+        return get_max(arr, 1, n);
+    }
+}
