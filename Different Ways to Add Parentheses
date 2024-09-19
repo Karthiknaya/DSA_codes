@@ -1,0 +1,32 @@
+class Solution {
+    public List<Integer> diffWaysToCompute(String expression) {
+      return diffways(expression);  
+    }
+    public ArrayList<Integer> diffways(String str){
+        if(str.indexOf('+')==-1 && str.indexOf('-')==-1 && str.indexOf('*')==-1){
+        ArrayList<Integer> no_op=new ArrayList<>();
+        no_op.add(Integer.parseInt(str));
+        return no_op;
+        }
+         ArrayList<Integer> ans=new ArrayList<>();
+        for(int i=0;i<str.length();i++){
+            char ch=str.charAt(i);
+            if(ch=='+' || ch=='-' || ch=='*'){
+                ArrayList<Integer> left=diffways(str.substring(0,i));
+                ArrayList<Integer> right=diffways(str.substring(i+1));
+                for(int item:left){
+                    for(int item2:right){
+                        if(ch=='+'){
+                            ans.add(item+item2);
+                        }else if(ch=='-'){
+                            ans.add(item-item2);
+                        }else if(ch=='*'){
+                            ans.add(item*item2);
+                        }
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
