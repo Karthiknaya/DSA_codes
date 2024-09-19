@@ -1,0 +1,14 @@
+class Solution{
+    public String getSmallestString(String s){
+       char[] char_arr =s.toCharArray();
+        for (int i = 1; i < char_arr.length; i++){
+            if (char_arr[i - 1] % 2 == char_arr[i] % 2 && char_arr[i - 1] > char_arr[i]){
+            char temp = char_arr[i-1];
+            char_arr[i-1] = char_arr[i];
+            char_arr[i] = temp;
+            break;
+            }
+        }
+        return new String(char_arr);
+    }
+}
