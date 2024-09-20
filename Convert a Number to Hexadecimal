@@ -1,0 +1,20 @@
+class Solution {
+    public String toHex(int num) {
+        char[] equivalent = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+        if(num >=0 && num <=15){
+            return String.valueOf(equivalent[num]);
+        }
+        long number;
+        number =(long) num ;
+        if(number<0) number+= (1L<<32);
+        StringBuilder sb = new StringBuilder();
+        int rem;
+        while(number>0){
+            rem = (int)(number%16L);
+            char x= equivalent[rem];
+            sb.insert(0,String.valueOf(x));
+            number/=16;
+        }
+        return sb.toString();
+    }
+}
