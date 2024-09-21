@@ -1,0 +1,18 @@
+class Solution {
+  List<Integer> result=new ArrayList<>();
+  private void get_values(int i,int n){
+    if(i>n){
+      return;
+    }
+    result.add(i);
+    for(int j=0;j<=9;j++){
+      get_values(i*10+j,n);
+    }
+  }
+  public List<Integer> lexicalOrder(int n) {
+    for(int i=1;i<=9;i++){
+      get_values(i,n);
+    }
+    return result;
+  }
+}
