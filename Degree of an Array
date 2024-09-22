@@ -1,0 +1,30 @@
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        Map<Integer, Integer> count_map = new HashMap<>();
+        Map<Integer, Integer> first_occ = new HashMap<>();
+        Map<Integer, Integer> last_occ = new HashMap<>();
+        for(int i = 0; i < nums.length; i++) {
+            count_map.put(nums[i], count_map.getOrDefault(nums[i],0) + 1);
+            if(!first_occ.containsKey(nums[i])){
+                first_occ.put(nums[i], i);
+            }
+            last_occ.put(nums[i], i);
+        }
+        int max_occ =0;
+        int minLen =nums.length;
+        for(int value:count_map.values()) {
+            if(max_occ < value){
+                max_occ = value;
+            }
+        }
+        for(int key : count_map.keySet()){
+            if(count_map.get(key) == max_occ ) {
+                int len = last_occ.get(key) - first_occ.get(key) + 1;
+                if(len < minLen){
+                    minLen = len;
+                }
+            }
+        }
+        return minLen;
+    }
+}
