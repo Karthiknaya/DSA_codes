@@ -1,0 +1,47 @@
+class Solution {
+    class Trie{
+    Trie[] children;
+    boolean end;
+    Trie(){
+        this.children = new Trie[10]; 
+        this.end = false;
+    }
+}
+    Trie root= new Trie();
+    public void Insertion(String s){
+        Trie curr = root;
+        for (char ch: s.toCharArray()){
+            int ind = ch - '0'; 
+            if (curr.children[ind] == null){
+                curr.children[ind] = new Trie();
+            }
+            curr = curr.children[ind];
+        }
+        curr.end = true;
+    }
+    public int longestCommonPrefix(int[] arr1, int[] arr2){
+        for(int item: arr2){
+            String num = Integer.toString(item);
+            Insertion(num);
+        }
+        int max_Len = 0;
+        for(int item: arr1){
+            String num = Integer.toString(item);
+            max_Len = Math.max(max_Len, search(num));
+        }
+        return max_Len;
+    }
+    public int search(String s){
+        Trie curr = root;
+        int length = 0;
+        for (char ch: s.toCharArray()){
+            int ind = ch -'0'; 
+            if (curr.children[ind] == null){
+                break;
+            }
+            curr = curr.children[ind];
+            length++;
+        }
+        return length;
+    }
+}
