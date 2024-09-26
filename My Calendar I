@@ -1,0 +1,17 @@
+class MyCalendar {
+    private ArrayList<int[]> list;
+    public MyCalendar() {
+        list = new ArrayList<>();
+    }
+    public boolean book(int start, int end) {
+        for (int[] event : list) {
+            int last_start = event[0];
+            int last_end = event[1];
+            if (start < last_end && end > last_start) {
+                return false;
+            }
+        }
+        list.add(new int[] {start, end});
+        return true;
+    }
+}
