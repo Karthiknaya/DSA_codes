@@ -1,0 +1,19 @@
+class MyCalendarTwo {
+    List<int[]> Single_list = new ArrayList<>();
+    List<int[]> double_list = new ArrayList<>();
+    public MyCalendarTwo() {}
+    public boolean book(int start, int end){
+        for(int[] booking : double_list){
+            if (Math.max(start, booking[0]) < Math.min(end, booking[1])){
+                return false;
+            }
+        }
+        for(int[] booking : Single_list){
+            if (Math.max(start, booking[0]) < Math.min(end, booking[1])) {
+                double_list.add(new int[]{Math.max(start, booking[0]), Math.min(end, booking[1])});
+            }
+        }
+        Single_list.add(new int[]{start, end});
+        return true;
+    }
+}
