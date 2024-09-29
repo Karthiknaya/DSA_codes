@@ -1,0 +1,85 @@
+public class AllOne {
+    Node head;
+    public AllOne() {
+    }
+    public void inc(String key) {
+        if (head == null) {
+            Node newNode = new Node(key, 1);
+            head = newNode;
+            return;
+        }
+        Node curr=head;
+        while (curr!=null) {
+            if (curr.string.equals(key)) {
+                curr.count +=1;
+                return;
+            }
+            curr=curr.next;
+        }
+        Node newNode=new Node(key, 1);
+        newNode.next=head;
+        head=newNode;
+    }
+    public void dec(String key) {
+        Node curr = head;
+        Node prev = null;
+        while (curr != null) {
+            if (curr.string.equals(key)) {
+                curr.count = curr.count - 1;
+                if (curr.count == 0) {
+                    if (prev != null) {
+                        prev.next = curr.next;
+                    } else {
+                        head = curr.next;
+                    }
+                }
+                return;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+    }
+    public String getMaxKey() {
+        Node curr = head;
+        int max = Integer.MIN_VALUE;
+        String maxKey = "";
+        while (curr != null) {
+            if (curr.count > max) {
+                max = curr.count;
+                maxKey = curr.string;
+            }
+            curr = curr.next;
+        }
+        return maxKey;
+    }
+    public String getMinKey() {
+        Node curr = head;
+        int min = Integer.MAX_VALUE;
+        String minKey = "";
+        while (curr != null) {
+            if (curr.count < min) {
+                min = curr.count;
+                minKey = curr.string;
+            }
+            curr = curr.next;
+        }
+        return minKey;
+    }
+    class Node {
+    String string;
+    int count;
+    Node next;
+     public Node(String string, int count) {
+        this.string = string;
+        this.count = count;
+    }
+}
+}
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne obj = new AllOne();
+ * obj.inc(key);
+ * obj.dec(key);
+ * String param_3 = obj.getMaxKey();
+ * String param_4 = obj.getMinKey();
+ */
