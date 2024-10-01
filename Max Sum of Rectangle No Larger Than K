@@ -1,0 +1,31 @@
+class Solution {
+    public int maxSumSubmatrix(int[][] grid, int target){
+        int m = grid.length;
+        int n = grid[0].length;
+        int max_sum = Integer.MIN_VALUE;
+        int[] prefix_Sum = new int[n];
+        for(int i=0;i<m;i++){
+            Arrays.fill(prefix_Sum, 0);
+            for(int j=i;j<m;j++){
+                for(int k=0;k<n;k++)
+                    prefix_Sum[k] += grid[j][k];
+                max_sum = Math.max(max_sum, find_Max_Sum(prefix_Sum, target));
+            }
+        }
+        return max_sum;
+    }
+    public int find_Max_Sum(int[] arr, int target) {
+        int curr_max = Integer.MIN_VALUE;
+        int curr_sum = 0;
+        for(int i=0;i<arr.length;i++){
+            curr_sum = 0;
+            for(int j=i;j<arr.length;j++){
+                curr_sum += arr[j];
+                if(curr_sum <= target && curr_sum > curr_max){
+                    curr_max = curr_sum;
+                }
+            }
+        }
+        return curr_max;
+    }
+}
