@@ -1,0 +1,16 @@
+class Solution{
+    public boolean isValidSerialization(String preorder){
+        String[] str_arr=preorder.split(",");
+        int Spots=1;
+        for(String ch:str_arr){
+            Spots--;
+            if(Spots<0){
+             return false;
+            }
+            if(!ch.equals("#")){
+                Spots+=2;
+            }
+        }
+        return Spots==0;
+    }
+}
