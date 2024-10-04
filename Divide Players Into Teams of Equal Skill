@@ -1,0 +1,28 @@
+class Solution {
+    public long dividePlayers(int[] skill) {
+        Arrays.sort(skill);
+        if(skill.length==2){
+            return skill[0]*skill[1];
+        }
+        int total_sum=0;
+        for(int i=0;i<skill.length;i++){
+            total_sum+=skill[i];
+        }
+        int left=0;
+        int right=skill.length-1;
+        int groups=skill.length/2;
+        int  Pair_Sum=total_sum/groups;
+        long res=0;
+        while(left<right){
+          if(skill[left]+skill[right]==Pair_Sum){
+           long x=skill[left]*skill[right];
+           res+=x;
+            left++;
+            right--;
+          }else{
+            return -1;
+          }
+        }
+        return res;
+    }
+}
