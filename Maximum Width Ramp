@@ -1,0 +1,21 @@
+class Solution {
+    public int maxWidthRamp(int[] nums) {
+        int max_width =0;
+        int[] right_max = new int[nums.length];
+        right_max[nums.length - 1] = nums[nums.length - 1];
+        for(int i =nums.length - 2;i >= 0;i--){
+            right_max[i] = Math.max(right_max[i + 1], nums[i]);
+        }
+        int left =0;
+        int right =0;
+        while(right<nums.length){
+            if(nums[left] > right_max[right] && left < right){
+                left++;
+                continue;
+            }
+            max_width = Math.max(max_width, right - left);
+            right++;
+        }
+        return max_width;
+    }
+}
