@@ -1,0 +1,27 @@
+class Solution {
+    public int smallestChair(int[][] times, int targetFriend) {
+        int[] chair_no =new int[times.length];
+         Arrays.fill(chair_no, -1);
+        int target_arrival_time=times[targetFriend][0]; 
+        Arrays.sort(times,(a, b)->a[0]-b[0]);
+        for(int i=0;i<times.length;i++){
+            int arrival = times[i][0]; 
+            int move_at = times[i][1];
+            for(int j =0;j<chair_no.length;j++){
+                if(chair_no[j] != -1 && times[chair_no[j]][1] <= arrival){
+                    chair_no[j] = -1; 
+                }
+            }
+            for (int k = 0; k < chair_no.length; k++) {
+                if (chair_no[k] == -1) { 
+                    chair_no[k] = i;
+                    if (arrival == target_arrival_time) {
+                        return k;
+                    }
+                    break;
+                }
+            }
+        }
+        return 0;
+    }
+}
