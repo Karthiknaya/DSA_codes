@@ -1,0 +1,35 @@
+class Solution {
+    private boolean All_ind_marked(int[] index_count){
+        for(int index: index_count){
+            if(index == 0)
+            return false;
+        }
+        return true;
+    }
+    public int[] smallestRange(List<List<Integer>> nums) {
+        TreeMap<Integer, List<Integer>> map =new TreeMap();
+        for(int i=0;i<nums.size();i++){
+            for(int n:nums.get(i)){
+                if(!map.containsKey(n)) map.put(n, new ArrayList<>());
+                map.get(n).add(i);
+            }
+        }
+        List<Integer> list = new ArrayList(map.keySet());
+        int left = 0;
+        int right = 0;
+        int[] range = new int[]{ list.get(0), list.get(list.size()-1)};
+        int[] index_count = new int[nums.size()];
+        while(left < list.size()) {
+            while(right < list.size() && !All_ind_marked(index_count)) {
+                for(int index : map.get(list.get(right))) index_count[index]++;
+                right++;
+            }
+            if(All_ind_marked(index_count) && (list.get(right-1) - list.get(left)) < (range[1] - range[0])){
+                range = new int[]{ list.get(left), list.get(right-1) };
+            }
+            for(int index : map.get(list.get(left))) index_count[index]--;
+            left++;
+        }
+        return range;
+    }
+}
