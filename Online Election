@@ -1,0 +1,40 @@
+class TopVotedCandidate {
+    int[] max_Voted_Person;
+    int[] times;
+    public TopVotedCandidate(int[] persons, int[] times) {
+        int n =persons.length;
+        this.times = times;
+        Map<Integer, Integer> map=new HashMap<>();
+        max_Voted_Person = new int[n];
+        int max_Votes=0;
+        for(int i=0;i<n;i++){
+            int curPerson = persons[i];
+            map.put(curPerson, map.getOrDefault(curPerson,0)+1);
+            int curr_votes =map.get(curPerson);
+            if(curr_votes >=max_Votes){
+                // select this person as a winner for that moment
+                max_Voted_Person[i] = curPerson;
+                max_Votes = curr_votes;
+            }else{
+                //consider last most voted person
+                max_Voted_Person[i] = max_Voted_Person[i-1];
+            } 
+        }
+    }
+    public int q(int t) {
+        int n = times.length;
+        int left=0;
+        int right=n -1;
+        while(left <= right){
+            int mid =left+(right-left)/2;
+            if(times[mid] == t){
+                return max_Voted_Person[mid];
+            }else if(times[mid] < t){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return max_Voted_Person[right];
+    }
+}
