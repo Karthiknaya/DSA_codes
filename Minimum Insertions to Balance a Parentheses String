@@ -1,0 +1,28 @@
+class Solution {
+    public int minInsertions(String s) {
+        int insertions=0;
+        int open_count=0;
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i) == ')'){
+                if(i+1<s.length() && s.charAt(i+1) == ')'){
+                     if(open_count == 0){
+                        insertions++;
+                     }else{
+                        open_count--;
+                    }
+                 i++;
+                }else{
+                    if(open_count != 0){
+                        open_count--;
+                        insertions++;
+                    }else{
+                        insertions += 2;
+                    }
+                }
+            }else{
+                open_count++;
+            }  
+        }
+        return open_count*2 + insertions;
+    }
+}
