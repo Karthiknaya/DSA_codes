@@ -1,0 +1,23 @@
+class Solution {
+    public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
+        int max_Count =0; 
+        Set<Character> set;
+        Map<String, Integer> map=new HashMap<>();
+        int min_Length = minSize; 
+        for(int i=0;i<=s.length()-min_Length;i++){
+            String str=s.substring(i, i + min_Length);
+            set=new HashSet<>();
+            for(char ch:str.toCharArray()){
+                set.add(ch);
+            }
+            if(set.size()<=maxLetters){
+                map.put(str,map.getOrDefault(str,0)+1);
+                int occ_count = map.get(str);
+                if(occ_count > max_Count) {
+                    max_Count = occ_count;
+                }
+            }
+        }
+        return max_Count; 
+    }
+}
