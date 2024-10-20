@@ -1,0 +1,31 @@
+public class Solution {
+    public boolean parseBoolExpr(String expression) {
+        Stack<Character> stack =new Stack<>();
+        for(char ch :expression.toCharArray()) {
+            if(ch == ','|| ch == '('){
+                continue; 
+            }
+            if(ch == 't' || ch == 'f' || ch == '!' || ch == '&' || ch == '|'){
+                stack.push(ch);
+            }else if(ch == ')'){
+                boolean true_val = false;
+                boolean false_val = false;
+                while(stack.peek() != '!' && stack.peek() != '&' && stack.peek() != '|'){
+                    char bool_val=stack.pop();
+                    if(bool_val == 't') true_val = true;
+                    if(bool_val == 'f') false_val = true;
+                }
+                char operator = stack.pop();
+                if(operator == '!'){
+                    stack.push(true_val ? 'f':'t');
+                }else if(operator == '&'){
+                    stack.push(false_val ? 'f':'t');
+                }else{
+                    stack.push(true_val ? 't':'f');
+                }
+            }
+        }
+        // return peek val
+        return stack.peek() == 't';
+    }
+}
