@@ -1,0 +1,43 @@
+class Solution {
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        Map<String, List<String>> ingredTorecipe_Map  = new HashMap<>();
+        Map<String,Integer> recipe_ingred_count = new HashMap<>();
+        ArrayDeque<String> q = new ArrayDeque<>();
+        List<String> ans = new ArrayList<>();
+        for(String recipe : recipes){
+            recipe_ingred_count.put(recipe,0);
+        }
+        int n = ingredients.size();
+        for(int i=0;i<n;i++){
+            List<String> list = ingredients.get(i);
+            for(String ingred: list){
+                ingredTorecipe_Map.computeIfAbsent( ingred,(k)->new ArrayList<>()).add(recipes[i]);
+            }
+            recipe_ingred_count.put(recipes[i],recipe_ingred_count.get(recipes[i])+list.size());
+        }
+        for(String s : supplies){
+            if(ingredTorecipe_Map.containsKey(s)){
+                for(String recipe:ingredTorecipe_Map.get(s)){
+                    recipe_ingred_count.put(recipe,recipe_ingred_count.get(recipe)-1);
+                    if(recipe_ingred_count.get(recipe) == 0) q.add(recipe);
+
+                }
+            }
+
+        }
+        while(!q.isEmpty()){
+            String recipe = q.poll();
+            if(!ans.contains(recipe)){
+                ans.add(recipe);
+                if(ingredTorecipe_Map.containsKey(recipe)){
+                    for(String b : ingredTorecipe_Map.get(recipe)){
+                        recipe_ingred_count.put(b,recipe_ingred_count.get(b)-1);
+                        if(recipe_ingred_count.get(b) == 0) q.add(b);
+                    }
+                }
+
+            }
+        } 
+        return ans;
+    }
+}    
