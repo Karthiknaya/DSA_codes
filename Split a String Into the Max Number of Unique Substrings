@@ -1,0 +1,22 @@
+class Solution {
+    public int maxUniqueSplit(String s){
+        Set<String> set=new HashSet<>();
+        return get_count(s,0,set);
+    }
+    private int get_count(String s, int index, Set<String> set){
+        //Base case
+        if(index == s.length()) {
+            return 0;
+        }
+        int max_Substrings=0;
+        for(int i=index+1;i<=s.length();i++){
+            String substring = s.substring(index, i);
+            if(!set.contains(substring)) {
+                set.add(substring);
+                max_Substrings = Math.max(max_Substrings,1+get_count(s,i,set));
+                set.remove(substring);
+            }
+        }
+        return max_Substrings;
+    }
+}
