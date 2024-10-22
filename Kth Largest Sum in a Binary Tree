@@ -1,0 +1,35 @@
+class Solution {
+    public long kthLargestLevelSum(TreeNode root, int k) {
+        return get_Kth_Sum(root,k);
+    }
+    private long get_Kth_Sum(TreeNode root,int k) {
+        if(root == null){
+            return -1;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        PriorityQueue<Long> pq = new PriorityQueue<Long>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            long curr_Sum=0;
+            for(int i=0;i<size;i++){
+                TreeNode currNode = q.poll();
+                curr_Sum += currNode.val;
+                if(currNode.left != null){
+                    q.add(currNode.left);
+                }
+                if(currNode.right != null){
+                    q.add(currNode.right);
+                }
+            }
+            pq.add(curr_Sum);
+            if(pq.size()>k){
+                pq.poll();
+            }
+        }
+        if(pq.size()<k){
+            return -1;
+        }
+        return pq.peek();
+    }
+}
