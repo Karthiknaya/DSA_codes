@@ -1,0 +1,59 @@
+class Solution {
+    private List<Integer> get_LevelSum(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        List<Integer> level_Sum = new ArrayList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            int curr_Sum = 0;
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                TreeNode currentNode = q.poll();
+                curr_Sum += currentNode.val;
+                if(currentNode.left != null){
+                    q.offer(currentNode.left);
+                }
+                if(currentNode.right != null){
+                    q.offer(currentNode.right);
+                }
+            }
+            level_Sum.add(curr_Sum);
+        }
+        return level_Sum;
+    }
+    public TreeNode replaceValueInTree(TreeNode root){
+        List<Integer> levelSum_List = get_LevelSum(root);
+        root.val =0;  
+        int curr_Level =0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            int size =q.size();
+            for(int i=0;i<size;i++){
+                TreeNode curr_Node = q.poll(); 
+                TreeNode curr_left = curr_Node.left;
+                TreeNode curr_right = curr_Node.right;
+                int curr_ChildSum=0;
+                if(curr_left != null){
+                    curr_ChildSum += curr_left.val;
+                }
+                if(curr_right != null){
+                    curr_ChildSum += curr_right.val;
+                }
+                if(curr_ChildSum == 0){
+                    continue;
+                }
+                int req_Sum=levelSum_List.get(curr_Level + 1)-curr_ChildSum;
+                if(curr_left != null){
+                    curr_left.val=req_Sum;
+                    q.offer(curr_left);
+                }
+                if(curr_right != null){
+                    curr_right.val = req_Sum;
+                    q.offer(curr_right);
+                }
+            }
+            curr_Level++;
+        }
+        return root;
+    }
+}
