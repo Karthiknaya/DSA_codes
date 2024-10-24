@@ -1,0 +1,36 @@
+class Solution {
+    private int get_MinVal(int i, int j, String s1, String s2) {
+        String preLeft1 = s1.substring(0, i);
+        String preLeft2 = s1.substring(i);
+        String preRight1 = s2.substring(0, j);
+        String preRight2 = s2.substring(j);
+        int prefix =preLeft1 ==""?1:Integer.parseInt(preLeft1);
+        int suffix =preRight2 ==""?1:Integer.parseInt(preRight2);
+        int BracketSum = Integer.parseInt(preLeft2) + Integer.parseInt(preRight1);
+        return prefix * BracketSum * suffix;
+    }
+    public String minimizeResult(String expression) {
+        String[] strArr = expression.split("\\+");
+        int min_Val=Integer.MAX_VALUE;
+        int splitInd_left = 0;
+        int splitInd_right = 0;
+        String s1 ="";
+        String s2 ="";
+        for(int i =0;i<strArr[0].length();i++){
+            for(int j=1;j<=strArr[1].length();j++){
+                if(get_MinVal(i, j, strArr[0], strArr[1]) < min_Val){
+                    min_Val = get_MinVal(i, j, strArr[0], strArr[1]);
+                    splitInd_left = i;
+                    splitInd_right = j;
+                    s1 = strArr[0];
+                    s2 = strArr[1];
+                }
+            }
+        }
+        String prefix_val = s1.substring(0, splitInd_left);
+        String val1 = s1.substring(splitInd_left);
+        String val2 = s2.substring(0, splitInd_right);
+        String suffix_val = s2.substring(splitInd_right);
+        return prefix_val+"("+val1+ "+" + val2 +")"+suffix_val;
+    }
+}
