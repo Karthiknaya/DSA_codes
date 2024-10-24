@@ -1,0 +1,15 @@
+class Solution {
+    public boolean flipEquiv(TreeNode root1, TreeNode root2){
+        return get_Checked(root1, root2);
+    }
+    private boolean get_Checked(TreeNode node1, TreeNode node2){
+        if(node1 == null && node2 == null){
+            return true;
+        }
+        if(node1 == null || node2 == null || node1.val != node2.val) {
+            return false;
+        }
+        return(get_Checked(node1.left, node2.left) || get_Checked(node1.left, node2.right)) &&
+               (get_Checked(node1.right, node2.right) || get_Checked(node1.right, node2.left));
+    }
+}
