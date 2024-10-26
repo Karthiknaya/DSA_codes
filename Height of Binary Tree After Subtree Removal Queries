@@ -1,0 +1,36 @@
+class Solution {
+    Map<Integer, Integer> max_heights_Map = new HashMap<>();
+    Map<TreeNode, Integer> curr_height_Map = new HashMap<>();
+    public int[] treeQueries(TreeNode root, int[] queries) {
+        update_maxheight(root, 0, 0);
+        int[] ans = new int[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            ans[i] = max_heights_Map.get(queries[i]);
+        }
+        return ans;
+    }
+    private void update_maxheight(TreeNode node, int upper_depth, int max_Height) {
+        if (node == null) {
+            return;
+        }
+        max_heights_Map.put(node.val, max_Height);
+
+        update_maxheight(node.left, upper_depth + 1, 
+            Math.max(max_Height, upper_depth + 1 + get_Height(node.right))
+        );
+        update_maxheight(node.right, upper_depth + 1, 
+            Math.max(max_Height, upper_depth + 1 + get_Height(node.left))
+        );
+    }
+    private int get_Height(TreeNode node) {
+        if (node == null) {
+            return -1;
+        }
+        if (curr_height_Map.containsKey(node)) {
+            return curr_height_Map.get(node);
+        }
+        int max_Height = 1 + Math.max(get_Height(node.left), get_Height(node.right));
+        curr_height_Map.put(node, max_Height);
+        return max_Height;
+    }
+}
