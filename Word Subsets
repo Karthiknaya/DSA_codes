@@ -1,0 +1,31 @@
+class Solution{
+    public List<String> wordSubsets(String[] words1, String[] words2) {
+        List<String> ans=new ArrayList<>();
+        int req_arr[]=new int[26];
+        for(String word:words2){
+            int count[]=new int[26];
+            for(char c:word.toCharArray()){
+                count[c-'a']++;
+            }
+            for(int i=0;i<26;i++){
+                req_arr[i]=Math.max(req_arr[i],count[i]);
+            }
+        }
+        for(String word:words1){
+            int curr_arr[]=new int[26];
+            for(char c:word.toCharArray()){
+                curr_arr[c-'a']++;
+            }
+            if(is_Subset(curr_arr,req_arr)){
+                ans.add(word);
+            }
+        }
+        return ans;
+    }
+    private boolean is_Subset(int[] curr_arr, int[] req_arr){
+        for(int i = 0; i < 26; i++){
+            if (req_arr[i] > curr_arr[i]) return false;  
+        }
+        return true;
+    }
+}
