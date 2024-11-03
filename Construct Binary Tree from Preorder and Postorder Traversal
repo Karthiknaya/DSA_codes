@@ -1,0 +1,25 @@
+class Solution {
+    private TreeNode constructTree(int[] preorder, int preLeft, int preEnd, int[] post, int postLeft, int postEnd){
+        if(preLeft>preEnd){
+            return null;
+        }
+        TreeNode root =new TreeNode(preorder[preLeft]);
+        if(preEnd==preLeft){
+            return root;
+        }
+        int mid =postLeft;
+        while(mid<=postEnd){
+            if(preorder[preLeft+1]==post[mid])
+            break;
+            mid++;
+        }
+        int leftcount = mid-postLeft;
+        root.left = constructTree(preorder, preLeft+1, preLeft+1+leftcount, post, postLeft, mid);
+        root.right = constructTree(preorder, preLeft+1+leftcount+1, preEnd, post, mid+1, postEnd-1);
+        return root;
+    }
+    public TreeNode constructFromPrePost(int[] preorder, int[] postorder) {
+        int n =preorder.length;
+        return constructTree(preorder,0,n-1,postorder,0,n-1);
+    }
+}
