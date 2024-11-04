@@ -1,0 +1,28 @@
+class Solution{
+    public int subarrayLCM(int[] nums, int k){
+        int LCM_Count =0;
+        for(int i=0;i<nums.length;i++){
+         int currLCM =1;
+         for(int j=i;j<nums.length;j++){
+           int value2 =nums[j];
+           currLCM =getLcm(currLCM,value2);
+           if(currLCM ==k){
+            LCM_Count++;
+            }else if(currLCM>k){
+            break;
+           }
+         }
+        } 
+        return LCM_Count;
+    }
+    private int getLcm(int num1,int num2){
+     int maxNum=Math.max(num1,num2);
+     int prod=num1*num2;
+     for(int currNum=maxNum;currNum<=prod;currNum=currNum+maxNum){
+       if(currNum%num1==0 && currNum %num2==0){
+        return currNum;
+       }
+     }
+     return maxNum;
+    }    
+}
