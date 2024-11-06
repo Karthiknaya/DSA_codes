@@ -1,0 +1,25 @@
+class Solution{
+    public boolean canSortArray(int[] nums){
+        while(!checkArr(nums)){
+            for(int i=0;i<nums.length-1;i++){
+                if(nums[i]>nums[i+1]&&countSetBits(nums[i])!=countSetBits(nums[i+1])){
+                    return false;
+                }
+                if(nums[i]>nums[i+1]){
+                    int temp = nums[i];
+                    nums[i] =nums[i+1];
+                    nums[i+1]=temp;
+                }
+            }
+        }
+        return true;
+    }
+    private boolean checkArr(int[] nums){
+        int i=0;
+        for(i=0;i<nums.length-1&& nums[i]<=nums[i+1];i++){}
+        return i==nums.length-1;
+    }
+    private int countSetBits(int val){
+        return Integer.bitCount(val);
+    }
+}
