@@ -1,0 +1,41 @@
+class Solution {
+    int[][] directions={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
+    int m,n;
+    public void getUpdate(char[][] board,int x,int y){
+        if(x<0 || x>=board.length || y<0 || y>=board[0].length || board[x][y]!='E'){
+            return ;
+        }
+        int num=getCount(board,x,y);
+        if(num==0)
+        board[x][y]='B';
+        else 
+        board[x][y]=(char)(num+'0');
+        if(num==0){
+            for(int[] dir:directions){
+                getUpdate(board,x+dir[0],y+dir[1]);
+            }
+        }
+    }
+    public int getCount(char[][] board,int x,int y){
+        int count=0;
+        for(int[] dir:directions){
+            int i=x+dir[0],j=y+dir[1];
+            if(i>=0 && i<m && j>=0 && j<n && board[i][j]=='M'){
+                count++;
+            }
+        }
+        return count;
+    }
+    public char[][] updateBoard(char[][] board, int[] click) {
+        m=board.length;
+        n=board[0].length;
+        int x=click[0];
+        int y=click[1];
+        if(board[x][y]=='M'){
+            board[x][y]='X';
+            return board;
+        }
+        getUpdate(board,x,y);
+        return board;
+    }
+}
