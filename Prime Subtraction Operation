@@ -1,0 +1,42 @@
+class Solution {
+    public boolean primeSubOperation(int[] nums){
+        int n=nums.length;
+        for(int i =n-2; i >= 0; i--){
+            if(nums[i] <nums[i+1]){
+                continue;
+            }else{
+                int num = getPrime(nums[i]-nums[i+1],nums[i]);
+                if(num == -1){
+                    return false;
+                }
+                nums[i] =nums[i]-num;
+            }
+        }
+        return true;
+    }
+    public static boolean checkPrime(int num){
+        if(num <=1){
+            return false;
+        }
+        if(num == 2){
+            return true;
+        }
+         if(num%2==0){
+            return false;
+        }
+        for(int i=3;i<=Math.sqrt(num);i+=2){
+            if(num %i== 0){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int getPrime(int min, int max) {
+        for(int num=min+1;num<max;num++){
+            if(checkPrime(num)){
+                return num;
+            }
+        }
+        return -1;
+    }
+}
