@@ -1,0 +1,27 @@
+class Solution {
+    private static boolean canDistribute(int val,int[] arr, int n){
+        int currStores=0;
+        for(int item:arr){
+            currStores += (int) Math.ceil(item/(val*1.0));
+        }
+        return currStores <=n;
+    }
+    public static int minimizedMaximum(int n, int[] quantities){
+        int right=Integer.MIN_VALUE;
+        for(int item: quantities){
+            right = Math.max(item,right);
+        }
+        int left =1;
+        int quantity =-1;
+        while(left <= right){
+            int mid=left + (right-left)/2;
+            if(canDistribute(mid,quantities,n)){
+                right=mid-1;
+                quantity = mid;
+            }else{
+                left =mid+1;
+            }
+        }
+        return quantity;
+    }
+}
