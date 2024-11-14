@@ -1,0 +1,50 @@
+class Solution {
+    class DSU{
+    int[] parent;
+    int[] rank;
+    public DSU(int n){
+        parent=new int[n];
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+        }
+        rank=new int[n];
+        Arrays.fill(rank,1);
+    }
+    public int find(int x){
+        if(x==parent[x]) return x;
+        return parent[x]=find(parent[x]);
+    }
+    public boolean union(int x,int y){
+        int ParX=find(x);
+        int ParY=find(y);
+        if(ParX==ParY){
+            return false;
+        }
+        if(rank[ParX]>rank[ParY]){
+            parent[ParY]=ParX;
+            rank[ParX]+=rank[ParY];
+        }else{
+            parent[ParX]=ParY;
+            rank[ParY]+=rank[ParX];
+        }
+        return true;
+    }
+}
+    public long countPairs(int n, int[][] edges) {
+        DSU dsu=new DSU(n);
+        long pairs=0;
+        for(int[] edge:edges){
+            dsu.union(edge[0],edge[1]);
+        }
+        List<Integer> list=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(dsu.parent[i]==i) list.add(dsu.rank[i]);
+        }
+        long currNodes=0;
+        for(int groupSize:list){
+            pairs+=currNodes*groupSize;
+            currNodes+=groupSize;
+        }
+        return pairs;
+    }
+}
