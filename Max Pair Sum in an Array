@@ -1,0 +1,21 @@
+class Solution {
+    public int maxSum(int[] nums) {
+        int[] maxNumStore=new int[10];
+        int maxSum = -1;
+        for(int num:nums){
+            int maxDigit=0;
+            int n=num;
+            while(n!=0){
+                maxDigit=Math.max(maxDigit,n%10);
+                n=n/10;
+            }
+            if(maxNumStore[maxDigit]!=0){
+                maxSum=Math.max(maxSum,maxNumStore[maxDigit]+num);
+            }
+            if(num>maxNumStore[maxDigit]){
+                maxNumStore[maxDigit]=num;
+            }
+        }
+        return maxSum;
+    }
+}
