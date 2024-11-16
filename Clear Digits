@@ -1,0 +1,17 @@
+class Solution {
+    public String clearDigits(String s) {
+        List<Character> list=new ArrayList<>();
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)>='0'&& s.charAt(i)<='9'){
+            list.remove(list.size()-1);
+            }else{
+            list.add(s.charAt(i));
+            }
+        }
+        String newStr="";
+        for(int i=0;i<list.size();i++){
+            newStr+=list.get(i);
+        }
+        return newStr;
+    }
+}
