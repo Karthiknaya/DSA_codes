@@ -1,0 +1,23 @@
+class Solution {
+    public int shortestSubarray(int[] nums, int k) {
+        int n = nums.length;
+        long[] preSum = new long[n + 1];
+        for (int i=0;i<n;i++) {
+            preSum[i + 1] = preSum[i] + nums[i];
+        }
+        int minLen=n + 1;
+        int[] q = new int[n + 1];
+        int r = 0;
+        int l = 0;
+        for(int i = 0; i <= n; i++){
+            while (r>l && preSum[i]-preSum[q[l]] >= k){
+                minLen = Math.min(minLen, i-q[l++]);
+            }
+            while (r>l && preSum[i]<=preSum[q[r - 1]]){
+                r--;
+            }
+            q[r++] = i;
+        }
+        return minLen ==n+1?-1:minLen; 
+    }
+}
