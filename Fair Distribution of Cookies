@@ -1,0 +1,40 @@
+class Solution{
+    public int distributeCookies(int[] cookies, int k) {
+        int currSum=0;
+        for(int cookie: cookies){
+            currSum+=cookie;
+        }
+        int left=0;
+        int right=currSum;
+        int minUnfair=-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(canDistribute(cookies, k, mid)){
+                minUnfair =mid;
+                right =mid-1;
+            }else{
+                left =mid+1;
+            }
+        }
+        return minUnfair;
+    }
+     private boolean canDistribute(int[] cookies, int k, int mid){
+        int[] childBag = new int[k];
+        return canPlaceCookies(cookies,0,k,mid,childBag);
+    }
+    private boolean canPlaceCookies(int[] cookies, int ind, int k, int mid, int[] childBag){
+        if(ind==cookies.length){
+            return true;
+        }
+        boolean fairFlag=false;
+        int item =cookies[ind];
+        for(int child=0;child<k;child++){
+            if(childBag[child]+item<=mid){
+                childBag[child]+=item;
+                fairFlag=fairFlag ||canPlaceCookies(cookies , ind+1, k, mid, childBag);
+                childBag[child]-=item;
+            }
+        }
+        return fairFlag;
+    }
+}
