@@ -1,0 +1,26 @@
+class Solution {
+    public int minimumRightShifts(List<Integer> nums) {
+        int smallNum=Integer.MAX_VALUE;
+        int smallInd=0;
+        for(int i=0;i<nums.size();i++){
+            if(smallNum>nums.get(i)){
+                smallNum=nums.get(i);
+                smallInd=i;
+            }
+        }
+        for(int i=nums.size()-1;i>0;i--){
+            if(i==smallInd){
+                continue;
+            }
+            if(nums.get(i)<nums.get(i-1))
+            return -1;
+        }
+        if(smallInd==0){
+            return 0;
+        }
+        if(nums.get(0)<nums.get(nums.size()-1)){
+            return -1;
+        }
+        return nums.size()-smallInd;
+    }
+}
