@@ -1,0 +1,19 @@
+class Solution {
+    public int minDeletion(int[] nums) {
+       int left=0;
+       int right=1;
+       int count=0;
+       while(right<nums.length){
+        while(right<nums.length&&nums[left]==nums[right]){
+           count++;
+           right++;
+        }
+        left=right+1;
+        right=left+1;
+       } 
+       if((nums.length-count)%2!=0){
+        return count+1;
+       }
+        return count;
+    }
+}
