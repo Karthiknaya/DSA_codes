@@ -1,0 +1,34 @@
+class Solution {
+    public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
+        int[] dir ={-1, 0, 1, 0, -1};
+        int[][] grid = new int[m][n];
+        for(int[] item:guards){
+            grid[item[0]][item[1]] =2;
+        }
+        for(int[] item:walls){
+            grid[item[0]][item[1]] =2;
+        }
+        for(int[] item:guards){
+            for(int i =0;i<4;++i){
+                int x =item[0];
+                int y=item[1];
+                int newX = dir[i];
+                int newY = dir[i + 1];
+                while(x +newX >= 0 && x +newX < m && y + newY >= 0 && y + newY < n && grid[x + newX][y + newY] < 2){
+                    x += newX;
+                    y += newY;
+                    grid[x][y] =1;
+                }
+            }
+        }
+        int count = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 0){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
