@@ -1,0 +1,19 @@
+class Solution {
+    public int maxEqualRowsAfterFlips(int[][] matrix) {
+        HashMap<String, Integer> map= new HashMap<>();
+        for(int[] item :matrix){
+            StringBuilder sb = new StringBuilder();
+            int Number =item[0];
+            for(int num :item){
+                sb.append(num == Number?'0':'1');
+            }
+            String str =sb.toString();
+            map.put(str,map.getOrDefault(str,0)+1);
+        }
+        int ans=0;
+        for (int value:map.values()){
+            ans = Math.max(ans, value);
+        }
+        return ans;
+    }
+}
