@@ -1,0 +1,32 @@
+class Solution {
+    public char[][] rotateTheBox(char[][] box) {
+        int m=box.length;
+        int n=box[0].length;
+        char[][] arr=new char[n][m];
+        int k=n-1;
+        int l=0;
+        for(int i=m-1;i>=0;i--){
+            for(int j=n-1;j>= 0;j--){
+                if(box[i][j]=='#'){
+                    arr[k][l]='#';
+                    k--;
+                }
+                else if(box[i][j]=='*'){
+                    while(k>j){
+                        arr[k][l]='.';
+                        k--;
+                    }
+                    arr[k][l]='*';
+                    k--;
+                }
+            }
+            while(k>=0){
+                arr[k][l]='.';
+                k--;
+            }
+            l++;
+            k=n-1;
+        }
+        return arr;
+    }
+}
