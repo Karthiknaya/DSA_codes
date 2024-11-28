@@ -1,0 +1,33 @@
+class Solution {
+    public int minimumObstacles(int[][] grid) {
+        int m =grid.length;
+        int n =grid[0].length;
+        int[][] directions ={{0,1},{1,0},{0,-1},{-1,0}};
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+        pq.offer(new int[]{0, 0, 0});
+        int[][] vis = new int[m][n];
+        for(int[] row:vis){
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+        vis[0][0]=0;
+        while(!pq.isEmpty()){
+            int[] curr=pq.poll();
+            int x =curr[0], y =curr[1], obstacles =curr[2];
+            if(x ==m - 1 && y == n - 1){
+                return obstacles;
+            }
+            for(int[] dir:directions){
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if(newX >= 0 && newY >= 0 && newX < m && newY < n){
+                    int newMinPath = obstacles+grid[newX][newY];
+                    if(newMinPath < vis[newX][newY]){
+                        vis[newX][newY] = newMinPath;
+                        pq.offer(new int[]{newX, newY, newMinPath});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
