@@ -1,0 +1,43 @@
+class Solution {
+    public int minimumTime(int[][] grid) {
+        int m =grid.length;
+        int n =grid[0].length;
+        if(grid[0][1] >1 && grid[1][0] >1){
+            return -1;
+        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) ->Integer.compare(a[2], b[2]));
+        pq.offer(new int[]{0, 0, 0});
+        boolean[][] visited = new boolean[m][n];
+        int[][] directions ={{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int x = curr[0];
+            int y = curr[1];
+            int currTime =curr[2];
+            if (x == m - 1 && y == n - 1){
+                return currTime;
+            }
+            if(visited[x][y]){
+                continue;
+            }
+            visited[x][y] = true;
+            for(int[] dir:directions){
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if(newX >= 0 && newX < m && newY >= 0 && newY < n){
+                    int nextTime = currTime + 1;
+                    int requiredTime=grid[newX][newY];
+                    if(nextTime<requiredTime){
+                        // Even steps required to comeback to same cell again if you move to other cell
+                        int wait=(requiredTime - nextTime) % 2 == 0?0:1;
+                        nextTime = requiredTime + wait;
+                    }
+                    if (!visited[newX][newY]) {
+                        pq.offer(new int[]{newX, newY, nextTime});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
