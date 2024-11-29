@@ -1,0 +1,18 @@
+class Solution {
+    public int secondHighest(String s){
+        int max1=-1;
+        int max2 =-1;
+        for(char ch:s.toCharArray()){
+            if(Character.isDigit(ch)){
+                int currDigit =ch-'0';
+                if(currDigit>max1){
+                    max2=max1;
+                    max1=currDigit;
+                }else if(currDigit<max1 && currDigit>max2){
+                    max2 =currDigit;
+                }
+            }
+        }
+        return max2;
+    }
+}
