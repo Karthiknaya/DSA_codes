@@ -1,0 +1,44 @@
+class Solution {
+    public int[][] validArrangement(int[][] pairs) {
+        int m =pairs.length;
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Map<Integer, Integer> degree = new HashMap<>();
+        for(int[] pair : pairs){
+            int src = pair[0];
+            int dest = pair[1];
+            graph.putIfAbsent(src, new ArrayList<>());
+            graph.get(src).add(dest);
+            degree.putIfAbsent(src, 0);
+            degree.put(src, degree.get(src) - 1);
+            degree.putIfAbsent(dest, 0);
+            degree.put(dest, degree.get(dest) + 1);
+        }
+        int startNode = -1;
+        for(int key : degree.keySet()){
+            if(degree.get(key) == -1){
+                startNode = key;
+                break;
+            }
+        }
+        if(startNode == -1){
+            startNode = pairs[0][0];
+        }
+        List<Integer> flowPath = new ArrayList<>();
+        getPath(flowPath, startNode, graph, degree);
+        int[][] ans = new int[m][2];
+        for(int i = 0; i < flowPath.size() - 1; i++){
+            ans[i][0] = flowPath.get(i);
+            ans[i][1] = flowPath.get(i + 1);
+        }
+        return ans;
+    }
+    private void getPath(List<Integer> flowPath, int start, Map<Integer, List<Integer>> graph, Map<Integer, Integer> degree){
+        List<Integer> neighbors = graph.get(start);
+        while(neighbors != null && !neighbors.isEmpty()){
+            int next = neighbors.get(0);
+            neighbors.remove(0);
+            getPath(flowPath, next, graph, degree);
+        }
+        flowPath.add(0, start);
+    }
+}
