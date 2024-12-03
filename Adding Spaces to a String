@@ -1,0 +1,17 @@
+class Solution {
+    public String addSpaces(String s, int[] spaces){
+        int idx =0;
+        StringBuilder newStr =new StringBuilder();
+        for (int spaceInd :spaces){
+            if(spaceInd == 0){
+               newStr.append(" ");
+            }else{
+                newStr.append(s.substring(idx,spaceInd));
+                newStr.append(" ");
+            }
+            idx = spaceInd;
+        }
+        newStr.append(s.substring(idx, s.length()));
+        return newStr.toString();
+    }
+}
