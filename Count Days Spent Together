@@ -1,0 +1,25 @@
+class Solution {
+    int[] monthArr = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private int countDays(String time){
+        int month = Integer.valueOf(time.substring(0,2)) - 1;
+        int day = Integer.valueOf(time.substring(3,5));
+        int totalDays = 0;
+        for(int i=0;i<month;i++){
+            totalDays += monthArr[i];
+        }
+        totalDays +=day;
+        return totalDays;
+    }
+    public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
+        int AliceEntry = countDays(arriveAlice);
+        int AliceLeave = countDays(leaveAlice);
+        int BobEntry = countDays(arriveBob);
+        int BobLeave = countDays(leaveBob);
+        if(AliceLeave < BobEntry || AliceEntry > BobLeave){
+            return 0;
+        }
+        int maxArrive = Math.max(BobEntry, AliceEntry);
+        int minLeave= Math.min(AliceLeave, BobLeave);
+        return minLeave - maxArrive +1;
+    }
+}
