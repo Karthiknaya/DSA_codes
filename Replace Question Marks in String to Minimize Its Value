@@ -1,0 +1,39 @@
+class Solution {
+    public String minimizeStringValue(String s) {
+        int n=s.length();
+        StringBuilder str=new StringBuilder(s);
+        int count[]=new int[26];
+        PriorityQueue<Character> pq=new PriorityQueue<>();
+        int QstnCount=0;
+        for(int i=0;i<n;i++){
+            char ch=s.charAt(i);
+            if(ch=='?'){
+                QstnCount++;
+                continue;
+            }else{
+                count[ch-'a']++;
+            }
+        }
+        for(int i=0;i<QstnCount;i++){
+            int letterCount=Integer.MAX_VALUE;
+            char currChar='a';
+            int minInd=-1;
+            for(int j=0;j<26;j++){
+                if(count[j]<letterCount){
+                    letterCount=count[j];
+                    currChar=(char)(j+'a');
+                    minInd=j;
+                }
+            }
+            count[minInd]++;
+            pq.add(currChar);
+        }
+        for(int i=0;i<n;i++){
+            char ch=str.charAt(i);
+            if(ch=='?'){
+                str.setCharAt(i,pq.poll());
+            }
+        }
+        return str.toString();
+    }
+}
