@@ -1,0 +1,32 @@
+class Solution {
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, (a, b)->Integer.compare(a[1], b[1]));
+        int n =events.length;
+        int[] tillMaxVal = new int[n];
+        int maxVal =0;
+        tillMaxVal[0] =events[0][2];
+        for(int i=1;i<n;i++){
+            tillMaxVal[i] = Math.max(tillMaxVal[i - 1], events[i][2]);
+        }
+        for(int i=0;i<n;i++){
+            int currMaxsumVal=events[i][2];
+            int start = 0;
+            int end = i - 1;
+            int splitInd =-1;
+            while(start <= end){
+                int mid =start+(end - start)/2;
+                if(events[mid][1] <events[i][0]){
+                    splitInd = mid;
+                    start=mid +1;
+                }else{
+                    end=mid - 1;
+                }
+            }
+            if(splitInd !=-1){
+                currMaxsumVal +=tillMaxVal[splitInd];
+            }
+            maxVal = Math.max(maxVal,currMaxsumVal);
+        }
+        return maxVal;
+    }
+}
