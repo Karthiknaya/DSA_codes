@@ -1,0 +1,23 @@
+class Solution {
+    public boolean[] isArraySpecial(int[] nums, int[][] queries) {
+        int n=nums.length;
+        int m=queries.length;
+        boolean[] result=new boolean[m];
+        int[] preCount=new int[n]; 
+        int currCount=0;
+        for(int i=1;i<n;i++){
+            if((nums[i-1]%2==0 && nums[i]%2==1) || (nums[i-1]%2==1 && nums[i]%2==0)){
+                currCount++;
+            }
+            preCount[i]=currCount;
+        }
+        for(int i=0; i<m; i++){
+            result[i]=true;           
+            if(preCount[queries[i][1]]-preCount[queries[i][0]] != queries[i][1]-queries[i][0] ){ 
+                result[i]=false;                                
+            }            
+        }
+        return result;
+    }
+
+}
