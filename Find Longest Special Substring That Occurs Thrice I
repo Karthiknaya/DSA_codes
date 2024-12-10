@@ -1,0 +1,34 @@
+class Solution{
+    private boolean findTwoTimes(String s, String str, int ind){
+        int count =2;
+        int n =s.length();
+        int len =str.length();
+        for(int j = ind; j <= n - len; j++){
+            String newstr = s.substring(j, j + len);
+            if(str.equals(newstr)){
+                count--;
+                if(count ==0){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public int maximumLength(String s){
+        int n =s.length();
+        int result=-1;
+        for(int start=0;start<n;start++){
+            StringBuilder sb = new StringBuilder();
+            for(int j=start;j<n;j++){
+                if(sb.length() >0 && sb.charAt(sb.length() - 1) != s.charAt(j)){
+                    break;
+                }
+                sb.append(s.charAt(j));
+                if(findTwoTimes(s,sb.toString(),start+1)){
+                    result=Math.max(result, sb.length());
+                }
+            }
+        }
+        return result;
+    }
+}
