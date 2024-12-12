@@ -1,0 +1,40 @@
+class Solution{
+    private int getDryDay(List<Integer> dryDays, int lastFilled){
+        for(int i=0;i<dryDays.size();i++){
+            int day =dryDays.get(i);
+          if(day>lastFilled){
+            dryDays.remove(i);
+            return day;
+          }
+        }
+      return -1;
+    }
+    public int[] avoidFlood(int[] rains){
+        Map<Integer, Integer> map = new HashMap();
+        List<Integer> DryIndList = new ArrayList();
+        for(int i=0;i<rains.length;i++){
+         int day =rains[i];
+         if(day ==0){
+            if(map.size()>0){
+            DryIndList.add(i);
+             rains[i] = 1;    
+            }else{
+            rains[i] = 1;    
+            }
+         }else{
+            if(map.containsKey(day)){
+                   int dryIndex = getDryDay(DryIndList, map.get(day));
+                   if(dryIndex == -1){
+                    return new int[0];
+                   }
+                   rains[dryIndex] = day;
+                   rains[i] = -1;
+            }else{
+              rains[i] = -1;
+            }
+            map.put(day, i);
+         }
+        }
+        return rains;
+    }
+}
