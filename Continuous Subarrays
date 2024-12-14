@@ -1,0 +1,33 @@
+class Solution {
+    public long continuousSubarrays(int[] nums) {
+        int n=nums.length;
+        int end =0;
+        int start =0;
+        int currMin,currMax=0;
+        long Len =0;
+        long SubarrayCount = 0;
+        currMin=currMax=nums[end];
+        for(end =0;end<n;end++){
+            currMin =Math.min(currMin, nums[end]);
+            currMax =Math.max(currMax, nums[end]);
+            if(currMax-currMin>2){
+                Len=end-start;
+                SubarrayCount+=((Len*(Len +1))/2);
+                start=end;
+                currMin =currMax =nums[end];
+                while(start >0 && Math.abs(nums[end] - nums[start - 1])<= 2){
+                    start--;
+                    currMin = Math.min(currMin, nums[start]);
+                    currMax = Math.max(currMax, nums[start]);
+                }
+                if(start<end){
+                    Len =end-start;
+                    SubarrayCount-=((Len*(Len+1))/2);
+                }
+            }
+        }
+        Len = end-start;
+        SubarrayCount += ((Len * (Len + 1))/2);
+        return SubarrayCount;
+    }
+}
