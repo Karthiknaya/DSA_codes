@@ -1,0 +1,31 @@
+class Solution{
+    private double getRatio(int num, int denom){
+        double currentRatio = (double) num / denom;
+        double newRatio = (double) (num + 1) /(denom + 1);
+        return newRatio - currentRatio;
+    }
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        int n =classes.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b)->{
+            double currRatio = getRatio(a[0], a[1]);
+            double ExtendedRatio = getRatio(b[0], b[1]);
+            return Double.compare(ExtendedRatio, currRatio);
+        });
+        for(int[] pair:classes){
+            pq.offer(pair);
+        }
+        while (extraStudents>0){
+            int[] pair = pq.poll();
+            pair[0]++;
+            pair[1]++;
+            pq.offer(pair);
+            extraStudents--;
+        }
+        double maxAvg =0;
+        while (!pq.isEmpty()){
+            int[] pair =pq.poll();
+            maxAvg += (double) pair[0] / pair[1];
+        }
+        return maxAvg/n;
+    }
+}
