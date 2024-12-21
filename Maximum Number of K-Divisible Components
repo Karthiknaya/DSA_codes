@@ -1,0 +1,44 @@
+class Solution {
+    public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
+         ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+        for (int[] e : edges) {
+            graph.get(e[0]).add(e[1]);
+            graph.get(e[1]).add(e[0]);
+        }
+        int[] parent = new int[n];
+        for (int i = 0; i < n; ++i) {
+            parent[i] = -1;
+        }
+        long[] sum = new long[n];
+       Queue<Integer> q=new LinkedList<>();
+       Stack<Integer> stack=new Stack<>();
+        q.add(0);
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            stack.push(u);
+            for (int v : graph.get(u)) {
+                if (v != parent[u]) {
+                    parent[v] = u;
+                    q.add(v);
+                }
+            }
+        }
+        int ans = 0;
+        
+        while (!stack.isEmpty()) {
+            int u = stack.pop();
+            int v = parent[u];
+            sum[u] += values[u];
+            if (v!=-1) {
+                sum[v] += sum[u];
+            }
+        }
+        for (long item: sum) {
+            if (item%k==0)
+                ans++;
+        }
+        return ans;
+    }
+}
