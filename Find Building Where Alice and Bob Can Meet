@@ -1,0 +1,35 @@
+class Solution {
+    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
+        int n =heights.length;
+        int len =queries.length;
+        int[] ans =new int[len];
+        Arrays.fill(ans, -1);
+        List<List<int[]>> SeachBigHome = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            SeachBigHome.add(new ArrayList<>());
+        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(home1 ->home1[0]));
+        for(int i=0;i<len;++i){
+            int home1 =queries[i][0], home2 =queries[i][1];
+            if(home1 >home2){
+                int swap =home1;
+                home1 = home2;
+                home2 = swap;
+            }
+            if(home1 == home2 || heights[home1]<heights[home2]){
+                ans[i] = home2;
+            }else{
+                SeachBigHome.get(home2).add(new int[]{heights[home1], i});
+            }
+        }
+        for(int i = 0; i < n; ++i){
+            for(int[] query:SeachBigHome.get(i)){
+                pq.add(query);
+            }
+            while(!pq.isEmpty() && pq.peek()[0] < heights[i]){
+                ans[pq.poll()[1]] = i;
+            }
+        }
+        return ans;
+    }
+}
