@@ -1,0 +1,53 @@
+class Solution {
+    int diameter;
+    public int minimumDiameterAfterMerge(int[][] edges1, int[][] edges2) {
+        int len1 =edges1.length + 1;
+        int len2 =edges2.length + 1;
+        ArrayList<Integer>[] graph1 = new ArrayList[len1];
+        ArrayList<Integer>[] graph2 = new ArrayList[len2];
+        boolean[] visited =new boolean[len1];
+        for(int i =0;i<len1;i++){
+            graph1[i] =new ArrayList<>();
+        }
+        for(int i=0;i<len2;i++){
+            graph2[i] = new ArrayList<>();
+        }
+        for(int[] edge:edges1){
+            graph1[edge[0]].add(edge[1]);
+            graph1[edge[1]].add(edge[0]);
+        }
+        for(int[] edge : edges2){
+            graph2[edge[0]].add(edge[1]);
+            graph2[edge[1]].add(edge[0]);
+        }
+        diameter=-1;
+        getDiam(0, graph1,visited);
+        int diam1=diameter;
+        diameter=-1;
+        visited =new boolean[len2];
+        getDiam(0, graph2, visited);
+        int diam2 = diameter;
+        int mixDiam=(diam1 + 1)/2 +(diam2 + 1)/2+1;
+        return Math.max(mixDiam, Math.max(diam1, diam2));
+    }
+    private int getDiam(int src, ArrayList<Integer>[] graph, boolean[] visited) {
+        visited[src] = true;
+        int firstMax =-1;
+        int secondMax =-1;
+        for(int neighbour:graph[src]){
+            if(!visited[neighbour]){
+                int curr_depth=getDiam(neighbour, graph, visited);
+                if(curr_depth >firstMax){
+                    secondMax = firstMax;
+                    firstMax = curr_depth;
+                }else if(curr_depth > secondMax){
+                    secondMax = curr_depth;
+                }
+            }
+        }
+        if (firstMax + secondMax +2 >diameter){
+            diameter = firstMax +secondMax+ 2;
+        }
+        return firstMax + 1;
+    }
+}
