@@ -1,0 +1,15 @@
+class Solution{
+    int count=0;
+    private void get_ways(int[] nums,int target,int ind){
+        if(ind == nums.length){
+            if(target==0) count+=1;
+            return ;
+        }
+        get_ways(nums,target-nums[ind],ind+1);
+        get_ways(nums,target+nums[ind],ind+1);
+    }
+    public int findTargetSumWays(int[] nums, int target) {
+        get_ways(nums,target,0);
+        return count;
+    }
+}
