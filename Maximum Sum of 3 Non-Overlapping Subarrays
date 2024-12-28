@@ -1,0 +1,39 @@
+class Solution {
+    public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
+        if(nums == null || nums.length <k*3){
+            return new int[] {};
+        }
+        int posLength =nums.length -k + 1;
+        int[] subArraySums =new int[posLength];
+        int currSum=0;
+        for(int i=0;i<k;i++){
+            currSum += nums[i];
+        }
+        subArraySums[0] =currSum;
+        for(int i=k;i<nums.length;i++){
+            currSum -=nums[i -k];
+            currSum +=nums[i];
+            subArraySums[i-k+1] =currSum;
+        }
+        int[] tillMaxLeft = new int[posLength];
+        for(int i=1;i<posLength;i++){
+            tillMaxLeft[i] = (subArraySums[i] > subArraySums[tillMaxLeft[i - 1]]) ? i : tillMaxLeft[i - 1];
+        }
+        int[] tillmaxRight =new int[posLength];
+        tillmaxRight[posLength-1] =posLength-1;
+        for(int i=posLength-2;i>=0;i--){
+            tillmaxRight[i] = (subArraySums[i] >= subArraySums[tillmaxRight[i + 1]]) ? i : tillmaxRight[i + 1];
+        }
+        int[] maxInd =new int[3];
+        int maxSum =0;
+        for(int i=k;i<posLength-k;i++){
+            int curSum = subArraySums[tillMaxLeft[i - k]] + subArraySums[i] + subArraySums[tillmaxRight[i + k]];
+            if(curSum >maxSum){
+                maxSum = curSum;
+                maxInd = new int[] { tillMaxLeft[i - k], i, tillmaxRight[i + k] };
+            }
+        }
+
+        return maxInd;
+    }
+}
