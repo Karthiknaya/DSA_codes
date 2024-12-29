@@ -1,0 +1,36 @@
+public class Solution {
+    private long getCount(String[] words,String target,int wordInd,int targetInd,int[][] dp,int[][] charCount){
+        int MOD = 1000000007;
+        if(targetInd == target.length()){
+            return 1;
+        }
+        if(wordInd == words[0].length() || words[0].length() - wordInd < target.length() - targetInd){
+            return 0;
+        }
+        if(dp[wordInd][targetInd] != -1){
+            return dp[wordInd][targetInd];
+        }
+        long ways = 0;
+        int curPos = target.charAt(targetInd)-'a';
+        ways += getCount(words, target, wordInd + 1, targetInd, dp, charCount);
+        ways +=charCount[wordInd][curPos] *getCount(words,target,wordInd + 1,targetInd + 1,dp,charCount);
+        dp[wordInd][targetInd] = (int) (ways % MOD);
+        return dp[wordInd][targetInd];
+    }
+    public int numWays(String[] words, String target) {
+        int m =words[0].length();
+        int n =target.length();
+        int[][] dp = new int[m][n];
+        for(int i=0;i<m;i++){
+            Arrays.fill(dp[i], -1);
+        }
+        int[][] charCount = new int[m][26];
+        for(String word :words){
+            for(int j = 0;j<m;j++){
+                int character = word.charAt(j) - 'a';
+                charCount[j][character]++;
+            }
+        }
+        return (int) getCount(words, target, 0, 0, dp, charCount);
+    }
+}
