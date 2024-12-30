@@ -1,0 +1,28 @@
+class Solution {
+    int[] dp;
+    int mod =1000000007;
+    private int getCount(int len, int zero, int one){
+        if(dp[len] !=-1){
+            return dp[len];
+        }
+        int count =0;
+        if(len >=one){
+            count +=getCount(len - one,zero,one);
+        }
+        if(len >=zero){
+            count +=getCount(len - zero, zero, one);
+        }
+        return dp[len] =count%mod;
+    }
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        dp =new int[high + 1];
+        Arrays.fill(dp, -1);
+        dp[0] =1;
+        int count = 0;
+        for (int len = low; len <= high;len++){
+            count += getCount(len, zero, one);
+            count %= mod;
+        }
+        return count;
+    }
+}
