@@ -1,0 +1,21 @@
+class Solution {
+    public int countbits(String str,char ch)
+    {
+        int count=0;
+        for(int i=0;i<str.length();i++)
+        {
+          if(str.charAt(i)==ch)
+          count++; 
+        }
+        return count;
+    }
+    public int maxScore(String s) {
+      int total=0;
+       for(int i=1;i<s.length();i++){
+            String left=s.substring(0,i);
+            String right=s.substring(i,s.length());
+            total=Math.max(total,countbits(left,'0')+countbits(right,'1'));
+        } 
+        return total;
+    }
+}
