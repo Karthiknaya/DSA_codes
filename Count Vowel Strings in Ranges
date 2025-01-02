@@ -1,0 +1,22 @@
+class Solution {
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int[] count = new int[queries.length];
+        Set<Character> set = new HashSet<>(
+            Arrays.asList('a', 'e', 'i', 'o', 'u')
+        );
+        int[] prefixSum = new int[words.length];
+        int currCount=0;
+        for(int i = 0;i<words.length;i++){
+            String currentWord = words[i];
+            if(set.contains(currentWord.charAt(0)) && set.contains(currentWord.charAt(currentWord.length() - 1))){
+                currCount++;
+            }
+            prefixSum[i] = currCount;
+        }
+        for (int i=0;i<queries.length;i++){
+            int[] query =queries[i];
+            count[i] =prefixSum[query[1]] -(query[0] == 0 ? 0 : prefixSum[query[0] - 1]);
+        }
+        return count;
+    }
+}
