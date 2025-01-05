@@ -1,0 +1,29 @@
+class Solution{
+    public String shiftingLetters(String s, int[][] shifts){ 
+        char[] strArr =s.toCharArray();
+        int[] count =new int[s.length()+1];
+        for(int[] shift:shifts){
+            int start =shift[0];
+            int end=shift[1];
+            if(shift[2]==0){
+                count[start]-=1;
+                count[end+1]+=1;
+            }else{
+                count[start]+=1;
+                count[end+1]-=1;
+            }
+        }
+        for(int i=1;i<count.length;i++){
+            count[i]+=count[i-1];
+            int currCount = count[i-1]%26;
+            currCount=(int)strArr[i-1]+currCount;
+            if(currCount<97){
+                currCount+=26;
+            }else if(currCount>122){
+                currCount-=26;
+            }
+            strArr[i-1]=(char)currCount;
+        }
+        return(new String(strArr));
+    }
+}
