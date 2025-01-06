@@ -1,0 +1,29 @@
+class Solution {
+    public int[] minOperations(String boxes) {
+        int n =boxes.length();
+        int[] leftDist =new int[n];
+        int[] rightDist =new int[n];
+        int leftOneCount = 0;
+        int rightOneCount = 0;
+        if(boxes.charAt(0) =='1'){
+            leftOneCount =1;
+        }
+        if(boxes.charAt(n-1) =='1'){
+            rightOneCount = 1;
+
+        }
+        for(int i = 1;i<n;i++){
+            leftDist[i] = leftDist[i-1] + leftOneCount;
+            if(boxes.charAt(i) == '1') leftOneCount++;
+        }
+        for(int i = n-2;i>=0;i--){
+            rightDist[i] = rightDist[i+1] + rightOneCount;
+            if(boxes.charAt(i) == '1') rightOneCount++;
+        }
+        int[] ans = new int[n];
+        for(int i =0;i<n;i++){
+            ans[i] = leftDist[i]+rightDist[i];
+        }
+        return ans;
+    }
+}
