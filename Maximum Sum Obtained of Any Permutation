@@ -1,0 +1,24 @@
+class Solution{
+    public int maxSumRangeQuery(int[] nums, int[][] requests) {
+        long count[]=new long[nums.length];
+        for(int i=0;i<requests.length;i++){
+            count[requests[i][0]]++;
+            if(requests[i][1]<nums.length-1){
+                count[requests[i][1]+1]=count[requests[i][1]+1]-1;
+            }
+        }
+        for(int i=1;i<count.length;i++){
+            count[i]=count[i-1]+count[i];
+        }
+        Arrays.sort(count);
+        Arrays.sort(nums);
+        int i=count.length-1;
+        long res=0;
+        while(i>=0 && count[i]!=0){
+            res+=count[i]*nums[i];
+            res=res%(1000000007);
+            i--;
+        }
+        return (int)res;
+    }
+}
