@@ -1,0 +1,34 @@
+class Solution {
+    private boolean isSameFreq(int[] count){
+        int reqCount=0,used=0;
+        for(int i=0;i<26;i++){
+            if(count[i]==0){
+                continue;
+            }
+            if(used==0 && count[i]>0){
+                reqCount=count[i];
+                used=1;
+            }
+            if(count[i]!=reqCount){
+                return false;
+            }
+            
+            
+        }
+        return true;
+    } 
+    public boolean equalFrequency(String word) {
+        int[] count=new int[26];
+        for(int i=0;i<word.length();i++){
+            count[word.charAt(i)-'a']++;
+        }
+        for(int i=0;i<word.length();i++){
+        count[word.charAt(i)-'a']--;
+            if(isSameFreq(count)){
+                return true;
+            }
+            count[word.charAt(i)-'a']++;
+        }
+        return false;
+    }
+}
