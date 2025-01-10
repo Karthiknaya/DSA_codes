@@ -1,0 +1,28 @@
+class Solution {
+    int largest_diam=0;
+    public int longestUnivaluePath(TreeNode root) {
+        if(root== null){
+            return 0;
+        }
+        get_diam(root);
+        return largest_diam;
+    }
+    private int get_diam(TreeNode node){
+        if(node== null){
+            return 0;
+        }
+        int left=get_diam(node.left);
+        int right=get_diam(node.right);
+        int curr_left_diam=0;
+        int curr_right_diam=0;
+        if(node.left!= null && node.left.val == node.val){
+            curr_left_diam = left+1;
+        }
+        if(node.right!=null && node.right.val== node.val){
+            curr_right_diam = right+1;
+        }
+        largest_diam = Math.max(largest_diam,curr_left_diam+ curr_right_diam);
+        return Math.max(curr_left_diam, curr_right_diam);
+
+    }
+}
