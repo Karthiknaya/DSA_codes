@@ -1,0 +1,30 @@
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        int count_of_nums=0;
+        int n = A.length;
+        int[] ans = new int[n];
+        for(int i=0;i<n;i++)
+        {    
+            list1.add(A[i]);
+            list2.add(B[i]);
+            if(A[i]==B[i])
+            {
+                count_of_nums++;
+            }
+            else{
+                if(list2.contains(A[i]))
+                {
+                    count_of_nums++;
+                }
+                if(list1.contains(B[i]))
+                {
+                    count_of_nums++;
+                }
+            }
+            ans[i] = count_of_nums;
+        }
+        return ans;
+    }
+}
