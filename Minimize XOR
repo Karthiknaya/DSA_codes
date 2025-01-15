@@ -1,0 +1,32 @@
+class Solution {
+    public int minimizeXor(int num1, int num2) {
+        int setBitCnt=Integer.bitCount(num2);
+        int posCount[]=new int[32];
+        int position=0;
+        while(num1>0){
+            int bit=num1%2;
+            posCount[position++]=bit;
+            num1/=2;
+        }
+        int bit=0;
+        position=31;
+        int num=0;
+        while(position>=0 && setBitCnt>0){
+            if(posCount[position]==1){
+                num=num|(1<<position);
+                setBitCnt--;
+            }
+            position--;
+        }
+
+        position=0;
+        while(position<32 && setBitCnt>0){
+            if(posCount[position]==0){
+                num=num|(1<<position);
+                setBitCnt--;
+            }
+            position++;
+        }
+        return num;
+    }
+}
