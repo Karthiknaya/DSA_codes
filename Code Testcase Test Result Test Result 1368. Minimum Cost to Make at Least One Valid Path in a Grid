@@ -1,0 +1,34 @@
+class Solution {
+    public int minCost(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+        pq.offer(new int[] {0, 0, 0});
+        int[][] directions = {{0, 0}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int x = current[0], y = current[1], cost = current[2];
+            
+            if (x == rows - 1 && y == cols - 1) {
+                return cost;
+            }
+            if (visited[x][y]) {
+                continue;
+            }
+            visited[x][y] = true;
+            
+            for (int dir = 1; dir <= 4; ++dir) {
+                int newX = x + directions[dir][0], newY = y + directions[dir][1];
+                if (newX >= 0 && newX < rows && newY >= 0 && newY < cols) {
+                    if (grid[x][y] == dir) {
+                        pq.offer(new int[] {newX, newY, cost});
+                    } else {
+                        pq.offer(new int[] {newX, newY, cost + 1});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
