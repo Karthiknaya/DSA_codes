@@ -1,0 +1,50 @@
+class Solution {
+    private boolean isValidCell(int row, int col, int m, int n) {
+        return row >= 0 && row < m && col >= 0 && col < n;
+    }
+    class Pair {
+        int height, row, col;
+        public Pair(int row, int col, int height) {
+            this.row = row;
+            this.col = col;
+            this.height = height;
+        }
+    }
+    public int trapRainWater(int[][] heightMap){
+        int[][] dirs ={{0,1},{0,-1},{1,0},{-1,0}};
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+        boolean[][] visited = new boolean[m][n];
+        PriorityQueue<Pair> q = new PriorityQueue<>((a,b) -> a.height - b.height);
+        for(int i=0;i<m;i++){
+            q.offer(new Pair(i, 0,heightMap[i][0]));
+            q.offer(new Pair(i, n - 1, heightMap[i][n - 1]));
+            visited[i][0] = visited[i][n - 1] = true;
+        }
+        for(int j=0;j<n;j++){
+            q.offer(new Pair(0, j, heightMap[0][j]));
+            q.offer(new Pair(m - 1, j, heightMap[m - 1][j]));
+            visited[0][j] = visited[m - 1][j] = true;
+        }
+        int totalWater= 0;
+        while(!q.isEmpty()){
+            Pair currentCell = q.poll();
+            int row = currentCell.row;
+            int col = currentCell.col;
+            int height = currentCell.height;
+            for(int[] dir : dirs) {
+                int neiRow = row + dir[0];
+                int neiCol = col + dir[1];
+                if(isValidCell(neiRow, neiCol, m, n) && !visited[neiRow][neiCol]){
+                    int newHeight = heightMap[neiRow][neiCol];
+                    if(newHeight < height){
+                        totalWater+= (height - newHeight);
+                    }
+                    q.offer(new Pair(neiRow, neiCol, Math.max(height, newHeight)));
+                    visited[neiRow][neiCol] = true;
+                }
+            }
+        }
+        return totalWater;
+    }
+}
