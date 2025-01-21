@@ -1,0 +1,33 @@
+class Solution {
+    public int[] sortEvenOdd(int[] nums) {
+       int[] oddArr=new int[nums.length/2];
+       int[] evenArr=new int[(nums.length+1)/2];
+       int[] result=new int[nums.length];
+       int evenInd=0;
+       int oddInd=0;
+       for(int i=0;i<nums.length;i++){
+            if(i%2==0){
+                evenArr[evenInd++]=nums[i];
+            }else{
+                oddArr[oddInd++]=nums[i];
+            }
+        }
+        Arrays.sort(evenArr);
+        Arrays.sort(oddArr);
+        for(int i=0;i<oddArr.length/2;i++){
+            int temp=oddArr[i];
+            oddArr[i]=oddArr[(oddArr.length -1)-i];
+            oddArr[(oddArr.length -1)-i]=temp;
+        }
+        evenInd=0;
+        oddInd=0;
+        for(int i=0;i<nums.length;i++){
+            if(i%2==0){
+                result[i]=evenArr[evenInd++];
+            }else{
+                result[i]=oddArr[oddInd++];
+            }
+        }
+        return result;
+    }
+}
