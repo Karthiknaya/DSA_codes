@@ -1,0 +1,14 @@
+class Solution {
+    public int closetTarget(String[] words, String target, int startIndex) {
+        int n =words.length;
+        int minDist =n;
+        for(int i=0;i<n;i++){
+            if(words[i].equals(target)){
+                int dist1 = Math.abs(startIndex-i);
+                int dist2 = n-dist1;
+                minDist = Math.min(minDist, Math.min(dist1, dist2));
+            }
+        }
+        return minDist==n?-1:minDist;
+    }
+}
