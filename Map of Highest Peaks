@@ -1,0 +1,32 @@
+class Solution{
+    public int[][] highestPeak(int[][] isWater){
+        int[][] directions = {{-1, 0},{0, 1},{1, 0},{0, -1}};
+        int m =isWater.length;
+        int n =isWater[0].length;
+        int[][] ans =new int[m][n];
+        Queue<int[]> q =new LinkedList<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if (isWater[i][j] == 1){
+                    q.add(new int[]{i,j});
+                }
+            }
+        }
+        while(!q.isEmpty()){
+            int[] curr = q.poll();
+            int x =curr[0];
+            int y =curr[1];
+            for(int[] dir :directions){
+                int newX = x +dir[0];
+                int newY = y +dir[1];
+                if (newX >= 0 && newX < m && newY >= 0 && newY < n && isWater[newX][newY] == 0){
+                    isWater[newX][newY] = -1;
+                    ans[newX][newY] =ans[x][y] + 1;
+                    q.add(new int[]{newX, newY});
+                }
+            }
+        }
+
+        return ans;
+    }
+}
