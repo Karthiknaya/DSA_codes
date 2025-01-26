@@ -1,0 +1,43 @@
+class Solution {
+    public int maximumInvitations(int[] favorite) {
+        int n = favorite.length;
+        int[] indeg = new int[n];
+        for (int person = 0; person < n; ++person) {
+            indeg[favorite[person]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int person = 0; person < n; ++person) {
+            if (indeg[person] == 0) {
+                q.offer(person);
+            }
+        }
+        int[] deepCount = new int[n]; 
+        Arrays.fill(deepCount, 1);
+        while (!q.isEmpty()) {
+            int currentNode = q.poll();
+            int nextNode = favorite[currentNode];
+            deepCount[nextNode] = Math.max(deepCount[nextNode], deepCount[currentNode] + 1);
+            if (--indeg[nextNode] == 0) {
+                q.offer(nextNode);
+            }
+        }
+        int longCircle = 0;
+        int CollabTeams = 0;
+        for (int person = 0; person < n; ++person) {
+            if (indeg[person] == 0) continue;
+            int cycleLength = 0;
+            int current = person;
+            while (indeg[current] != 0) {
+                indeg[current] = 0; 
+                cycleLength++;
+                current = favorite[current];
+            }
+            if (cycleLength == 2) {
+                CollabTeams += deepCount[person] + deepCount[favorite[person]];
+            } else {
+                longCircle = Math.max(longCircle, cycleLength);
+            }
+        }
+        return Math.max(longCircle, CollabTeams);
+    }
+}
