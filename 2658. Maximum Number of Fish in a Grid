@@ -1,0 +1,28 @@
+class Solution {
+    final  int[] dirs={-1, 0, 1, 0, -1};
+     private int getcount(int i,int j,int[][] grid, int m,int n){
+        int count =grid[i][j];
+        grid[i][j]=-1;
+        for (int k = 0; k < 4; ++k) {
+            int x = i + dirs[k], y = j + dirs[k + 1];
+            if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] > 0) {
+                count+=getcount(x, y,grid,m,n);
+            }
+        }
+        return count ;
+    }
+    public int findMaxFish(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        int max_fish_count=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]>0){
+                    max_fish_count=Math.max(max_fish_count,getcount(i,j,grid,m,n));
+                }
+            }
+        }
+        return max_fish_count;
+    }
+    
+}
