@@ -1,0 +1,72 @@
+class Solution{
+    public int magnificentSets(int n, int[][] edges) {
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>(n);
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<Integer>());
+        }
+        for(int[] edge : edges){
+            graph.get(edge[0] - 1).add(edge[1] - 1);
+            graph.get(edge[1] - 1).add(edge[0] - 1);
+        }
+        int[] colArr = new int[n];
+        Arrays.fill(colArr, -1);
+        for(int node = 0; node < n; node++){
+            if (colArr[node] != -1) continue;
+            colArr[node] = 0;
+            if (!checkOddGraph(graph, node, colArr)) return -1;
+        }
+        int[] distances = new int[n];
+        for (int node = 0; node < n; node++) {
+            distances[node] = getDistNode(graph, node, n);
+        }
+        int maxGroups = 0;
+        boolean[] visited = new boolean[n];
+        for (int node = 0; node < n; node++) {
+            if (visited[node]) continue;
+            maxGroups += ChackGroups(graph,node,distances,visited);
+        }
+        return maxGroups;
+    }
+    private boolean checkOddGraph(
+        ArrayList<ArrayList<Integer>> graph,
+        int node,
+        int[] colArr) {
+        for (int neighbor : graph.get(node)) {
+            if (colArr[neighbor] == colArr[node]) return false;
+            if (colArr[neighbor] != -1) continue;
+            colArr[neighbor] = (colArr[node] + 1) % 2;
+            if (!checkOddGraph(graph, neighbor, colArr)) return false;
+        }
+        return true;
+    }
+    private int getDistNode(ArrayList<ArrayList<Integer>> graph,int srcNode,int n) {
+        Queue<Integer> nodesQueue = new LinkedList<Integer>();
+        boolean[] visited = new boolean[n];
+
+        nodesQueue.add(srcNode);
+        visited[srcNode] = true;
+        int distance = 0;
+        while (!nodesQueue.isEmpty()) {
+            int numOfNodesInLayer = nodesQueue.size();
+            for (int i = 0; i < numOfNodesInLayer; i++) {
+                int currentNode = nodesQueue.poll();
+                for (int neighbor : graph.get(currentNode)) {
+                    if (visited[neighbor]) continue;
+                    visited[neighbor] = true;
+                    nodesQueue.add(neighbor);
+                }
+            }
+            distance++;
+        }
+        return distance;
+    }
+    private int ChackGroups(ArrayList<ArrayList<Integer>> graph,int node,int[] distances,boolean[] visited) {
+        int maxGroups = distances[node];
+        visited[node] = true;
+        for (int neighbor : graph.get(node)) {
+            if (visited[neighbor]) continue;
+            maxGroups = Math.max(maxGroups, ChackGroups(graph,neighbor,distances,visited));
+        }
+        return maxGroups;
+    }
+}
