@@ -1,0 +1,22 @@
+class Solution {
+public int[] queryResults(int limit, int[][] queries) {
+    HashMap<Integer, Integer> indToColMap = new HashMap<>();
+    HashMap<Integer, Integer> ColCount = new HashMap<>();
+    int[] result = new int[queries.length];
+    for(int i=0;i<queries.length;i++){
+        int currInd =queries[i][0];
+        int ColVal = queries[i][1];
+        if(indToColMap.containsKey(currInd)){
+            int oldValue = indToColMap.get(currInd);
+            ColCount.put(oldValue, ColCount.get(oldValue) - 1);
+            if(ColCount.get(oldValue) == 0){
+                ColCount.remove(oldValue);
+            }
+        }
+        indToColMap.put(currInd, ColVal);
+        ColCount.put(ColVal, ColCount.getOrDefault(ColVal, 0) + 1);
+        result[i] = ColCount.size();
+    }
+    return result;
+   }
+}
