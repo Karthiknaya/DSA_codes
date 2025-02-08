@@ -1,0 +1,29 @@
+class Solution{
+    public int maximumTastiness(int[] price, int k){
+        int low =0;
+        Arrays.sort(price);
+        int maxMinDist =-1;
+        int high =price[price.length - 1]-price[0];
+        while(low <=high){
+            int mid =low +(high -low)/2;
+            if(canPlace(price, mid, k)){
+                maxMinDist =mid;
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        return maxMinDist;
+    }
+    public static boolean canPlace(int[] arr, int dist, int k) {
+        int currCount =1;
+        int last =arr[0];
+        for(int i =1;i<arr.length;i++){
+            if(arr[i] -last >=dist){  
+                currCount++;
+                last = arr[i];
+            }
+        }
+        return currCount>=k;
+    }
+}
