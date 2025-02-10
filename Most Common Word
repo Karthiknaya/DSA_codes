@@ -1,0 +1,35 @@
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned){
+        Set<String> set =new HashSet();
+        for(String word :banned){
+            set.add(word);
+        }
+        String maxFrqWord ="";
+        int maxCount =0;
+        Map<String, Integer> map = new HashMap();
+        StringBuilder sb = new StringBuilder();
+        char[] chars = paragraph.toCharArray();
+        for(int ind =0;ind<chars.length;++ind){
+            char currChar =chars[ind];
+            if(Character.isLetter(currChar)){
+                sb.append(Character.toLowerCase(currChar));
+                if(ind != chars.length - 1){
+                    continue;
+                }
+            }
+            if(sb.length() > 0){
+                String word = sb.toString();
+                if(!set.contains(word)){
+                    int count = map.getOrDefault(word, 0) + 1;
+                    map.put(word, count);
+                    if(count > maxCount){
+                        maxFrqWord = word;
+                        maxCount = count;
+                    }
+                }
+                sb = new StringBuilder();
+            }
+        }
+        return maxFrqWord;
+    }
+}
