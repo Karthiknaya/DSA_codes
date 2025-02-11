@@ -1,0 +1,22 @@
+class Solution {
+    private String removeString(String str ,String substr){
+        StringBuilder sb = new StringBuilder(str);
+        int index = sb.indexOf(substr);
+        if(index != -1){
+            sb.delete(index,index+substr.length());
+        }else{
+            return "notfound";
+        }
+        return sb.toString();
+    }
+    public String removeOccurrences(String s, String part) {
+        if(part.length() > s.length()){
+            return s;
+        }else{
+            while(removeString(s,part) != "notfound"){
+                s =removeString(s,part);
+            }
+        }
+        return s;
+    }
+}
