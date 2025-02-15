@@ -1,0 +1,28 @@
+class Solution {
+    private boolean canPartioned(String prev, String n, String str){
+        if(str.length() == 0){
+            if(n.equals(prev)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        for(int i = 0; i < str.length(); i++){
+            String temp = str.substring(0,i+1);
+            String newStr = (prev.length() == 0) ? temp : Integer.toString(Integer.parseInt(prev) + Integer.parseInt(temp));
+            if(canPartioned(newStr, n, str.substring(i+1))){
+                return true;
+            }
+        }
+        return false;
+    } 
+    public int punishmentNumber(int n) {
+        int ans =0;
+        for(int i = 1; i <= n; i++){
+            if(canPartioned(new String(), Integer.toString(i), Integer.toString(i*i))){
+                ans += i*i;
+            }
+        }
+        return ans;
+    }
+}
