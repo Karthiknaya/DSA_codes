@@ -1,0 +1,41 @@
+class Solution {
+    private boolean getArrangements(int result[],int index,boolean visited[],int n){
+        if(index==result.length){
+            return true;
+        }
+        if(result[index]!=0){
+            return getArrangements(result,index+1,visited,n);
+        }
+        for(int num=n;num>0;num--){
+            if(visited[num]){
+                continue;
+            }
+            visited[num]=true;
+            if(num==1){
+                result[index]=num;
+                if(getArrangements(result,index+1,visited,n)){
+                    return true;
+                }
+                result[index]=0;
+            }else{
+                if(num+index<result.length && result[num+index]==0){
+                    result[index]=num;
+                    result[num+index]=num;
+                    if(getArrangements(result,index+1,visited,n)){
+                        return true;
+                    }
+                    result[index]=0;
+                    result[num+index]=0;
+                }
+            }
+            visited[num]=false;
+        }
+        return false;
+    }
+    public int[] constructDistancedSequence(int n) {
+        boolean visited[] = new boolean[n+1];
+        int result[] = new int[2*n-1];
+        getArrangements(result,0,visited,n);
+        return result;
+    }
+}
