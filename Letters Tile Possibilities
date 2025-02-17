@@ -1,0 +1,17 @@
+class Solution{
+     private static int count(String str, String sb, Set<String> set){
+        if(!sb.isEmpty()){
+            set.add(sb);
+        }
+        for(int i=0;i<str.length();i++){
+            String newStr =str.substring(0,i) +str.substring(i+1,str.length());
+            count(newStr,sb+str.charAt(i),set);
+        }
+        return set.size();
+    }
+    public int numTilePossibilities(String str){
+        HashSet<String> set = new HashSet<>();
+        int ans=count(str,"",set);
+        return ans;
+    }
+}
