@@ -1,0 +1,28 @@
+class Solution {
+    static int ind = 0;
+    private TreeNode getTree(String traversal, int currDepth){
+        if(ind >= traversal.length()){
+            return null;
+        }
+        int dashes=0;
+        while((ind + dashes) < traversal.length() &&
+            traversal.charAt(ind + dashes) == '-'
+        ){
+            dashes++;
+        }
+        if(dashes !=currDepth)return null;
+        ind +=dashes;
+        int value =0;
+        while(ind < traversal.length() && Character.isDigit(traversal.charAt(ind))){
+            value = value * 10 + (traversal.charAt(ind++) - '0');
+        }
+        TreeNode newNode =new TreeNode(value);
+        newNode.left = getTree(traversal, currDepth + 1);
+        newNode.right = getTree(traversal, currDepth + 1);
+        return newNode;
+    }
+    public TreeNode recoverFromPreorder(String traversal){
+        ind =0;
+        return getTree(traversal, 0);
+    }
+}
