@@ -1,0 +1,58 @@
+class Solution {
+    private boolean getBobPath(List<List<Integer>> graph, Map<Integer, Integer> bobsPath, int src, int time, boolean[] visited) {
+        visited[src] =true;
+        bobsPath.put(src, time);
+        if(src == 0){
+            return true;
+        }
+        for(int i :graph.get(src)){
+            if(visited[i]){
+                continue;
+            }
+            if(getBobPath(graph, bobsPath, i, time+1, visited)){
+                return true;
+            }
+        }
+        bobsPath.remove(src);
+        return false;
+    }
+    private int getAlicePath(List<List<Integer>> graph, Map<Integer, Integer> bobPath, int src, int time, boolean[] visited, int[] amt) {
+        visited[src] = true;
+        int cost = Integer.MIN_VALUE;
+        if(bobPath.containsKey(src)){
+            int bTime = bobPath.get(src);
+            if(bTime == time){
+                cost = amt[src]/2;
+            }else if(bTime < time){
+                cost = 0;
+            }else{
+                cost = amt[src];
+            }
+        }else{
+            cost = amt[src];
+        }
+        boolean isLeaf = true;
+        int minCost = Integer.MIN_VALUE;
+        for(int i: graph.get(src)){
+            if (visited[i]) continue;
+            isLeaf = false;
+            minCost = Math.max(minCost, getAlicePath(graph, bobPath, i, time+1, visited, amt));
+        }
+        return isLeaf ? cost : cost+minCost;
+    }
+     public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i=0; i<amount.length; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for(int i=0; i<edges.length; i++) {
+            graph.get(edges[i][0]).add(edges[i][1]);
+            graph.get(edges[i][1]).add(edges[i][0]);
+        }
+        Map<Integer, Integer> bobsPath = new HashMap<>();
+        boolean[] visited = new boolean[amount.length];
+        getBobPath(graph, bobsPath, bob, 0, visited);
+        visited = new boolean[amount.length];
+        return getAlicePath(graph, bobsPath, 0, 0, visited, amount);
+    }
+}
