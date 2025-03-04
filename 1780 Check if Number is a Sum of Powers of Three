@@ -1,0 +1,18 @@
+class Solution{
+    public boolean checkPowersOfThree(int n){
+        if(n<=0){
+            return false;
+        }else{
+            int i=1;
+            while (n>Math.pow(3,i)){
+                i++;
+            }
+            for(int j=i;j>=0;j--){
+                if (n>=Math.pow(3,j)){
+                    n=n-(int) Math.pow(3,j);
+                }
+            }
+            return n==0;
+        }
+    }
+}
