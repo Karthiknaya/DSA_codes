@@ -1,0 +1,26 @@
+lass Solution {
+    public int maximumCandies(int[] candies, long k) {
+        int n = candies.length;
+        int max=0;
+        for(int item:candies){
+            max=Math.max(max,item);
+        }
+        int left=0,right=max;
+        while(left<right){
+            int mid = (left+right+1)/2;
+            if(canDistribute(candies,k,mid)){
+                left=mid;
+            }else{
+                right=mid-1;
+            }
+        }
+        return left;
+    }
+    private boolean canDistribute(int a[],long k,int mid){
+        long max=0;
+        for(int i=0;i<a.length;i++){
+            max+=a[i]/mid;
+        }
+        return max>=k;
+    }
+}
