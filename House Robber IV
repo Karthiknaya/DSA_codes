@@ -1,0 +1,34 @@
+class Solution {
+    private boolean canbemake(int max, int[] nums, int k ){
+        int n=nums.length;
+        int count_smalls=0;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]<=max)
+            {
+                count_smalls++;
+                i++;
+            }
+        }
+        return count_smalls>=k?true:false;
+    }
+    public int minCapability(int[] nums, int k){
+        int n=nums.length;
+        int right=0;
+        int left=0;
+        for(int item:nums)
+        {
+            left = Math.min(left,item);
+            right = Math.max(right,item);
+        }
+        while(left<=right)
+        {
+            int mid=left+(right-left)/2;
+            if(canbemake(mid,nums,k))
+                right=mid-1;
+            else
+                left=mid+1;
+        }
+        return left;
+    }
+}
