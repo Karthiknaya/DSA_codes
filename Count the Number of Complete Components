@@ -1,0 +1,38 @@
+class Solution {
+    public int countCompleteComponents(int n, int[][] edges) {
+        int m = edges.length;
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int i = 0; i < m; i++) {
+            int src = edges[i][0];
+            int dest = edges[i][1];
+            graph.get(src).add(dest);
+            graph.get(dest).add(src);
+        }
+        boolean[] vis = new boolean[n];
+        int totalCompleteComponents = 0;
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                int[] count = {0, 0};
+                getCount(i, count, vis, graph);
+                if (count[1] == (count[0] * (count[0] - 1))) {
+                    totalCompleteComponents++;
+                }
+            }
+        }
+        return totalCompleteComponents;
+    }
+
+    private void getCount(int node, int[] count, boolean[] vis, List<List<Integer>> graph) {
+        vis[node] = true;
+        count[0]++;
+        count[1] = count[1] + graph.get(node).size();
+        for (int itr : graph.get(node)) {
+            if (!vis[itr]) {
+                getCount(itr, count, vis, graph);
+            }
+        }
+    }
+}
