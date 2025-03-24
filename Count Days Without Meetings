@@ -1,0 +1,15 @@
+class Solution {
+    public int countDays(int days, int[][] meetings) {
+        Arrays.sort(meetings, (a,b)-> a[0]-b[0]);
+        int count =meetings[0][0]-1;
+        int lastEnd = meetings[0][1];
+        for( int i =1;i<meetings.length;i++){
+            int[] currInternval =meetings[i];
+            count += Math.max(currInternval[0]-lastEnd-1, 0);
+            lastEnd = Math.max(currInternval[1], lastEnd);
+
+        }
+         count += days -lastEnd;
+        return count;
+    }
+}
