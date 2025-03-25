@@ -1,0 +1,31 @@
+class Solution {
+    public boolean checkValidCuts(int d, int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Arrays.sort(grid , (x,y) -> x[0] - y[0]);
+        int count = 0;
+        int currMaxEnd = grid[0][2];
+        for(int i=1;i<m;i++){
+            if(grid[i][0] >= currMaxEnd){
+                count++;
+            }
+            currMaxEnd = Math.max(currMaxEnd , grid[i][2]);
+            if(count >= 2){
+                return true;
+            }
+        }
+        Arrays.sort(grid , (x,y) -> x[1] - y[1]);
+        count = 0;
+        currMaxEnd = grid[0][3];
+        for(int i=1;i<m;i++){
+            if(grid[i][1] >= currMaxEnd){
+                count++;
+            }
+            currMaxEnd = Math.max(currMaxEnd , grid[i][3]);
+            if(count >= 2){
+                return true;
+            }
+        }
+        return false;
+    }
+}
