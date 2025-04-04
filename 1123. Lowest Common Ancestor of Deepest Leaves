@@ -1,0 +1,31 @@
+class Solution {
+     public int getheight(TreeNode root){
+        if (root == null){
+            return 0;
+        }
+        int leftheight=getheight(root.left);
+        int rightheight=getheight(root.right);
+        return Math.max(leftheight,rightheight)+1;
+    }
+      public TreeNode lcaDeepestLeaves(TreeNode root) {
+        int height = getheight(root);
+        return lca(root, height, 1);
+    }
+
+    TreeNode lca(TreeNode root, int height, int curr_height){
+        if (curr_height == height){
+            return root;
+        }
+        if (root == null){
+            return root;
+        }
+        TreeNode left = lca(root.left, height, curr_height + 1);
+        TreeNode right = lca(root.right, height, curr_height + 1);
+        if(left==null){
+            return right;
+        }else if(right==null){
+            return left;
+        }
+        return root;
+    }
+}
