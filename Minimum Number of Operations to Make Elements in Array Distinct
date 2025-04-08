@@ -1,0 +1,25 @@
+class Solution {
+    public int minimumOperations(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for(int num : nums){
+            set.add(num);
+        }
+        if(set.size() == nums.length){
+            return 0;
+        }
+        int startIndex =0;
+        int count =0;
+        while(startIndex<nums.length){
+            startIndex += Math.min(3,nums.length - startIndex);
+            count++;
+            set.clear();
+            for(int i= startIndex; i<nums.length; i++){
+                set.add(nums[i]);
+            }
+            if(set.size() == nums.length-startIndex){
+                return count;
+            }
+        }
+        return count;
+    }
+}
