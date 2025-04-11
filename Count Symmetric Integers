@@ -1,0 +1,31 @@
+class Solution {
+    public boolean issymmetric(int x){
+       String str=String.valueOf(x);
+        if(str.length()%2!=0){
+        return false;
+        }
+        int sum=0;
+        int sum2=0;
+            int i=0;
+        for(i=0;i<str.length()/2;i++){
+             sum+=str.charAt(i)-'0';
+        }
+        for(;i<str.length();i++){
+            sum2+=str.charAt(i)-'0';
+        }
+            if(sum==sum2){
+                return true;
+            }
+            return false; 
+    }
+    public int countSymmetricIntegers(int low, int high) {
+       int ans=0;
+        for(int i=low;i<=high;i++){
+         int num=i;
+            if(issymmetric(num)){
+                ans++;
+            }
+        }
+        return ans;
+    }
+}
