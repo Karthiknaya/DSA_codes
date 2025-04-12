@@ -1,0 +1,48 @@
+
+class Solution {
+    public long countGoodIntegers(int n, int k) {
+        Set<String> palindromes = new HashSet<>();
+        helper(n, palindromes, k); // Generate all valid palindromes divisible by k
+
+        // Precompute factorials up to n
+        long[] factorial = new long[n + 1];
+        factorial[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            factorial[i] = factorial[i - 1] * i;
+        }
+
+        long ans = 0;
+        for (String p : palindromes) {
+            int[] count = new int[10]; // digit frequency
+            for (char c : p.toCharArray()) {
+                count[c - '0']++;
+            }
+
+            // Permutations excluding those starting with 0
+            long total = (n - count[0]) * factorial[n - 1];
+            for (int x : count) {
+                total /= factorial[x]; // Divide by factorial of frequencies
+            }
+            ans += total;
+        }
+
+        return ans;
+    }
+
+    private void helper(int n, Set<String> palindromes, int k) {
+        int base = (int) Math.pow(10, (n - 1) / 2);
+        int skip = n & 1; // if n is odd, skip middle digit while mirroring
+
+        for (int i = base; i < base * 10; i++) {
+            String s = Integer.toString(i);
+            s += new StringBuilder(s).reverse().substring(skip); // Form full palindrome
+            long str = Long.parseLong(s);
+
+            if (str % k == 0) {
+                char[] chars = s.toCharArray();
+                Arrays.sort(chars); // sort to avoid duplicate permutations
+                palindromes.add(new String(chars));
+            }
+        }
+    }
+}
