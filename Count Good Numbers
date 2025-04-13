@@ -1,0 +1,22 @@
+class Solution {
+    static final int MOD = 1000000007;
+    public int countGoodNumbers(long n) {
+        long evenSpot = (n + 1) / 2;  
+        long oddSpot = n / 2;        
+        long evenComb =getCount(5, evenSpot, MOD); 
+        long oddComb =getCount(4, oddSpot, MOD);  
+        return (int)((evenComb * oddComb)%MOD);
+    }
+    private long getCount(long base, long expo, int mod){
+        long combinations =1;
+        base =base%mod;
+        while(expo>0){
+            if((expo & 1) == 1){
+                combinations = (combinations * base)%mod;
+            }
+            base = (base * base) % mod;
+            expo >>= 1;
+        }
+        return combinations;
+    }
+}
