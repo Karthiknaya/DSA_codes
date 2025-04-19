@@ -1,0 +1,21 @@
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        return getPairs(nums, upper + 1)-getPairs(nums, lower);
+    }
+    private long getPairs(int[] nums, int target){
+        int left =0;
+        int right =nums.length-1;
+        long pairs =0;
+        while(left<right){
+            int currSum=nums[left]+nums[right];
+            if(currSum<target){
+                pairs+=(right-left);
+                left++;
+            }else{
+                right--;
+            }
+        }
+        return pairs;
+    }
+}
