@@ -1,0 +1,22 @@
+class Solution{
+    public int numRabbits(int[] answers){
+        Arrays.sort(answers);
+        int rabbitCount =answers[0]+1;
+        int groupCount =answers[0];
+        int currCount =1;
+        for(int i=1;i<answers.length;i++){
+            if(groupCount !=answers[i]){
+                rabbitCount +=answers[i]+1;
+                groupCount =answers[i];
+                currCount =1;
+            }else{
+                currCount++;
+            }
+            if(currCount>groupCount + 1){
+                rabbitCount += answers[i]+1;
+                currCount = 1;
+            }
+        }
+        return rabbitCount;
+    }
+}
