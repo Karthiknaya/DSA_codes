@@ -1,0 +1,13 @@
+class Solution {
+public int numberOfArrays(int[] diff, int lower, int upper) {
+    long currSum = 0;
+    long maxBoundary = 0;
+    long minBoundary =0;
+    for (int i = 0; i < diff.length; i++) {
+        currSum += diff[i];
+        maxBoundary = Math.max(maxBoundary, currSum);
+        minBoundary = Math.min(minBoundary, currSum);
+    }
+    return (int) Math.max(0, (upper - lower) - (maxBoundary - minBoundary) + 1);
+}
+}
