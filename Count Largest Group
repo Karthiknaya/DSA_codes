@@ -1,0 +1,25 @@
+class Solution {
+    public int countLargestGroup(int n) {
+     Map<Integer,Integer> map=new HashMap<>();
+        for(int i = 1; i <= n; i++) {
+            map.put(digitSum(i),map.getOrDefault(digitSum(i),0)+1);
+        }
+        int max=Collections.max(map.values());
+        int count=0;
+        for(int item:map.keySet()){
+         if(map.get(item)==max){
+           count++;
+         }
+        }
+
+        return count;
+    }
+    public int digitSum(int i) {
+        int n = 0;
+        while(i > 0){ 
+            n += i % 10;
+            i /= 10;
+        }
+        return n;
+    }
+}
