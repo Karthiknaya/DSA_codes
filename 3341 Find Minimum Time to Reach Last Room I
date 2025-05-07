@@ -1,0 +1,27 @@
+class Solution {
+    private void getTime(int[][] moveTime, int[][] grid, int x, int y, int[][] directions){
+        for(int[] dirs:directions){
+            int newX =x+dirs[0];
+            int newY =y +dirs[1];
+            if(newX >= 0 && newY >= 0 && newX < moveTime.length && newY < moveTime[0].length){
+                if(grid[newX][newY] > grid[x][y] + 1){
+                    int max = Math.max(moveTime[newX][newY], grid[x][y]);
+                    grid[newX][newY] = max + 1;
+                    getTime(moveTime, grid, newX, newY, directions);
+                }
+            }
+        }
+    }
+    public int minTimeToReach(int[][] moveTime) {
+        int[][] directions={{1, 0},{-1, 0},{0, 1},{0, -1}};
+        int m=moveTime.length;
+        int n=moveTime[0].length;
+        int[][] grid =new int[m][n];
+        for(int i=0;i<m;i++){
+            Arrays.fill(grid[i], Integer.MAX_VALUE);
+        }
+        grid[0][0]=0;
+        getTime(moveTime,grid,0,0,directions);
+        return grid[m-1][n-1];
+    }
+}
