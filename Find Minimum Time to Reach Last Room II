@@ -1,0 +1,30 @@
+class Solution {
+    public int minTimeToReach(int[][] moveTime) {
+        int m = moveTime.length;
+        int n = moveTime[0].length;
+         int dirX[] = {-1, 0, 1, 0};
+        int dirY[] = {0, -1, 0, 1};
+        int grid[][] = new int[m][n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[3] - b[3]);
+        pq.add(new int[]{0, 0, 0, 0});
+        for(int a[] : grid) Arrays.fill(a, Integer.MAX_VALUE);
+        while(!pq.isEmpty()){
+            int curr[] = pq.poll();
+            if(curr[0] == m-1 && curr[1] == n- 1) return curr[3];
+            int curVal = curr[2] == 1 ? 2 : 1;
+            for(int i = 0; i<4; i++){
+                int newX = curr[0] + dirX[i];
+                int newY = curr[1] + dirY[i];
+                if(newX >= 0 && newX < m && newY >=0 && newY < n
+                ){
+                   int val = moveTime[newX][newY] <= curr[3] ? curr[3] + curVal: moveTime[newX][newY] + curVal;
+                   if(val < grid[newX][newY]){
+                        pq.add(new int[]{newX, newY, curVal, val});
+                        grid[newX][newY] = val;
+                   } 
+                }
+            }
+        }
+        return -1;
+    }
+}
