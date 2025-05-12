@@ -1,0 +1,42 @@
+class Solution {
+    public int[] findEvenNumbers(int[] digits) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int ddigit:digits){
+            if(map.containsKey(ddigit)){
+                int count=map.get(ddigit);
+                map.put(ddigit,count+1);
+            }
+            else{
+                map.put(ddigit,1);
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        for(int i=100;i<=999;i+=2){
+            int num =i;
+            int firstDig =num%10; num/=10;
+            int secondDig = num%10; num/=10;
+            int thirdDig = num;
+            if(map.containsKey(thirdDig)){
+                int firstCount = map.get(thirdDig);
+                map.put(thirdDig,firstCount-1);
+                if(firstCount==1) map.remove(thirdDig);
+
+                if(map.containsKey(secondDig)){
+                int secondCount = map.get(secondDig);
+                map.put(secondDig,secondCount-1);
+                if(secondCount==1) map.remove(secondDig);
+                if(map.containsKey(firstDig)){
+                    result.add(i);
+                }
+                map.put(secondDig,secondCount);
+            }
+            map.put(thirdDig,firstCount);
+        }
+        }
+        int[] ans = new int[result.size()];
+        for(int i =0;i<ans.length;i++){
+            ans[i]=result.get(i);
+        }
+        return ans;
+    }
+}
