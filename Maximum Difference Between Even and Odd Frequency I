@@ -1,0 +1,17 @@
+class Solution {
+    public int maxDifference(String s) {
+        int[] frequency = new int[26];
+        for(char c : s.toCharArray()) frequency[c - 'a']++;
+        int oddMax = 0, evenMin = Integer.MAX_VALUE;
+        for(int val : frequency) {
+            if(val == 0) continue;
+            if(val % 2 == 0) {
+                evenMin = Math.min(evenMin, val);
+            }
+            else {
+                oddMax = Math.max(oddMax, val);
+            }
+        }
+        return oddMax - evenMin;
+    }
+ }
