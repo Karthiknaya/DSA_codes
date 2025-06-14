@@ -1,0 +1,17 @@
+class Solution{
+    public int minMaxDifference(int num){
+        String str=Integer.toString(num);
+        char dig_to_replace='9';
+        for(char ch:str.toCharArray()){
+            if(ch!='9'){
+             dig_to_replace=ch;
+             break;
+            }
+        }
+        String maxStr=str.replace(dig_to_replace,'9');
+        int max_num=Integer.parseInt(maxStr);
+        String minStr=str.replace(str.charAt(0),'0');
+        int min_num =Integer.parseInt(minStr);
+        return max_num-min_num;
+   }
+}
