@@ -1,0 +1,23 @@
+class Solution {
+    private int max_or_val=0;
+    private int[] nums;
+    public int countMaxOrSubsets(int[] nums){
+        this.nums = nums;
+        for(int item:nums){
+        max_or_val |=item;  
+        }
+        return get_max_value(0,0);
+    }
+    private int get_max_value(int ind,int curr_val){
+        if(ind >=nums.length){
+          return 0;
+        }
+        int count =0;
+        if((nums[ind] | curr_val) == max_or_val){
+            count++;
+        }
+        int take = get_max_value(ind + 1,curr_val | nums[ind]);
+        int not_to_take = get_max_value(ind + 1, curr_val);
+        return count+take+not_to_take;
+    }
+}
