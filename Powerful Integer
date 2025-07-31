@@ -1,0 +1,50 @@
+class Solution {
+    public int powerfulInteger(int[][] intervals, int k) {
+        // code here
+         Map<Integer, Integer> mp = new TreeMap<>();
+
+        // Iterating over all the intervals
+        // and updating the count in the map
+        for (int[] x : intervals) {
+            mp.put(x[0], mp.getOrDefault(x[0], 0) + 1);
+            mp.put(x[1] + 1, mp.getOrDefault(x[1] + 1, 0) - 1);
+        }
+
+        int ans = -1;
+        int temp = 0;
+
+        // Iterating over the map to find
+        // the kth power of an integer
+        for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue();
+
+            // If the count in the map
+            // is positive
+            if (value >= 0) {
+                temp += value;
+                // Checking if the count
+                // is greater than or
+                // equal to k
+                if (temp >= k) {
+                    ans = key;
+                }
+            }
+            // If the count in the map
+            // is negative
+            else {
+                // Checking if the previous
+                // count was greater
+                // than or equal to k
+                if (temp >= k) {
+                    ans = key - 1;
+                }
+                temp += value;
+            }
+        }
+
+        // Returning the kth power
+        // of an integer
+        return ans;
+    }
+}
