@@ -1,0 +1,23 @@
+class Solution {
+    Map<String, Double> hmap = new HashMap<>();
+    public double soupServings(int n) {
+        if(n>=4800) return 1.0;
+        double ans = helper(n,n);
+        return ans;
+    }
+
+    public double helper(int a, int b){
+        String key = a + "," + b;
+        if (hmap.containsKey(key)) return hmap.get(key);
+        if(a<=0 && b<=0) return 0.5;
+        if (a<=0 && b>0) return 1;
+        if(a>0 && b<=0) return 0;
+        double operation1 = helper(a-100, b);
+        double operation2 = helper(a-75, b-25);
+        double operation3 = helper(a-50, b-50);
+        double operation4 = helper(a-25, b-75);
+        double res = (operation1 + operation2 + operation3 + operation4)*0.25;
+        hmap.put(key, res);
+        return res;
+    }
+}
